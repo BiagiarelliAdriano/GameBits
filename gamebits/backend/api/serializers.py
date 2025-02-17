@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from Users.models import UserProfile
+from users.models import UserProfile
 from django.contrib.auth import get_user_model
 
 # Serializer for the UserProfile(Custom User model)
