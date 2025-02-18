@@ -6,7 +6,7 @@ import cloudinary.models
 
 # Create your models here.
 class UserProfile(AbstractUser, CreatedAtMixin):
-    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='images/', default='default_profile_snzudq' , blank=True, null=True)
     bio = models.TextField(blank=True, max_length=500)
     level = models.IntegerField(default=1)
     experience_points = models.IntegerField(default=0)
@@ -23,5 +23,8 @@ class UserProfile(AbstractUser, CreatedAtMixin):
         blank=True,
     )
 
+    class Meta:
+        ordering = ['-created_at']
+
     def __str__(self):
-        return self.username
+        return f"{self.username}'s profile"
