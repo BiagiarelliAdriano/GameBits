@@ -3,6 +3,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
 from users.models import UserProfile
 from posts.models import Post
+from likes.models import Like
 
 # Serializer for the UserProfile(Custom User model)
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -43,3 +44,11 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['id', 'author_id', 'title', 'created_at', 'game', 'image', 'content']
         read_only_fields = ['author', 'created_at']
+
+class LikeSerializer(serializers.ModelSerializer):
+    """Serializer for the Like model."""
+
+    class Meta:
+        model = Like
+        fields = ['id', 'user', 'post', 'created_at']
+        read_only_fields = ['id', 'created_at']
