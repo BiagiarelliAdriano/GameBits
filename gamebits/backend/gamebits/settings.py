@@ -58,6 +58,11 @@ INSTALLED_APPS = [
     'api',
     'users',
     'posts',
+    'likes',
+    'comments',
+    'notifications',
+    'follow',
+    'replies',
 ]
 
 MIDDLEWARE = [
