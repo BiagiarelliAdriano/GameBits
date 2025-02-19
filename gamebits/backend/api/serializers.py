@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from users.models import UserProfile
 from django.contrib.auth import get_user_model
+from posts.models import Post
 
 # Serializer for the UserProfile(Custom User model)
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -14,3 +15,11 @@ class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model() # This will refer to the UserProfile model
         fields = ['id', 'username', 'email', 'is_active']
+
+class PostSerializer(serializers.ModelSerializer):
+    """Serializer for the Post model."""
+
+    class Meta:
+        model = Post
+        fields = ['id', 'author_id', 'title', 'created_at', 'game', 'image', 'content']
+        read_only_fields = ['author', 'created_at']
