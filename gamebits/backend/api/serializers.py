@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from users.models import UserProfile
 from posts.models import Post
 from likes.models import Like
+from comments.models import Comment
 
 # Serializer for the UserProfile(Custom User model)
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -52,3 +53,14 @@ class LikeSerializer(serializers.ModelSerializer):
         model = Like
         fields = ['id', 'user', 'post', 'created_at']
         read_only_fields = ['id', 'created_at']
+
+class CommentSerializer(serializers.ModelSerializer):
+    """Serializer for the Comment model."""
+
+    user = serializers.StringRelatedField(read_only=True)
+    post = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'user', 'post', 'content', 'created_at']
+        read_only_fields = ['id', 'user', 'post', 'created_at']
