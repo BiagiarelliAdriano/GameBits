@@ -5,6 +5,7 @@ from users.models import UserProfile
 from posts.models import Post
 from likes.models import Like
 from comments.models import Comment
+from follow.models import Follow
 
 # Serializer for the UserProfile(Custom User model)
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -64,3 +65,11 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['id', 'user', 'post', 'content', 'created_at']
         read_only_fields = ['id', 'user', 'post', 'created_at']
+
+class FollowSerializer(serializers.ModelSerializer):
+    """Serializer for the Follow model."""
+    
+    class Meta:
+        model = Follow
+        fields = ['id', 'follower', 'following', 'created_at']
+        read_only_fields = ['id', 'created_at']

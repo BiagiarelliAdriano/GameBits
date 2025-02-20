@@ -5,7 +5,7 @@ from api.mixins import CreatedAtMixin
 
 # Create your models here.
 class Comment(CreatedAtMixin):
-    """Modeel for comments on posts."""
+    """Model for comments on posts."""
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="comments")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     content = models.TextField()
