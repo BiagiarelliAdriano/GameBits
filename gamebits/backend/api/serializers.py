@@ -7,6 +7,7 @@ from likes.models import Like
 from comments.models import Comment
 from follow.models import Follow
 from replies.models import Reply
+from notifications.models import Notification
 
 # Serializer for the UserProfile(Custom User model)
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -84,3 +85,20 @@ class ReplySerializer(serializers.ModelSerializer):
         model = Reply
         fields = ['id', 'user', 'comment', 'content', 'created_at', 'parent_reply']
         read_only_fields = ['id', 'created_at']
+
+class NotificationSerializer(serializers.ModelSerializer):
+    # Get the user's username as part of the notification response for convenience
+    user = serializers.StringRelatedField()
+    created_by = serializers.StringRelatedField()
+
+    post = serializers.PrimaryKeyRelatedField(queryset=Post.objects.all(), required=False)
+    comment = serializers.PrimaryKeyRelatedField(queryset=Comment.objects.all(), required=False)
+    reply = serializers.PrimaryKeyRelatedField(queryset=Reply.objects.all(), required=False)
+
+    notification_type_display = serializers.CharField(source='get_notification_type_display', read_only=True)
+
+    class Meta:
+        model = Notification
+        fields = ['id', 'user', 'created_by', 'notification_type', 'notification_type_display', 'content',
+                  'post', 'comment', 'reply', 'is_read', 'created_at']
+        read_only_fields = ['id', 'created_at', 'user', 'created_by']
