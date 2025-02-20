@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/', include('likes.urls')),
     path('api/', include('comments.urls')),
     path('api/', include('follow.urls')),
+    path('api/', include('replies.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), # Login
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), # Refresh token
 ]

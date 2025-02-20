@@ -6,6 +6,7 @@ from posts.models import Post
 from likes.models import Like
 from comments.models import Comment
 from follow.models import Follow
+from replies.models import Reply
 
 # Serializer for the UserProfile(Custom User model)
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -72,4 +73,14 @@ class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ['id', 'follower', 'following', 'created_at']
+        read_only_fields = ['id', 'created_at']
+
+class ReplySerializer(serializers.ModelSerializer):
+    user = UserProfileSerializer()
+    comment = CommentSerializer()
+    parent_reply = serializers.PrimaryKeyRelatedField(queryset=Reply.objects.all(), required=False) # Nested replies
+
+    class Meta:
+        model = Reply
+        fields = ['id', 'user', 'comment', 'content', 'created_at', 'parent_reply']
         read_only_fields = ['id', 'created_at']
