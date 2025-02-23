@@ -1,10 +1,10 @@
 from django.db import models
 from django.conf import settings
 from posts.models import Post
-from api.mixins import CreatedAtMixin
+from api.mixins import CreatedAtUpdatedAtMixin
 
 # Create your models here.
-class Like(CreatedAtMixin):
+class Like(CreatedAtUpdatedAtMixin):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="likes")
 

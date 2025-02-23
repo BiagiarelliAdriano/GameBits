@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from api.mixins import CreatedAtMixin
+from api.mixins import CreatedAtUpdatedAtMixin
 from posts.models import Post
 from comments.models import Comment
 from replies.models import Reply
 
 # Create your models here.
-class Notification(CreatedAtMixin):
+class Notification(CreatedAtUpdatedAtMixin):
     NOTIFICATION_TYPES = [
         ('likes', 'Likes'),
         ('follow', 'Follow'),

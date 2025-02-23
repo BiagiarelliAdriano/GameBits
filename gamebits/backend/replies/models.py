@@ -1,10 +1,10 @@
 from django.db import models
 from users.models import UserProfile
 from comments.models import Comment
-from api.mixins import CreatedAtMixin
+from api.mixins import CreatedAtUpdatedAtMixin
 
 # Create your models here.
-class Reply(CreatedAtMixin):
+class Reply(CreatedAtUpdatedAtMixin):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='replies')
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies')
     content = models.TextField()

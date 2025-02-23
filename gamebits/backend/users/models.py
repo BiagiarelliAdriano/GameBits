@@ -1,11 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from api.mixins import CreatedAtMixin
+from api.mixins import CreatedAtUpdatedAtMixin
 import cloudinary
 import cloudinary.models
 
 # Create your models here.
-class UserProfile(AbstractUser, CreatedAtMixin):
+class UserProfile(AbstractUser, CreatedAtUpdatedAtMixin):
     profile_picture = models.ImageField(upload_to='images/', default='default_profile_snzudq' , blank=True, null=True)
     bio = models.TextField(blank=True, max_length=500)
     level = models.IntegerField(default=1)

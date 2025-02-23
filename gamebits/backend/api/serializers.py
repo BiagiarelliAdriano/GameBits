@@ -13,10 +13,13 @@ from notifications.models import Notification
 class UserProfileSerializer(serializers.ModelSerializer):
     """Serializer for the UserProfile model."""
 
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
+    updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
+
     class Meta:
         model = UserProfile
         fields = ['id', 'username', 'email', 'password', 'profile_picture', 'bio',
-                  'level', 'experience_points', 'date_joined', 'is_active']
+                  'level', 'experience_points', 'date_joined', 'is_active', 'created_at', 'updated_at']
         extra_kwargs = {
             'password': {'write_only': True}, # Hide password in responses
             'level': {'read_only': True}, # Users cannot manually change their level
@@ -44,13 +47,18 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     """Serializer for the Post model."""
 
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
+    updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
+
     class Meta:
         model = Post
-        fields = ['id', 'author_id', 'title', 'created_at', 'game', 'image', 'content']
+        fields = ['id', 'author_id', 'title', 'game', 'image', 'content']
         read_only_fields = ['author', 'created_at']
 
 class LikeSerializer(serializers.ModelSerializer):
     """Serializer for the Like model."""
+
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
 
     class Meta:
         model = Like
@@ -62,6 +70,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
     user = serializers.StringRelatedField(read_only=True)
     post = serializers.PrimaryKeyRelatedField(read_only=True)
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
+    updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
 
     class Meta:
         model = Comment
@@ -70,6 +80,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class FollowSerializer(serializers.ModelSerializer):
     """Serializer for the Follow model."""
+
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
     
     class Meta:
         model = Follow
@@ -80,6 +92,8 @@ class ReplySerializer(serializers.ModelSerializer):
     user = UserProfileSerializer()
     comment = CommentSerializer()
     parent_reply = serializers.PrimaryKeyRelatedField(queryset=Reply.objects.all(), required=False) # Nested replies
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
+    updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
 
     class Meta:
         model = Reply
@@ -94,6 +108,8 @@ class NotificationSerializer(serializers.ModelSerializer):
     post = serializers.PrimaryKeyRelatedField(queryset=Post.objects.all(), required=False)
     comment = serializers.PrimaryKeyRelatedField(queryset=Comment.objects.all(), required=False)
     reply = serializers.PrimaryKeyRelatedField(queryset=Reply.objects.all(), required=False)
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
+    updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
 
     notification_type_display = serializers.CharField(source='get_notification_type_display', read_only=True)
 

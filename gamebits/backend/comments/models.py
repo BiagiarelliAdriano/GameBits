@@ -1,10 +1,10 @@
 from django.db import models
 from users.models import UserProfile
 from posts.models import Post
-from api.mixins import CreatedAtMixin
+from api.mixins import CreatedAtUpdatedAtMixin
 
 # Create your models here.
-class Comment(CreatedAtMixin):
+class Comment(CreatedAtUpdatedAtMixin):
     """Model for comments on posts."""
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="comments")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
