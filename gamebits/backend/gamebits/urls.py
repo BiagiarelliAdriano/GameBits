@@ -16,10 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView, # Obtain access and refresh token
+    TokenRefreshView, # Get a new access token using refresh token
+    TokenVerifyView # Verify if a token is valid
+)
+from .views import WelcomeView
 
 urlpatterns = [
+    path('', WelcomeView.as_view(), name='root'),
+
     path('admin/', admin.site.urls),
+
+    # API endpoints
     path('api/', include('users.urls')),
     path('api/', include('posts.urls')),
     path('api/', include('likes.urls')),
@@ -27,6 +36,9 @@ urlpatterns = [
     path('api/', include('follow.urls')),
     path('api/', include('replies.urls')),
     path('api/', include('notifications.urls')),
+
+    # JWT Authentication endpoints
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), # Login
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), # Refresh token
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'), # Verify token
 ]
