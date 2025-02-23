@@ -4,6 +4,7 @@ from posts.models import Post
 from api.serializers import PostSerializer
 from likes.models import Like
 from follow.models import Follow
+from django.db.models import Q
 
 # Create your views here.
 class PostListCreateView(generics.ListCreateAPIView):
@@ -26,6 +27,15 @@ class PostListCreateView(generics.ListCreateAPIView):
             elif filter_type == 'followed':
                 followed_users = Follow.objects.filter(follower=user).values_list('following_id', flat=True)
                 queryset = queryset.filter(author__id__in=followed_users)
+        
+        # Search by title, game, or author username
+        search_query = self.request.query_params.get('search')
+        if search_query:
+            queryset = queryset.filter(
+                Q(title__icontains=search_query) |
+                Q(game__icontains=search_query) |
+                Q(author__username__icontains=search_query)
+            )
         
         return queryset
 
