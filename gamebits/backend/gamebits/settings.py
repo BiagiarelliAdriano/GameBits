@@ -15,9 +15,6 @@ from datetime import timedelta
 import os
 import dj_database_url
 
-if os.path.isfile(os.path.join(os.path.dirname(__file__), "../env.py")):
-    import env
-
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
 }
@@ -27,6 +24,8 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+if os.path.isfile(os.path.join(BASE_DIR, 'env.py')):
+    import env
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
