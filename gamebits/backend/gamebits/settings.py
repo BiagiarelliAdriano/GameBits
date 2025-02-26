@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
+import sys
 import dj_database_url
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
@@ -22,7 +25,10 @@ MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+
+if str(BASE_DIR) not in sys.path:
+    sys.path.append(str(BASE_DIR))
 
 if os.path.isfile(os.path.join(BASE_DIR, 'env.py')):
     import env
@@ -123,8 +129,13 @@ if 'DEV' in os.environ:
         }
     }
 else:
+    database_url = os.environ.get("DATABASE_URL")
+    if isinstance(database_url, bytes):
+        database_url = database_url.decode('utf-8')
+    if not database_url:
+        print("Error: DATABASE_URL is not set")
     DATABASES = {
-        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+        'default': dj_database_url.parse(database_url) if database_url else {}
     }
 
 
