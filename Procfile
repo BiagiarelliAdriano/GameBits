@@ -1,2 +1,2 @@
-release: python gamebits/backend/manage.py makemigrations && python gamebits/backend/manage.py migrate
-web: gunicorn gamebits.backend.gamebits.wsgi:application
+release: python gamebits/backend/manage.py migrate --noinput
+web: gunicorn backend.gamebits.wsgi:application --chdir gamebits
