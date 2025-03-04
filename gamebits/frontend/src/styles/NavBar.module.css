@@ -1,0 +1,8 @@
+.NavBar {
+    background-color: #240046;
+    border: 1px solid #00FFFF;
+    border-radius: 20px;
+    width: 80%;
+    margin: 10px auto;
+    padding: 5px 0;
+}
