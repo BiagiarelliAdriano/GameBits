@@ -1,2 +1,2 @@
 release: python gamebits/backend/manage.py migrate --noinput
-web: gunicorn gamebits.backend.gamebits.wsgi:application --chdir gamebits
+web: gunicorn --workers 3 --timeout 60 gamebits.backend.gamebits.wsgi:application --chdir gamebits
