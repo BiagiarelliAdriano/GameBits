@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from api.mixins import CreatedAtUpdatedAtMixin
+from .mixins import CreatedAtUpdatedAtMixin
 from posts.models import Post
 from comments.models import Comment
 from replies.models import Reply

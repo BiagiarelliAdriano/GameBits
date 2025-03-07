@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from posts.models import Post
-from api.mixins import CreatedAtUpdatedAtMixin
+from .mixins import CreatedAtUpdatedAtMixin
 
 # Create your models here.
 class Like(CreatedAtUpdatedAtMixin):

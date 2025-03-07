@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import UserProfile
-from api.mixins import CreatedAtUpdatedAtMixin
+from .mixins import CreatedAtUpdatedAtMixin
 
 # Create your models here.
 class Follow(CreatedAtUpdatedAtMixin):

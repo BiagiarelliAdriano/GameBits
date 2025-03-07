@@ -1,7 +1,7 @@
 from django.db import models
 from users.models import UserProfile
 from comments.models import Comment
-from api.mixins import CreatedAtUpdatedAtMixin
+from .mixins import CreatedAtUpdatedAtMixin
 
 # Create your models here.
 class Reply(CreatedAtUpdatedAtMixin):

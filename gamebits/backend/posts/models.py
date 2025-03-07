@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from api.mixins import CreatedAtUpdatedAtMixin
+from .mixins import CreatedAtUpdatedAtMixin
 
 # Create your models here.
 class Post(CreatedAtUpdatedAtMixin):
