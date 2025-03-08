@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gamebits.backend.gamebits.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gamebits.settings')
 
 application = get_wsgi_application()
