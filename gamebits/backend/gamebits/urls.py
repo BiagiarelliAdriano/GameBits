@@ -29,13 +29,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # API endpoints
-    path('api/', include('users.urls')),
-    path('api/', include('posts.urls')),
-    path('api/', include('likes.urls')),
-    path('api/', include('comments.urls')),
-    path('api/', include('follow.urls')),
-    path('api/', include('replies.urls')),
-    path('api/', include('notifications.urls')),
+    path('api/users/', include('users.urls')),
+    path('api/posts/', include('posts.urls')),
+    path('api/likes/', include('likes.urls')),
+    path('api/comments/', include('comments.urls')),
+    path('api/follow/', include('follow.urls')),
+    path('api/replies/', include('replies.urls')),
+    path('api/notifications/', include('notifications.urls')),
 
     # JWT Authentication endpoints
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), # Login
