@@ -1,8 +1,8 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import UserProfile
 from .serializers import UserSerializer, UserProfileSerializer
@@ -11,18 +11,10 @@ class RegisterUserView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
-        # Create the User (authentication)
         user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
             user = user_serializer.save()
-            profile_data = request.data.get('profile', {})
-            profile_data['user'] = user.id
-            user_profile_serializer = UserProfileSerializer(data=profile_data)
-            if user_profile_serializer.is_valid():
-                user_profile_serializer.save()
-
-                return Response(user_profile_serializer.data, status=status.HTTP_201_CREATED)
-            return Response(user_profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(UserProfileSerializer(user).data, status=status.HTTP_201_CREATED)
         
         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -53,10 +45,16 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
 
         if user:
-            print(f"User {username} authenticated successfully.")  # Log if the user is authenticated
             refresh = RefreshToken.for_user(user)
             return Response({
                 'access': str(refresh.access_token),
                 'refresh': str(refresh)
             })
         return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
+class CurrentUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = UserProfileSerializer(request.user)
+        return Response(serializer.data)
