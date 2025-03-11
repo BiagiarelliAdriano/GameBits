@@ -1,7 +1,28 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from .models import UserProfile
-from api.serializers import UserProfileSerializer
+from .serializers import UserSerializer, UserProfileSerializer
+
+class RegisterUserView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        # Create the User (authentication)
+        user_serializer = UserSerializer(data=request.data)
+        if user_serializer.is_valid():
+            user = user_serializer.save()
+            profile_data = request.data.get('profile', {})
+            profile_data['user'] = user.id
+            user_profile_serializer = UserProfileSerializer(data=profile_data)
+            if user_profile_serializer.is_valid():
+                user_profile_serializer.save()
+
+                return Response(user_profile_serializer.data, status=status.HTTP_201_CREATED)
+            return Response(user_profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserProfileListCreateView(generics.ListCreateAPIView):
     """View to list all users and allow user registration."""
