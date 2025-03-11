@@ -1,7 +1,9 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import UserProfile
 from .serializers import UserSerializer, UserProfileSerializer
 
@@ -41,3 +43,20 @@ class UserProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
         if self.request.user.is_staff:
             return UserProfile.objects.all()
         return UserProfile.objects.filter(id=self.request.user.id)
+
+class LoginView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        user = authenticate(username=username, password=password)
+
+        if user:
+            print(f"User {username} authenticated successfully.")  # Log if the user is authenticated
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'access': str(refresh.access_token),
+                'refresh': str(refresh)
+            })
+        return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
