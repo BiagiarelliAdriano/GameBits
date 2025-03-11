@@ -31,8 +31,12 @@ function SignInForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const { data } = await axios.post("http://127.0.0.1:8000/api/users/login/", signInData);
-            setCurrentUser(data.user)
+            // Send the login request to get the JWT tokens
+            const { data } = await axios.post("http://127.0.0.1:8000/api/token/", signInData);
+            // Store the access and refresh tokens in localStorage
+            localStorage.setItem('access_token', data.access);
+            localStorage.setItem('refresh_token', data.refresh);
+            setCurrentUser(data.user);
             history.push("/");
         } catch (err) {
             setErrors(err.response?.data);
