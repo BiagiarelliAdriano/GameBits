@@ -8,10 +8,13 @@ import {
     useSetCurrentUser,
 } from '../contexts/CurrentUserContext';
 import Avatar from "./Avatar";
+import useClickOutiseToggle from '../hooks/useClickOutiseToggle';
 
 const NavBar = () => {
     const currentUser = useCurrentUser();
     const setCurrentUser = useSetCurrentUser();
+
+    const {expanded, setExpanded, ref} = useClickOutiseToggle();
 
     const handleSignOut = async () => {
         // Remove tokens from localStorage for Sign Out
@@ -26,7 +29,7 @@ const NavBar = () => {
             activeClassName={styles.Active}
             to="/posts/create"
         >
-            <i className="fa-solid fa-circle-plus"></i>Sign In
+            <i className="fa-solid fa-circle-plus"></i>New Post
         </NavLink>
     )
     const loggedInIcons = (
@@ -79,7 +82,12 @@ const NavBar = () => {
         </>
 
     return (
-        <Navbar className={styles.NavBar} expand="md" fixed="top">
+        <Navbar
+            expanded={expanded}
+            className={styles.NavBar}
+            expand="md"
+            fixed="top"
+        >
             <Container className="d-flex justify-content-between align-items-center">
                 <NavLink to="/">
                     <Navbar.Brand className="mx-auto">
@@ -87,7 +95,11 @@ const NavBar = () => {
                     </Navbar.Brand>
                 </NavLink>
                 {currentUser && addPostIcon}
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Toggle
+                    ref={ref}
+                    onClick={() => setExpanded(!expanded)}
+                    aria-controls="basic-navbar-nav"
+                />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto text-left">
                         <NavLink
