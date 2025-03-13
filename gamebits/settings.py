@@ -17,7 +17,6 @@ import sys
 import dj_database_url
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
-print(DATABASE_URL)
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')

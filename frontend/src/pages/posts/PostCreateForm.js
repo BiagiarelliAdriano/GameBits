@@ -36,25 +36,34 @@ function PostCreateForm() {
         });
     };
 
+    const [imagePreview, setImagePreview] = useState(null); // State for image preview
+
     const handleChangeImage = (event) => {
         if (event.target.files.length) {
-            URL.revokeObjectURL(image);
+            const file = event.target.files[0];
+
+            // Set image preview URL
+            setImagePreview(URL.createObjectURL(file));
+
             setPostData({
                 ...postData,
-                image: URL.createObjectURL(event.target.files[0]),
+                image: file,
             });
         }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+    
         const formData = new FormData();
-
-        formData.append('title', title)
-        formData.append('game', game)
-        formData.append('content', content)
-        formData.append('image', imageInput.current.files[0])
-
+        const authorId = parseInt(localStorage.getItem('user_id'), 10);
+    
+        formData.append('title', title);
+        formData.append('game', game);
+        formData.append('content', content);
+        formData.append('image', imageInput.current.files[0]);
+        formData.append('author', authorId);
+        
         try {
             const { data } = await axios.post('http://127.0.0.1:8000/api/posts/', formData, {
                 headers: {
@@ -62,15 +71,15 @@ function PostCreateForm() {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-
+    
             history.push(`/posts/${data.id}`);
         } catch (err) {
-            console.log(err)
             if (err.response?.status !== 401) {
-                setErrors(err.response?.data)
+                setErrors(err.response?.data);
             }
         }
-    }
+    };
+    
 
     const textFields = (
         <div className="text-center">
@@ -95,7 +104,7 @@ function PostCreateForm() {
                 <Form.Control
                     type="text"
                     name="game"
-                    placeholder="Type the name of the game subject of your post..."
+                    placeholder="Type the name of the game..."
                     value={game}
                     onChange={handleChange}
                 />
@@ -143,9 +152,14 @@ function PostCreateForm() {
                         className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
                     >
                         <Form.Group className="text-center">
-                            {image ? (
+                            {imagePreview ? (
                                 // If image exists, show the preview using Asset
-                                <Asset src={image} message="Image preview" />
+                                <img
+                                    src={imagePreview}
+                                    alt=""
+                                    className="img-fluid mb-3"
+                                    style={{ maxHeight: '200', objectFit: 'cover' }}
+                                />
                             ) : (
                                 // If no image, show upload icon + message via Asset
                                 <Asset

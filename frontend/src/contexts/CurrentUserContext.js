@@ -20,6 +20,9 @@ export const CurrentUserProvider = ({ children }) => {
                             Authorization: `Bearer ${token}`,
                         },
                     });
+                    // Store the user_id in localStorage
+                    localStorage.setItem('user_id', data.id);
+
                     setCurrentUser(data);
                 } catch (err) {
                     // If token is expired (401), refresh token
