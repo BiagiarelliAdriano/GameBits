@@ -2,7 +2,7 @@ from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from follow.models import Follow
-from api.serializers import FollowSerializer
+from .serializers import FollowSerializer
 from users.models import UserProfile
 
 # Create your views here.

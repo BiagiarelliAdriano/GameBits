@@ -1,7 +1,8 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.parsers import MultiPartParser, FormParser
 from posts.models import Post
-from api.serializers import PostSerializer
+from .serializers import PostSerializer
 from likes.models import Like
 from follow.models import Follow
 from django.db.models import Q
@@ -11,6 +12,7 @@ class PostListCreateView(generics.ListCreateAPIView):
     """View to list and create posts."""
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = (MultiPartParser, FormParser)
 
     def get_queryset(self):
         """Allow filtering by liked and followed posts."""

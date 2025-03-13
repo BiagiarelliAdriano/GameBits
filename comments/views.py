@@ -2,7 +2,7 @@ from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
 from comments.models import Comment
-from api.serializers import CommentSerializer
+from .serializers import CommentSerializer
 from posts.models import Post
 
 # Create your views here.

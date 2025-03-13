@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Notification
-from api.serializers import NotificationSerializer
+from .serializers import NotificationSerializer
 
 # Create your views here.
 class NotificationViewSet(viewsets.ModelViewSet):
