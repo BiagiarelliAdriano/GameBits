@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 export const CurrentUserContext = createContext();
 export const SetCurrentUserContext = createContext();
@@ -8,33 +9,30 @@ export const useCurrentUser = () => useContext(CurrentUserContext);
 export const useSetCurrentUser = () => useContext(SetCurrentUserContext);
 
 export const CurrentUserProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState(null)
+    const [currentUser, setCurrentUser] = useState(null);
+    const history = useHistory();
+    const baseURL = axios.defaults.baseURL;
 
-    const handleMount = async () => {
+    const handleMount = useCallback(async () => {
         try {
             let token = localStorage.getItem('access_token');
             if (token) {
                 try {
-                    const { data } = await axios.get('http://127.0.0.1:8000/api/users/current/', {
+                    const { data } = await axios.get(`${baseURL}/api/users/current`, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     });
-                    // Store the user_id in localStorage
                     localStorage.setItem('user_id', data.id);
-
                     setCurrentUser(data);
                 } catch (err) {
-                    // If token is expired (401), refresh token
                     if (err.response && err.response.status === 401) {
                         const refreshToken = localStorage.getItem('refresh_token');
                         if (refreshToken) {
-                            const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', { refresh: refreshToken });
+                            const response = await axios.post(`${baseURL}/api/token/refresh/`, { refresh: refreshToken });
                             const newAccessToken = response.data.access;
                             localStorage.setItem('access_token', newAccessToken);
-
-                            // Retry the request with the new token
-                            const { data } = await axios.get('http://127.0.0.1:8000/api/users/current/', {
+                            const { data } = await axios.get(`${baseURL}/api/users/current/`, {
                                 headers: {
                                     Authorization: `Bearer ${newAccessToken}`,
                                 },
@@ -42,11 +40,10 @@ export const CurrentUserProvider = ({ children }) => {
                             setCurrentUser(data);
                         }
                     } else {
-                        // If token is invalid or expired and there's no refresh token
                         localStorage.removeItem('access_token');
                         localStorage.removeItem('refresh_token');
-                        setCurrentUser(null);  // Reset the current user
-                        window.location.href = '/signin'; // Redirect to login page
+                        setCurrentUser(null);
+                        history.push('/signin');
                     }
                 }
             } else {
@@ -55,11 +52,11 @@ export const CurrentUserProvider = ({ children }) => {
         } catch (err) {
             console.log(err);
         }
-    };
+    }, [baseURL, history]);
 
     useEffect(() => {
-        handleMount()
-    }, []);
+        handleMount();
+    }, [handleMount]);
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -67,5 +64,5 @@ export const CurrentUserProvider = ({ children }) => {
                 {children}
             </SetCurrentUserContext.Provider>
         </CurrentUserContext.Provider>
-    )
+    );
 };

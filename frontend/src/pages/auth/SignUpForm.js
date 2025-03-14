@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";  // Updated import
 
 import styles from "../../styles/SignInUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
@@ -33,7 +33,7 @@ const SignUpForm = () => {
         try {
             await axios.post('http://127.0.0.1:8000/api/users/register/', signUpData);
             history.push("/signin");
-        } catch(err) {
+        } catch (err) {
             setErrors(err.response?.data)
         }
     };
@@ -71,7 +71,7 @@ const SignUpForm = () => {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                        {errors.email?.map((message, idx) => 
+                        {errors.email?.map((message, idx) =>
                             <Alert variant="warning" key={idx}>{message}</Alert>
                         )}
 

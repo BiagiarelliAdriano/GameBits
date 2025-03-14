@@ -1,26 +1,27 @@
 import React from 'react';
-import { Navbar, Container, Nav } from "react-bootstrap";
-import logo from '../assets/logo.png';
-import styles from '../styles/NavBar.module.css';
-import { NavLink } from "react-router-dom";
+import { Container, Nav, Navbar } from "react-bootstrap";
+import logo from "../assets/logo.png";
+import styles from "../styles/NavBar.module.css";
+import { NavLink, useHistory } from "react-router-dom";
 import {
     useCurrentUser,
     useSetCurrentUser,
 } from '../contexts/CurrentUserContext';
-import Avatar from "./Avatar";
-import useClickOutiseToggle from '../hooks/useClickOutiseToggle';
+import Avatar from './Avatar';
+import useClickOutsideToggle from '../hooks/useClickOutsideToggle';
 
 const NavBar = () => {
     const currentUser = useCurrentUser();
     const setCurrentUser = useSetCurrentUser();
+    const history = useHistory();
 
-    const {expanded, setExpanded, ref} = useClickOutiseToggle();
+    const {expanded, setExpanded, ref} = useClickOutsideToggle();
 
     const handleSignOut = async () => {
-        // Remove tokens from localStorage for Sign Out
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         setCurrentUser(null);
+        history.push("/signin");
     };
 
     const addPostIcon = (
@@ -31,7 +32,8 @@ const NavBar = () => {
         >
             <i className="fa-solid fa-circle-plus"></i>New Post
         </NavLink>
-    )
+    );
+
     const loggedInIcons = (
         <>
             <NavLink
@@ -53,7 +55,7 @@ const NavBar = () => {
                 to="/"
                 onClick={handleSignOut}
             >
-                <i className="fa-solid fa-door-open"></i>Sign out
+                <i className="fa-solid fa-door-open"></i>Sign Out
             </NavLink>
             <NavLink
                 className={styles.NavLink}
@@ -62,8 +64,9 @@ const NavBar = () => {
                 <Avatar src={currentUser?.profile_picture} text="Profile" height="40" />
             </NavLink>
         </>
-    )
-    const loggedOutIcons =
+    );
+
+    const loggedOutIcons = (
         <>
             <NavLink
                 className={styles.NavLink}
@@ -80,6 +83,7 @@ const NavBar = () => {
                 <i className="fas fa-user-plus"></i>Sign Up
             </NavLink>
         </>
+    );
 
     return (
         <Navbar
@@ -110,7 +114,8 @@ const NavBar = () => {
                         >
                             <i className="fa-solid fa-house-user"></i>Home
                         </NavLink>
-                        {currentUser ? loggedInIcons : loggedOutIcons}
+                        {!currentUser && loggedOutIcons}
+                        {currentUser && loggedInIcons}
                     </Nav>
                 </Navbar.Collapse>
             </Container>
