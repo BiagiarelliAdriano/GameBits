@@ -15,7 +15,7 @@ function PostPage() {
       try {
         // Get the token from localStorage (assuming it's stored there)
         const token = localStorage.getItem('access_token');
-        
+
         // Check if the token exists
         if (!token) {
           throw new Error("No access token found");
@@ -27,7 +27,7 @@ function PostPage() {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         // Check if the response is ok (status 200-299)
         if (!response.ok) {
           throw new Error('Failed to fetch post');
@@ -36,7 +36,6 @@ function PostPage() {
         const postData = await response.json();
 
         setPost({ results: [postData] });
-        console.log(postData);
       } catch (err) {
         console.log(err);
       }
@@ -49,7 +48,9 @@ function PostPage() {
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
         <p>Popular profiles for mobile</p>
-        <Post {...post.results[0]} setPosts={setPost} postPage />
+        {post.results.length > 0 && (
+          <Post {...post.results[0]} setPost={setPost} postPage />
+        )}
         <Container className={appStyles.Content}>
           {post.results.length > 0 ? (
             <div>

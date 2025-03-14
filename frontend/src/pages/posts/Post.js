@@ -4,6 +4,7 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, Media, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
+import axios from "axios";
 
 const Post = (props) => {
     const {
@@ -17,17 +18,48 @@ const Post = (props) => {
         image,
         updated_at,
         likes,
+        likes_count,
+        has_liked,
         comments_count,
+        setPost,
     } = props;
 
     const currentUser = useCurrentUser();
     const is_owner = currentUser?.username === author;
 
-    // Calculate the likes count
-    const likes_count = likes?.length || 0;
+    // Handle like action
+    const handleLike = async () => {
+        try {
+            const { data } = await axios.post(`/posts/${id}/like/`);
+            setPost((prevPosts) => ({
+                ...prevPosts,
+                results: prevPosts.results.map((post) => {
+                    return post.id === id
+                        ? { ...post, likes_count: post.likes_count + 1, has_liked: true } // Update likes_count and has_liked
+                        : post;
+                }),
+            }));
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-    // Check if the current user has liked the post (by user_id in likes)
-    const has_liked = likes?.some((like) => like.user_id === currentUser?.id);
+    // Handle unlike action
+    const handleUnlike = async () => {
+        try {
+            await axios.delete(`/likes/${likes.id}/`);
+            setPost((prevPosts) => ({
+                ...prevPosts,
+                results: prevPosts.results.map((post) => {
+                    return post.id === id
+                        ? { ...post, likes_count: post.likes_count - 1, has_liked: false } // Update likes_count and has_liked
+                        : post;
+                }),
+            }));
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     return (
         <Card className={styles.Post}>
@@ -43,11 +75,11 @@ const Post = (props) => {
                             <i className="far fa-heart" />
                         </OverlayTrigger>
                     ) : has_liked ? (
-                        <span onClick={() => { /* Handle unlike action */ }}>
+                        <span onClick={handleUnlike}>
                             <i className={`fas fa-heart ${styles.Heart}`} />
                         </span>
                     ) : currentUser ? (
-                        <span onClick={() => { /* Handle like action */ }}>
+                        <span onClick={handleLike}>
                             <i className={`far fa-heart ${styles.HeartOutline}`} />
                         </span>
                     ) : (

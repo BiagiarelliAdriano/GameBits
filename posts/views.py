@@ -44,6 +44,12 @@ class PostListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         """Override perform_create to associate the post with the logged-in user."""
         serializer.save(author=self.request.user)
+    
+    def get_serializer_context(self):
+        """Include the request context for has_liked."""
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
 
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     """View to retrieve, update, or delete a single post."""
@@ -53,3 +59,9 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         """Ensure users can only edit or delete their own posts."""
         return Post.objects.all()
+    
+    def get_serializer_context(self):
+        """Include the request context for has_liked."""
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
