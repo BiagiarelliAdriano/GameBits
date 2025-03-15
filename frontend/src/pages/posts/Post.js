@@ -30,19 +30,23 @@ const Post = (props) => {
     // Handle like action
     const handleLike = async () => {
         try {
+            console.log("Post ID being liked:", id);
             const { data } = await axios.post(`/posts/${id}/like/`);
+            console.log("Post data after like:", data); 
+    
             setPost((prevPosts) => ({
                 ...prevPosts,
                 results: prevPosts.results.map((post) => {
                     return post.id === id
-                        ? { ...post, likes_count: post.likes_count + 1, has_liked: true } // Update likes_count and has_liked
+                        ? { ...post, likes_count: data.likes_count, has_liked: data.has_liked }
                         : post;
                 }),
             }));
         } catch (err) {
-            console.log(err);
+            console.log("Error liking post:", err);
         }
     };
+    
 
     // Handle unlike action
     const handleUnlike = async () => {

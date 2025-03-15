@@ -1,6 +1,10 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://gamebits-579c6fd85599.herokuapp.com/";
+const apiUrl = process.env.NODE_ENV === "development"
+    ? "http://127.0.0.1:8000"
+    : "https://gamebits-579c6fd85599.herokuapp.com/";
+
+axios.defaults.baseURL = `${apiUrl}/api/`;
 axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
 axios.defaults.withCredentials = true;
 

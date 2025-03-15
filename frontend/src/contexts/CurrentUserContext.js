@@ -18,7 +18,7 @@ export const CurrentUserProvider = ({ children }) => {
             let token = localStorage.getItem('access_token');
             if (token) {
                 try {
-                    const { data } = await axios.get(`${baseURL}/api/users/current`, {
+                    const { data } = await axios.get(`${baseURL}/users/current`, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
@@ -29,10 +29,10 @@ export const CurrentUserProvider = ({ children }) => {
                     if (err.response && err.response.status === 401) {
                         const refreshToken = localStorage.getItem('refresh_token');
                         if (refreshToken) {
-                            const response = await axios.post(`${baseURL}/api/token/refresh/`, { refresh: refreshToken });
+                            const response = await axios.post(`${baseURL}/token/refresh/`, { refresh: refreshToken });
                             const newAccessToken = response.data.access;
                             localStorage.setItem('access_token', newAccessToken);
-                            const { data } = await axios.get(`${baseURL}/api/users/current/`, {
+                            const { data } = await axios.get(`${baseURL}/users/current/`, {
                                 headers: {
                                     Authorization: `Bearer ${newAccessToken}`,
                                 },
