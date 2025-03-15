@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
-import axios from 'axios';
+import axios from '../api/axiosDefaults';
 import { useHistory } from 'react-router-dom';
 
 export const CurrentUserContext = createContext();

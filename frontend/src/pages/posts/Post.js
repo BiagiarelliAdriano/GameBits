@@ -4,7 +4,7 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, Media, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
-import axios from "axios";
+import axios from "../../api/axiosDefaults";
 
 const Post = (props) => {
     const {

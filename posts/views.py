@@ -38,6 +38,8 @@ class PostListCreateView(generics.ListCreateAPIView):
                 Q(game__icontains=search_query) |
                 Q(author__username__icontains=search_query)
             )
+
+        queryset = queryset.prefetch_related('likes')
         
         return queryset
 

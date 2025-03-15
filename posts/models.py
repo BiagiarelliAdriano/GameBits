@@ -14,8 +14,6 @@ class Post(CreatedAtUpdatedAtMixin):
     game = models.CharField(max_length=100, verbose_name="Game Focused On")
     content = models.TextField(verbose_name="Post Content")
     image = models.ImageField(upload_to='images/', blank=True, null=True, verbose_name="Post Image")
-    comments_count = models.PositiveIntegerField(default=0, verbose_name="Comments Count")
-    likes_count = models.PositiveIntegerField(default=0, verbose_name="Likes Count")
 
     class Meta:
         ordering = ['-created_at']
