@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
+
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
+
 import appStyles from "../../App.module.css";
 import { useParams } from "react-router";
 import Post from "./Post";
+
 import CommentCreateForm from "../comments/CommentCreateForm";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import Comment from "../comments/Comment";
+
+import InfiniteScroll from "react-infinite-scroll-component";
+import Asset from "../../components/Asset";
+import axios from "../../api/axiosDefaults";
+import { fetchMoreData } from "../../utils/utils";
 
 function PostPage() {
   const { id } = useParams();
@@ -15,34 +23,18 @@ function PostPage() {
 
   const currentUser = useCurrentUser();
   const profile_picture = currentUser?.profile_picture;
-  const [comments, setComments] = useState({ results: [] });
+  const [comments, setComments] = useState({ results: [], next: null });
 
   useEffect(() => {
     const handleMount = async () => {
       try {
-        // Get the token from localStorage (assuming it's stored there)
-        const token = localStorage.getItem('access_token');
-
-        // Check if the token exists
-        if (!token) {
-          throw new Error("No access token found");
-        }
-
-        // Fetch data with the Authorization header
-        const response = await fetch(`/posts/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        // Check if the response is ok (status 200-299)
-        if (!response.ok) {
-          throw new Error('Failed to fetch post');
-        }
-
-        const postData = await response.json();
+        const [{ data: postData}, { data: commentsData }] = await Promise.all([
+          axios.get(`/posts/${id}`),
+          axios.get(`/comments/?post=${id}`),
+        ]);
 
         setPost({ results: [postData] });
+        setComments(commentsData);
       } catch (err) {
         console.log(err);
       }
@@ -71,14 +63,21 @@ function PostPage() {
             "Comments"
           ) : null}
           {comments.results.length ? (
-            comments.results.map((comment) => (
-              <Comment
-                key={comment.id}
-                {...comment}
-                setPost={setPost}
-                setComments={setComments}
-              />
-            ))
+            <InfiniteScroll
+              dataLength={comments.results.length}
+              next={() => fetchMoreData(comments, setComments)}
+              hasMore={!!comments.next}
+              loader={<Asset spinner />}
+            >
+              {comments.results.map((comment) => (
+                <Comment
+                  key={comment.id}
+                  {...comment}
+                  setPost={setPost}
+                  setComments={setComments}
+                />
+              ))}
+            </InfiniteScroll>
           ) : currentUser ? (
             <span>No comments yet, be the first to comment!</span>
           ) : (

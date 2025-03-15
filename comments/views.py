@@ -4,6 +4,7 @@ from rest_framework.exceptions import PermissionDenied
 from comments.models import Comment
 from .serializers import CommentSerializer
 from posts.models import Post
+from rest_framework.pagination import PageNumberPagination
 
 # Create your views here.
 class CommentViewSet(viewsets.ModelViewSet):
@@ -11,6 +12,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    pagination_class = PageNumberPagination
 
     def perform_create(self, serializer):
         """Assign the logged-in user and post to the comment."""
