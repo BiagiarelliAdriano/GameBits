@@ -5,6 +5,8 @@ import { Card, Media, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import axios from "../../api/axiosDefaults";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { MoreDropdown } from "../../components/MoreDropdown";
 
 const Post = (props) => {
     const {
@@ -21,19 +23,34 @@ const Post = (props) => {
         likes_count,
         has_liked,
         comments_count,
+        postPage,
         setPost,
     } = props;
 
     const currentUser = useCurrentUser();
-    const is_owner = currentUser?.username === author;
+    const is_author = currentUser?.username === author;
+    const history = useHistory();
+
+    const handleEdit = () => {
+        history.push(`/posts/${id}/edit`)
+    }
+
+    const handleDelete = async () => {
+        try {
+            await axios.delete(`/posts/${id}/`);
+            history.goBack();
+        } catch (err) {
+
+        }
+    }
 
     // Handle like action
     const handleLike = async () => {
         try {
             console.log("Post ID being liked:", id);
             const { data } = await axios.post(`/posts/${id}/like/`);
-            console.log("Post data after like:", data); 
-    
+            console.log("Post data after like:", data);
+
             setPost((prevPosts) => ({
                 ...prevPosts,
                 results: prevPosts.results.map((post) => {
@@ -46,7 +63,7 @@ const Post = (props) => {
             console.log("Error liking post:", err);
         }
     };
-    
+
 
     // Handle unlike action
     const handleUnlike = async () => {
@@ -68,10 +85,31 @@ const Post = (props) => {
     return (
         <Card className={styles.Post}>
             <Card.Body>
+                <Media className="align-items-center justify-content-between">
+                    <Link to={`/users/${user_id}`}>
+                        <Avatar src={profile_picture} height={55} />
+                        {author}
+                    </Link>
+                    <div className="d-flex align-items-center">
+                        <span>{updated_at}</span>
+                        {is_author && postPage && (
+                            <MoreDropdown
+                                handleEdit={handleEdit}
+                                handleDelete={handleDelete}
+                            />
+                        )}
+                    </div>
+                </Media>
+            </Card.Body>
+            <Link to={`/posts/${id}`}>
+                <Card.Img src={image} alt={title} />
+            </Link>
+            <Card.Body>
                 {title && <Card.Title className="text-center">{title}</Card.Title>}
+                {game && <Card.Text>{game}</Card.Text>}
                 {content && <Card.Text>{content}</Card.Text>}
                 <div className={styles.PostBar}>
-                    {is_owner ? (
+                    {is_author ? (
                         <OverlayTrigger
                             placement="top"
                             overlay={<Tooltip>You can't like your own post!</Tooltip>}
