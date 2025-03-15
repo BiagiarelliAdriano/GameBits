@@ -5,10 +5,16 @@ import Container from "react-bootstrap/Container";
 import appStyles from "../../App.module.css";
 import { useParams } from "react-router";
 import Post from "./Post";
+import CommentCreateForm from "../comments/CommentCreateForm";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
 function PostPage() {
   const { id } = useParams();
   const [post, setPost] = useState({ results: [] });
+
+  const currentUser = useCurrentUser();
+  const profile_picture = currentUser?.profile_picture;
+  const [comments, setComments] = useState({ results: [] });
 
   useEffect(() => {
     const handleMount = async () => {
@@ -52,14 +58,17 @@ function PostPage() {
           <Post {...post.results[0]} setPost={setPost} postPage />
         )}
         <Container className={appStyles.Content}>
-          {post.results.length > 0 ? (
-            <div>
-              <h2>{post.results[0].title}</h2>
-              <p>{post.results[0].content}</p>
-            </div>
-          ) : (
-            <p>Loading post...</p>
-          )}
+          {currentUser ? (
+            <CommentCreateForm
+              user_id={currentUser.user_id}
+              profilePicture={profile_picture}
+              post={id}
+              setPost={setPost}
+              setComments={setComments}
+            />
+          ) : comments.results.length ? (
+            "Comments"
+          ) : null}
         </Container>
       </Col>
       <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
