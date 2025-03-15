@@ -13,9 +13,9 @@ import styles from "../../styles/PostCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import axios from "../../api/axiosDefaults";
-import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom";
 
-function PostCreateForm() {
+function PostEditForm() {
     const [errors, setErrors] = useState({});
 
     const [postData, setPostData] = useState({
@@ -28,6 +28,22 @@ function PostCreateForm() {
 
     const imageInput = useRef(null);
     const history = useHistory();
+    const { id } = useParams();
+
+    useEffect(() => {
+        const handleMount = async () => {
+            try {
+                const { data } = await axios.get(`/posts/${id}/`)
+                const { title, game, content, image, is_author } = data;
+
+                is_author ? setPostData({ title, game, content, image }) : history.push("/");
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        handleMount();
+    }, [history, id]);
 
     const handleChange = (event) => {
         setPostData({
@@ -54,32 +70,34 @@ function PostCreateForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+
         const formData = new FormData();
         const authorId = parseInt(localStorage.getItem('user_id'), 10);
-    
+
         formData.append('title', title);
         formData.append('game', game);
         formData.append('content', content);
-        formData.append('image', imageInput.current.files[0]);
+        if (imageInput?.current?.files[0]) {
+            formData.append('image', imageInput.current.files[0]);
+        }
         formData.append('author', authorId);
-        
+
         try {
-            const { data } = await axios.post('/posts/', formData, {
+            await axios.put(`/posts/${id}/`, formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                     'Content-Type': 'multipart/form-data',
                 },
             });
-    
-            history.push(`/posts/${data.id}`);
+
+            history.push(`/posts/${id}`);
         } catch (err) {
             if (err.response?.status !== 401) {
                 setErrors(err.response?.data);
             }
         }
     };
-    
+
 
     const textFields = (
         <div className="text-center">
@@ -139,7 +157,7 @@ function PostCreateForm() {
             </Button>
             <Button
                 className={`${btnStyles.Button} ${btnStyles.Blue}`} type="submit">
-                create
+                save
             </Button>
         </div>
     );
@@ -208,4 +226,4 @@ function PostCreateForm() {
     );
 }
 
-export default PostCreateForm;
+export default PostEditForm;
