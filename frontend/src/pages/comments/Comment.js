@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import Avatar from "../../components/Avatar";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import MoreDropdown from "../../components/MoreDropdown";
+import { MoreDropdown } from "../../components/MoreDropdown";
 import axios from "../../api/axiosDefaults";
 import CommentEditForm from "./CommentEditForm";
 
