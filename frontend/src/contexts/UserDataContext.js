@@ -19,12 +19,13 @@ export const UserDataProvider = ({ children }) => {
     useEffect(() => {
         const handleMount = async () => {
             try {
-                const { data } = await axios.get(
-                    "/users/?ordering=-level"
-                );
+                const { data } = await axios.get("/users/?ordering=-level");
+                console.log("API Response Data:", data);  // Log to see the structure
+
+                // Ensure data is always in the format { results: [...] }
                 setUserData((prevState) => ({
                     ...prevState,
-                    popularUsers: data,
+                    popularUsers: { results: Array.isArray(data) ? data : [] },
                 }));
             } catch (err) {
                 console.log(err);
