@@ -20,7 +20,6 @@ export const UserDataProvider = ({ children }) => {
         const handleMount = async () => {
             try {
                 const { data } = await axios.get("/users/?ordering=-level");
-                console.log("API Response Data:", data);  // Log to see the structure
 
                 // Ensure data is always in the format { results: [...] }
                 setUserData((prevState) => ({

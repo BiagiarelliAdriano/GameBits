@@ -29,7 +29,11 @@ function PostsPage({ message, filter = "" }) {
         const response = await axios.get(`/posts/`, {
           params: { search: query, filter: filter }
         });
-        setPosts(response.data);
+        if (response.data && Array.isArray(response.data.results)) {
+          setPosts(response.data);
+        } else {
+          console.error("Invalid response data:", response.data);
+        }
         setHasLoaded(true);
       } catch (err) {
         console.log("Error fetching posts:", err)
@@ -39,7 +43,7 @@ function PostsPage({ message, filter = "" }) {
     setHasLoaded(false);
     const timer = setTimeout(() => {
       fetchPosts();
-    }, 1000)
+    }, 1000);
     return () => {
       clearTimeout(timer);
     };
@@ -65,13 +69,11 @@ function PostsPage({ message, filter = "" }) {
 
         {hasLoaded ? (
           <>
-            {posts.results.length ? (
+            {posts?.results?.length ? (
               <InfiniteScroll
-                children={
-                  posts.results.map((post) => (
-                    <Post key={post.id} {...post} setPosts={setPosts} />
-                  ))
-                }
+                children={posts.results.map((post) => (
+                  <Post key={post.id} {...post} setPosts={setPosts} />
+                ))}
                 dataLength={posts.results.length}
                 loader={<Asset spinner />}
                 hasMore={!!posts.next}
