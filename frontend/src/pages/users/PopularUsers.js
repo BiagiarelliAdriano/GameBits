@@ -8,13 +8,14 @@ import User from "./User";
 const PopularUsers = ({ mobile }) => {
   const { popularUsers } = useUserData();
 
+  const hasPopularUsers = popularUsers && popularUsers.results && popularUsers.results.length > 0;
+
   return (
     <Container
-      className={`${appStyles.Content} ${
-        mobile && "d-lg-none text-center mb-3"
-      }`}
+      className={`${appStyles.Content} ${mobile && "d-lg-none text-center mb-3"
+        }`}
     >
-      {popularUsers.results.length ? (
+      {hasPopularUsers ? (
         <>
           <p>Highest Level Users.</p>
           {mobile ? (
