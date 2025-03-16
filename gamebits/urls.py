@@ -21,10 +21,10 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView, # Get a new access token using refresh token
     TokenVerifyView # Verify if a token is valid
 )
-from .views import WelcomeView
+from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('', WelcomeView.as_view(), name='root'),
+    path('', TemplateView.as_view(template_name='index.html')),
 
     path('admin/', admin.site.urls),
 
@@ -42,3 +42,5 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), # Refresh token
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'), # Verify token
 ]
+
+handler404 = TemplateView.as_view(template_name='index.html')

@@ -17,9 +17,9 @@ psycopg2==2.9.10
 PyJWT==2.10.1
 pytz==2025.1
 requests==2.32.3
-setuptools==76.0.0
+setuptools==75.8.0
 six==1.17.0
 sqlparse==0.5.3
 tzdata==2025.1
 urllib3==2.3.0
-wheel==0.45.1
+whitenoise==6.4.0
