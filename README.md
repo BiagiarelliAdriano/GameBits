@@ -28,3 +28,8 @@ These are representations of how the page should've looked like. At least parts 
 ![Post page](https://i.ibb.co/b5gcmY09/wireframe2.png)
 
 ![Post creation or edit page](https://i.ibb.co/xKtLPC3s/wireframe3.png)
+
+## User stories
+I started out my project by mapping out all of the different features my page should have had. Starting with User Stories, with prioritization from Must-have to Could-have, present in the GitHub repository:
+[User Stories.](https://github.com/BiagiarelliAdriano/GameBits/issues?page=1)
+Most of the Backend functionalities described in the User stories were actually implemented and are present in the final project. Many of the Frontend side of the functionalities were unfortunately not implemented due to timing issues and several bugs and errors, so they are either not present or not fully functional.
