@@ -248,3 +248,9 @@ A search bar is present on the top of each Home, Feed, Liked page to let users f
 ![Spinner Icon](https://i.ibb.co/qLM9vygH/spinner.png)
 
 A spinner icon is used while content is loading or fails to load to make users understand that either the content is loading or failed loading.
+
+### Logo
+
+![Logo](https://i.ibb.co/C335BKKS/logo.png)
+
+The Gamebits logo was created by myself on Krita writing the letters G and B in the font called Magneto , coloring them blue and applying an outer glow layer style.
