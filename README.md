@@ -254,3 +254,6 @@ A spinner icon is used while content is loading or fails to load to make users u
 ![Logo](https://i.ibb.co/C335BKKS/logo.png)
 
 The Gamebits logo was created by myself on Krita writing the letters G and B in the font called Magneto , coloring them blue and applying an outer glow layer style.
+
+## Typography
+The main font used in the application is [Montserrat](https://fonts.google.com/specimen/Montserrat?query=montserrat). The use of this font is consistent with the color scheme. Needless to say, the font was chosen due to its readability and its feel of modern typography together with the whole page scheme.
