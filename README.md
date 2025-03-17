@@ -89,3 +89,9 @@ Most of the Backend functionalities described in the User stories were actually 
 	- [PEP8CI](https://pep8ci.herokuapp.com/#) - Used to validate Python code.
 	- [Postgresql](https://www.postgresql.org/) - PostgreSQL is a powerful, open source object-relational database system with over 35 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance.
 	- [Virtual Environment](https://docs.python.org/3/library/venv.html) - Used to create a virtual environment.
+
+# Features
+## Entity Relationship Diagram
+To create the entity relationship diagram, I used a graph modelling tool [DBDiagram](https://dbdiagram.io/home). It shows the entire relationship between all models in the database.
+
+![DBDiagram](https://i.ibb.co/yFFVp1zb/entityrelationshipdiagram.png)
