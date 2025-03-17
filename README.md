@@ -95,3 +95,99 @@ Most of the Backend functionalities described in the User stories were actually 
 To create the entity relationship diagram, I used a graph modelling tool [DBDiagram](https://dbdiagram.io/home). It shows the entire relationship between all models in the database.
 
 ![DBDiagram](https://i.ibb.co/yFFVp1zb/entityrelationshipdiagram.png)
+
+## Database
+For this project, I mainly used a PostgreSQL database for the production database.
+
+## Models
+
+**Users**
+
+The Users model is designed to contain all the relevant informations necessary for users profiles.
+
+|Database Value| Field Type | Field Argument |
+|--|--|--|
+| id | IntField | primary key |
+| username | CharField | max_length=50, unique, not null |
+| email | CharField | max_length=100, unique, not null |
+| password | CharField | max_length=255, not null |
+| profile_picture | ImageField| default: 'default.png' |
+| bio | TextField| blank=True, max_length=500 |
+| level | IntField | default=1 |
+| experience_points | IntField | default=0 |
+| is_active | BooleanField| default=True |
+| created_at | DateTimeField | auto_now_add=True |
+| updated_at | DateTimeField | auto_now=True |
+
+**Posts**
+
+The Posts model is designed to contain all the relevant informations necessary for the posts users are going to share.
+
+|Database Value| Field Type | Field Argument |
+|--|--|--|
+| author | ForeignKey | get_user_model, on_delete=models.CASCADE, related_name='posts', verbose_name='author' |
+| title| CharField | max_length=255, verbose_name="Post Title" |
+| game | CharField | max_length=100, verbose_name="Post Game" |
+| content | TextField | verbose_name="Post Content" |
+| image | ImageField| upload_to='images/', blank=True, null=True, verbose_name="Post Image" |
+
+**Likes**
+
+The Likes model is designed to make the like functionality work.
+
+|Database Value| Field Type | Field Argument |
+|--|--|--|
+| user| ForeignKey | settings.AUTH_USER_MODEL, on_delete=models.CASCADE |
+| post| ForeignKey| Post, on_delete=models.CASCADE, related_name="likes" |
+
+**Comments**
+
+The Comments model is designed to make the comments functionality work.
+
+|Database Value| Field Type | Field Argument |
+|--|--|--|
+| user | ForeignKey | UserProfile, on_delete=models.CASCADE, related_name="comments" |
+| post| ForeignKey| Post, on_delete=models.CASCADE, related_name="comments" |
+| content | TextField | verbose_name="Comment Content" |
+
+**Replies**
+
+The Replies model is designed to make the replies threads functionality work.
+
+|Database Value| Field Type | Field Argument |
+|--|--|--|
+| user| ForeignKey | UserProfile, on_delete=models.CASCADE, related_name='replies' |
+| comment| ForeignKey| Comment, on_delete=models.CASCADE, related_name='replies' |
+| content | TextField | verbose_name="Post Content" |
+| parent_reply | ForeignKey| 'self', null=True, blank=True, on_delete=models.CASCADE, related_name='nested_replies'|
+
+**Follow**
+
+The Follow model is designed to make following other users functionality work.
+
+|Database Value| Field Type | Field Argument |
+|--|--|--|
+| follower| ForeignKey | UserProfile, related_name="following", on_delete=models.CASCADE |
+| following | ForeignKey| UserProfile, related_name="followers", on_delete=models.CASCADE) |
+
+**Notifications**
+
+The Notifications model is designed to make all the notifications functionality work.
+
+    NOTIFICATION_TYPES = [
+	    ('likes', 'Likes'),
+	    ('follow', 'Follow'),
+	    ('Comment', 'Comment'),
+	    ('reply', 'Reply'),
+	    ('level_up', 'Level Up'),
+
+|Database Value| Field Type | Field Argument |
+|--|--|--|
+| user | ForeignKey| get_user_model(), on_delete=models.CASCADE, related_name="notifications" |
+| created_by| ForeignKey| get_user_model(), on_delete=models.CASCADE, related_name="created_notifications" |
+| notification_type| CharField | max_length=50, choices=NOTIFICATION_TYPES |
+| content | TextField| None |
+| post| ForeignKey| Post, on_delete=models.CASCADE, null=True, blank=True |
+| comment| ForeignKey| Comment, on_delete=models.CASCADE, null=True, blank=True |
+| reply| ForeignKey| Reply, on_delete=models.CASCADE, null=True, blank=True|
+| is_read| BooleanField| default=False |
