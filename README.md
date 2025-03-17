@@ -279,3 +279,7 @@ Another main bug was due to Frontend deployment where it would not load the Reac
 ### Known Bugs
 
 Many, if not all features applied to the Frontend are not functional. Users are not able to functionaly register their user, they are not able to functionaly sign in and cannot functionality create a new post. Like and comments functionality are present, but not functional and the Popular Users list does not correctly load. The backend is accessible, but some URL paths are not accessible due to authorization functionalities, but most backend URL paths are functional.
+
+### PEP8 Validation
+
+I've tested all the files through the CI PEP8 Linter and although I found a few errors, I have rectified these and now all files are passing with "All clear, no errors found".
