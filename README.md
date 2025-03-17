@@ -275,3 +275,7 @@ Another main bug was due to Frontend deployment where it would not load the Reac
     const  apiUrl  =  process.env.NODE_ENV  ===  "development"
 	    ?  "http://127.0.0.1:8000"
 	    :  "https://gamebits-579c6fd85599.herokuapp.com";
+
+### Known Bugs
+
+Many, if not all features applied to the Frontend are not functional. Users are not able to functionaly register their user, they are not able to functionaly sign in and cannot functionality create a new post. Like and comments functionality are present, but not functional and the Popular Users list does not correctly load. The backend is accessible, but some URL paths are not accessible due to authorization functionalities, but most backend URL paths are functional.
