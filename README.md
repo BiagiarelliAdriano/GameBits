@@ -257,3 +257,6 @@ The Gamebits logo was created by myself on Krita writing the letters G and B in 
 
 ## Typography
 The main font used in the application is [Montserrat](https://fonts.google.com/specimen/Montserrat?query=montserrat). The use of this font is consistent with the color scheme. Needless to say, the font was chosen due to its readability and its feel of modern typography together with the whole page scheme.
+
+## Future Features
+I do intend to continue on working on Gamebits to make it fully functional, with all correct features applied that were described in the About section of this document. This includes Notifications, Experience Points and Leveling system, comments threads. Future features that can be included in this style of page are chat functions between users, with post sharing capabilities, special designed badges for users that reach certain levels to specially customize their own profile and a list of achievements, objectives of certain actions taken on the page, that could push futher engagement on the platform.
