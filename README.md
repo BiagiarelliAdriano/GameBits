@@ -229,3 +229,9 @@ When a user tries to access a non-existent page, this is the page they find them
 ![Post Creation Form](https://i.ibb.co/WNbkrsMJ/newpost.png)
 
 Users can interact with the button to upload an image and with the text contents. Clicking on the Cancel button will bring users back to the most previous page they accessed. Clicking on the Create button should create the post in the database, return the user to the Home page and present the newly created post in the Home page. After uploading an image, a Change image button will appear so Users can still change the image before posting.
+
+### Post
+
+![Post](https://i.ibb.co/5hy2SMXz/post.png)
+
+Example post viewed in the Home page. Users should be able to interact with the user's name and profile picture to access their user profile, click the image of the post to open the post page, click on the heart icon to like the post, click the text bubbles icon to open the comment section.
