@@ -217,3 +217,9 @@ The NavBar for a user that access the page for the first time presents a Home bu
 ![NavBar while user is logged in](https://i.ibb.co/PG1XBC3X/navbarloggedin.png)
 
 When the user logs in their account, the Navigation bar presents a New Post button to access the Post Creation Form, a Feed button to filter posts on the main page to view posts only by users followed by the current user, a Liked button to filter posts on the main page to view only posts that were liked by the current user, a Sign Out button that logs the user out and returns the state of the NavBar to the previous one and a Profile button to access the Profile page of the current User.
+
+### Page Not Found
+
+![Page Not Found](https://i.ibb.co/jPLVpYs9/pagenotfound.png)
+
+When a user tries to access a non-existent page, this is the page they find themselves in, so they can still access the Navigation bar and return to normal site pages.
