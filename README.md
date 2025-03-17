@@ -14,3 +14,8 @@ Gamebits should be an online social platform focused on providing a safe place f
 # User Experience Design
 ## Strategy
 The platform is designed to be easy to use and intuitive for anyone that would like to use the platform, not only people interested in videogames. The main goal of the page is to offer a place to share your gaming bits of experiences and cool moments with anyone and share that special moment with as many people as possible. As a final goal, the page was aiming at increasing the positive feedback and social communication and sharing experience in any gaming community.
+
+### Color palette
+The following color palette was chosen for the website. The colors were chosen with the strategy to present a more modern color scheme, with darker colors for backgrounds and bright neon lights and colors for the details.
+
+![Color palette](https://i.ibb.co/zhd8YLNG/colorpalette.png)
