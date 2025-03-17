@@ -191,3 +191,11 @@ The Notifications model is designed to make all the notifications functionality 
 | comment| ForeignKey| Comment, on_delete=models.CASCADE, null=True, blank=True |
 | reply| ForeignKey| Reply, on_delete=models.CASCADE, null=True, blank=True|
 | is_read| BooleanField| default=False |
+
+## Frontend
+
+### Sign Up Form Page
+
+![SignUpFormPage](https://i.ibb.co/7JW66tSh/signup.png)
+
+The image was taken as a placefolder following the Moments walkthrough project from Code Insitute.
