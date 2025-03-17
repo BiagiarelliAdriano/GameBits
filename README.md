@@ -294,3 +294,18 @@ The project was deployed to Heroku. The deployment process used was taken from t
 
 This project was inspired by the Code Institute walkthrough Moments project but has been modified to fit the Gamebits idea. Many Frontend files were taken from the walkthrough Moments project and adapted to my own project set up and adapted for the functionalities present in my project, not present in the walkthrough project.
 As mentioned above, the Logo was created by myself using Krita.
+
+# Acknowledgments
+
+I have thoroughly enjoyed developing not only this project, but all other project during the course as well, and although I found React to have a challenging learning curver, after much perseverance I feel like I have a good baseline knowledge when it comes to developing applications that use an advanced front-end framework like React that talk to a back-end API developed using the Django REST Framework. With this knowledge acquired with also the help of the course provided by Code Institute, I feel confident that in the future I can do a better job at showcasing my abilities to make a functional page using React for the front-end and DRF-API for the back-end. I do understand that the submitted project does not respect the initial concept descripted in the README file, so I look forward to continue working on this project even beyond the premised deadline to finally complete Gamebits, as it is a project that be actually utilized and expanded upon to create something actually useful for the Internet.
+
+I would like to thank my mentor Marcel for providing me with their time and patience to go over the project and code and help me figure out some of the biggest problems I was having. I also thank Code Institute Tutor Assistance for helping me find the cause of my biggest bug of the deployed backend version.
+
+I also need to thank my family and my friends for supporting throughout development, encouraging me to continue on working and giving me constructed feedback and critics that helped me with the concept of Gamebits and helped with certain decisions taken with the design of the site.
+It has been an incredible journey, I'm extremely excited to see where this adventure will take me and to continue on working on my personal project to hopefully provide some useful and fun experience for everyone.
+
+Thank you so much for a fantastic experience [Code Institute](https://codeinstitute.net/de/) !
+
+Biagiarelli Adriano, 2025.
+
+[Back to top](https://github.com/BiagiarelliAdriano/GameBits).
