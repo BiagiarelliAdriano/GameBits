@@ -205,3 +205,9 @@ The image was taken as a placefolder following the Moments walkthrough project f
 ![SignInFormPage](https://i.ibb.co/r2J8THFd/signin.png)
 
 The image was taken as a placefolder following the Moments walkthrough project from Code Insitute.
+
+### NavBar while user is not logged in
+
+![Navbar while user is not logged in](https://i.ibb.co/vC8sQtdY/navbar.png)
+
+The NavBar for a user that access the page for the first time presents a Home button, a Sign In button to access the Sign In Form and a Sign Up button to access the Sign Up Form. The User can also click on the page logo to access the Home page.
