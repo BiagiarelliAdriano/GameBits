@@ -19,3 +19,12 @@ The platform is designed to be easy to use and intuitive for anyone that would l
 The following color palette was chosen for the website. The colors were chosen with the strategy to present a more modern color scheme, with darker colors for backgrounds and bright neon lights and colors for the details.
 
 ![Color palette](https://i.ibb.co/zhd8YLNG/colorpalette.png)
+
+## Wireframes
+These are representations of how the page should've looked like. At least parts of it.
+
+![Home page](https://i.ibb.co/hF8d4qvK/wireframe1.png)
+
+![Post page](https://i.ibb.co/b5gcmY09/wireframe2.png)
+
+![Post creation or edit page](https://i.ibb.co/xKtLPC3s/wireframe3.png)
