@@ -223,3 +223,9 @@ When the user logs in their account, the Navigation bar presents a New Post butt
 ![Page Not Found](https://i.ibb.co/jPLVpYs9/pagenotfound.png)
 
 When a user tries to access a non-existent page, this is the page they find themselves in, so they can still access the Navigation bar and return to normal site pages.
+
+### Post Creation Form
+
+![Post Creation Form](https://i.ibb.co/WNbkrsMJ/newpost.png)
+
+Users can interact with the button to upload an image and with the text contents. Clicking on the Cancel button will bring users back to the most previous page they accessed. Clicking on the Create button should create the post in the database, return the user to the Home page and present the newly created post in the Home page. After uploading an image, a Change image button will appear so Users can still change the image before posting.
