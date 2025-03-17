@@ -283,3 +283,7 @@ Many, if not all features applied to the Frontend are not functional. Users are 
 ### PEP8 Validation
 
 I've tested all the files through the CI PEP8 Linter and although I found a few errors, I have rectified these and now all files are passing with "All clear, no errors found".
+
+# Deployment To Heroku
+
+The project was deployed to Heroku. The deployment process used was taken from the [Advanced Front End: Deployment of both applications guide from Code Institute](https://code-institute-students.github.io/advfe-unified-workspace/deployment/00-deployment).
