@@ -260,3 +260,18 @@ The main font used in the application is [Montserrat](https://fonts.google.com/s
 
 ## Future Features
 I do intend to continue on working on Gamebits to make it fully functional, with all correct features applied that were described in the About section of this document. This includes Notifications, Experience Points and Leveling system, comments threads. Future features that can be included in this style of page are chat functions between users, with post sharing capabilities, special designed badges for users that reach certain levels to specially customize their own profile and a list of achievements, objectives of certain actions taken on the page, that could push futher engagement on the platform.
+
+# Testing
+
+## Bugs
+
+Many bugs were found during development. Each frontend feature was or is having troubles working correctly. 
+
+### Solved Bugs
+
+Main bugs include the project not functioning on deployment because of the initial structure of the project in its repository, having a main folter called gamebits, inside two folders that divide the files in both backend and frontend. This caused Heroku to not being able to find and deploy the backend correctly, so I had to restructure the entire project to have all the backend folders and files directly in the root of the project.
+Another main bug was due to Frontend deployment where it would not load the React build correctly, missing the index.html in deployment and not correctly applying changes pushed to GitHub and deployed on Heroku due to having in the axiosDefaults.js file a / that should not have been there. So this bug was resolved by removin the / from the URL in this code section of the axiosDefaults.js file
+
+    const  apiUrl  =  process.env.NODE_ENV  ===  "development"
+	    ?  "http://127.0.0.1:8000"
+	    :  "https://gamebits-579c6fd85599.herokuapp.com";
