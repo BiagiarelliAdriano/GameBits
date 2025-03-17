@@ -287,3 +287,10 @@ I've tested all the files through the CI PEP8 Linter and although I found a few 
 # Deployment To Heroku
 
 The project was deployed to Heroku. The deployment process used was taken from the [Advanced Front End: Deployment of both applications guide from Code Institute](https://code-institute-students.github.io/advfe-unified-workspace/deployment/00-deployment).
+
+# Credits
+
+### Content
+
+This project was inspired by the Code Institute walkthrough Moments project but has been modified to fit the Gamebits idea. Many Frontend files were taken from the walkthrough Moments project and adapted to my own project set up and adapted for the functionalities present in my project, not present in the walkthrough project.
+As mentioned above, the Logo was created by myself using Krita.
