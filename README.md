@@ -235,3 +235,9 @@ Users can interact with the button to upload an image and with the text contents
 ![Post](https://i.ibb.co/5hy2SMXz/post.png)
 
 Example post viewed in the Home page. Users should be able to interact with the user's name and profile picture to access their user profile, click the image of the post to open the post page, click on the heart icon to like the post, click the text bubbles icon to open the comment section.
+
+### Search Bar
+
+![Search Bar](https://i.ibb.co/KjBMKqvc/searchbear.png)
+
+A search bar is present on the top of each Home, Feed, Liked page to let users filter the posts searching key names or contents.
