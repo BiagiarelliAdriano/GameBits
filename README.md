@@ -89,6 +89,7 @@ Most of the Backend functionalities described in the User stories were actually 
 	- [PEP8CI](https://pep8ci.herokuapp.com/#) - Used to validate Python code.
 	- [Postgresql](https://www.postgresql.org/) - PostgreSQL is a powerful, open source object-relational database system with over 35 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance.
 	- [Virtual Environment](https://docs.python.org/3/library/venv.html) - Used to create a virtual environment.
+	- [StackEdit](https://stackedit.io/) - Used to create the README.md file.
 
 # Features
 ## Entity Relationship Diagram
@@ -241,3 +242,9 @@ Example post viewed in the Home page. Users should be able to interact with the 
 ![Search Bar](https://i.ibb.co/KjBMKqvc/searchbear.png)
 
 A search bar is present on the top of each Home, Feed, Liked page to let users filter the posts searching key names or contents.
+
+### Spinner Icon
+
+![Spinner Icon](https://i.ibb.co/qLM9vygH/spinner.png)
+
+A spinner icon is used while content is loading or fails to load to make users understand that either the content is loading or failed loading.
