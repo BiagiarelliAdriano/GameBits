@@ -42,7 +42,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEBUG' in os.environ
 
-ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOST'), 'localhost', '127.0.0.1', '*.herokuapp.com', 'gamebits-579c6fd85599.herokuapp.com']
+ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOST'), 'localhost', '127.0.0.1',
+                 '*.herokuapp.com', 'gamebits-579c6fd85599.herokuapp.com']
 
 
 # Application definition
@@ -146,18 +147,14 @@ else:
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {"NAME": "django.contrib.auth.password_validation."
+             "UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation."
+             "MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation."
+             "CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation."
+             "NumericPasswordValidator"},
 ]
 
 
@@ -194,7 +191,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
@@ -202,8 +200,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1), # Token expires in 1day
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7), # Refresh token lasts 7 days
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # Token expires in 1day
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Refresh token lasts 7 days
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
 }

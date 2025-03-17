@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from .mixins import CreatedAtUpdatedAtMixin
 
+
 # Create your models here.
 class Post(CreatedAtUpdatedAtMixin):
     author = models.ForeignKey(
@@ -11,9 +12,10 @@ class Post(CreatedAtUpdatedAtMixin):
         verbose_name='author',
     )
     title = models.CharField(max_length=255, verbose_name="Post Title")
-    game = models.CharField(max_length=100, verbose_name="Game Focused On")
-    content = models.TextField(verbose_name="Post Content")
-    image = models.ImageField(upload_to='images/', blank=True, null=True, verbose_name="Post Image")
+    game = models.CharField(max_length=100, verbose_name="Game")
+    content = models.TextField(verbose_name="Content")
+    image = models.ImageField(upload_to='images/', blank=True, null=True,
+                              verbose_name="Post Image")
 
     class Meta:
         ordering = ['-created_at']

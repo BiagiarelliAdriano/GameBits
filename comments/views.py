@@ -6,6 +6,7 @@ from .serializers import CommentSerializer
 from posts.models import Post
 from rest_framework.pagination import PageNumberPagination
 
+
 # Create your views here.
 class CommentViewSet(viewsets.ModelViewSet):
     """Handles creating, retrieving, updating, and deleting comments."""
@@ -21,16 +22,16 @@ class CommentViewSet(viewsets.ModelViewSet):
             post = Post.objects.get(id=post_id)
         except Post.DoesNotExist:
             return Response({"error": "Post not found"}, status=404)
-        
+
         serializer.save(user=self.request.user, post=post)
-    
+
     def update(self, request, *args, **kwargs):
         """Ensure only the comment owner can update it."""
         comment = self.get_object()
         if comment.user != request.user:
             raise PermissionDenied("You can only edit your own comments.")
         return super().update(request, *args, **kwargs)
-    
+
     def destroy(self, request, *args, **kwargs):
         """Ensure only the comment owner can delete it."""
         comment = self.get_object()

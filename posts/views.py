@@ -1,11 +1,16 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
+
 from rest_framework.parsers import MultiPartParser, FormParser
 from posts.models import Post
 from .serializers import PostSerializer
 from likes.models import Like
 from follow.models import Follow
 from django.db.models import Q
+
 
 # Create your views here.
 class PostListCreateView(generics.ListCreateAPIView):
@@ -23,13 +28,15 @@ class PostListCreateView(generics.ListCreateAPIView):
 
         if user.is_authenticated:
             if filter_type == 'liked':
-                liked_posts = Like.objects.filter(user=user).values_list('post_id', flat=True)
+                liked_posts = Like.objects.filter(user=user).values_list(
+                    'post_id', flat=True)
                 queryset = queryset.filter(id__in=liked_posts)
-            
+
             elif filter_type == 'followed':
-                followed_users = Follow.objects.filter(follower=user).values_list('following_id', flat=True)
+                followed_users = Follow.objects.filter(
+                    follower=user).values_list('following_id', flat=True)
                 queryset = queryset.filter(author__id__in=followed_users)
-        
+
         # Search by title, game, or author username
         search_query = self.request.query_params.get('search')
         if search_query:
@@ -40,18 +47,20 @@ class PostListCreateView(generics.ListCreateAPIView):
             )
 
         queryset = queryset.prefetch_related('likes')
-        
+
         return queryset
 
     def perform_create(self, serializer):
-        """Override perform_create to associate the post with the logged-in user."""
+        """Override perform_create to associate the post with the logged-in
+        user."""
         serializer.save(author=self.request.user)
-    
+
     def get_serializer_context(self):
         """Include the request context for has_liked."""
         context = super().get_serializer_context()
         context['request'] = self.request
         return context
+
 
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     """View to retrieve, update, or delete a single post."""
@@ -61,7 +70,7 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         """Ensure users can only edit or delete their own posts."""
         return Post.objects.all()
-    
+
     def get_serializer_context(self):
         """Include the request context for has_liked."""
         context = super().get_serializer_context()
