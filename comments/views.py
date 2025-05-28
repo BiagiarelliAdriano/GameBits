@@ -15,6 +15,13 @@ class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     pagination_class = PageNumberPagination
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        post_id = self.request.query_params.get('post')
+        if post_id:
+            queryset = queryset.filter(post_id=post_id)
+        return queryset
+
     def perform_create(self, serializer):
         """Assign the logged-in user and post to the comment."""
         post_id = self.request.data.get('post')

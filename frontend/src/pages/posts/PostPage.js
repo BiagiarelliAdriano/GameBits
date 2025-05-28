@@ -19,7 +19,7 @@ import { fetchMoreData } from "../../utils/utils";
 
 function PostPage() {
   const { id } = useParams();
-  const [post, setPost] = useState({ results: [] });
+  const [post, setPost] = useState(null);
 
   const currentUser = useCurrentUser();
   const profile_picture = currentUser?.profile_picture;
@@ -28,12 +28,11 @@ function PostPage() {
   useEffect(() => {
     const handleMount = async () => {
       try {
-        const [{ data: postData}, { data: commentsData }] = await Promise.all([
+        const [{ data: postData }, { data: commentsData }] = await Promise.all([
           axios.get(`/posts/${id}`),
           axios.get(`/comments/?post=${id}`),
         ]);
-
-        setPost({ results: [postData] });
+        setPost(postData);
         setComments(commentsData);
       } catch (err) {
         console.log(err);
@@ -47,9 +46,12 @@ function PostPage() {
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
         <p>Popular profiles for mobile</p>
-        {post.results.length > 0 && (
-          <Post {...post.results[0]} setPost={setPost} postPage />
+        {post ? (
+          <Post {...post} setPost={setPost} postPage />
+        ) : (
+          <Asset spinner />
         )}
+
         <Container className={appStyles.Content}>
           {currentUser ? (
             <CommentCreateForm
@@ -62,6 +64,7 @@ function PostPage() {
           ) : comments.results.length ? (
             "Comments"
           ) : null}
+
           {comments.results.length ? (
             <InfiniteScroll
               dataLength={comments.results.length}
@@ -85,6 +88,7 @@ function PostPage() {
           )}
         </Container>
       </Col>
+
       <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
         Popular profiles for desktop
       </Col>

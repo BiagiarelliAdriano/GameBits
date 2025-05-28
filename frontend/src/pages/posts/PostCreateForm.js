@@ -56,13 +56,11 @@ function PostCreateForm() {
         event.preventDefault();
     
         const formData = new FormData();
-        const authorId = parseInt(localStorage.getItem('user_id'), 10);
     
         formData.append('title', title);
         formData.append('game', game);
         formData.append('content', content);
         formData.append('image', imageInput.current.files[0]);
-        formData.append('author', authorId);
         
         try {
             const { data } = await axios.post('/posts/', formData, {
