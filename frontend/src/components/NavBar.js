@@ -61,7 +61,7 @@ const NavBar = () => {
                 className={styles.NavLink}
                 to={`/users/${currentUser?.user_id}`}
             >
-                <Avatar src={currentUser?.profile_picture} text="Profile" height="40" />
+                <Avatar src={currentUser?.profile_picture_url || "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"} text="Profile" height="40" />
             </NavLink>
         </>
     );

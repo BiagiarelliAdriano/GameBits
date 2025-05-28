@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 
 const User = (props) => {
     const { user, mobile, imageSize = 55 } = props;
-    const { id, following_id, image} = user;
+    const { id, following_id, image } = user;
 
     const currentUser = useCurrentUser();
 
@@ -18,7 +18,13 @@ const User = (props) => {
         >
             <div>
                 <Link className="align-self-center" to={`/users/${id}`}>
-                    <Avatar src={image} height={imageSize} />
+                    <Avatar
+                        src={
+                            image ||
+                            "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"
+                        }
+                        height={imageSize}
+                    />
                 </Link>
             </div>
             <div className={`mx-2 ${styles.WordBreak}`}>
@@ -31,14 +37,14 @@ const User = (props) => {
                     (following_id ? (
                         <Button
                             className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-                            onClick={() => {}}
+                            onClick={() => { }}
                         >
                             unfollow
                         </Button>
                     ) : (
                         <Button
                             className={`${btnStyles.Button} ${btnStyles.Blue}`}
-                            onClick={() => {}}
+                            onClick={() => { }}
                         >
                             follow
                         </Button>

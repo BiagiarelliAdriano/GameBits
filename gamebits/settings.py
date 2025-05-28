@@ -40,7 +40,7 @@ if os.path.isfile(os.path.join(BASE_DIR, 'env.py')):
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEBUG' in os.environ
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOST'), 'localhost', '127.0.0.1',
                  '*.herokuapp.com', 'gamebits-579c6fd85599.herokuapp.com']
@@ -93,6 +93,7 @@ if 'CLIENT_ORIGIN' in os.environ:
 else:
     CORS_ALLOWED_ORIGINS = [
         'https://gamebits-579c6fd85599.herokuapp.com',
+        'http://localhost:3000',
     ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -102,7 +103,7 @@ ROOT_URLCONF = 'gamebits.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'staticfiles', 'build')],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend', 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,7 +127,7 @@ if 'DEV' in os.environ:
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'gamebits',
-            'USER': 'BiagiarelliAdriano',
+            'USER': 'biagiarelliadriano',
             'PASSWORD': 'Sup3rN0va27',
             'HOST': 'localhost',
             'PORT': '5432',
@@ -137,9 +138,9 @@ else:
     if isinstance(database_url, bytes):
         database_url = database_url.decode('utf-8')
     if not database_url:
-        print("Error: DATABASE_URL is not set")
+        raise ValueError("DATABASE_URL is not set in the environment.")
     DATABASES = {
-        'default': dj_database_url.parse(database_url) if database_url else {}
+        'default': dj_database_url.parse(database_url)
     }
 
 
@@ -175,7 +176,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-WHITENOISE_ROOT = BASE_DIR / 'staticfiles' / 'build'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
+]
+WHITENOISE_ROOT = BASE_DIR / 'frontend' / 'build'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

@@ -24,7 +24,7 @@ export const UserDataProvider = ({ children }) => {
                 // Ensure data is always in the format { results: [...] }
                 setUserData((prevState) => ({
                     ...prevState,
-                    popularUsers: { results: Array.isArray(data) ? data : [] },
+                    popularUsers: data,
                 }));
             } catch (err) {
                 console.log(err);
