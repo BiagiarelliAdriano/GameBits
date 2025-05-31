@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../styles/Post.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, Media, OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -19,66 +19,74 @@ const Post = (props) => {
         content,
         image,
         updated_at,
-        likes,
         likes_count,
         has_liked,
         comments_count,
         postPage,
         setPost,
+        imageSize = 55,
     } = props;
 
     const currentUser = useCurrentUser();
     const is_author = currentUser?.username === author;
     const history = useHistory();
+    const [localLikesCount, setLocalLikesCount] = useState(likes_count);
+    const [localHasLiked, setLocalHasLiked] = useState(has_liked);
+
+    // Add loading state to disable like button while request is processing
+    const [loading, setLoading] = useState(false);
 
     const handleEdit = () => {
-        history.push(`/posts/${id}/edit`)
-    }
+        history.push(`/posts/${id}/edit`);
+    };
 
     const handleDelete = async () => {
         try {
             await axios.delete(`/posts/${id}/`);
             history.goBack();
         } catch (err) {
-
-        }
-    }
-
-    // Handle like action
-    const handleLike = async () => {
-        try {
-            console.log("Post ID being liked:", id);
-            const { data } = await axios.post(`/posts/${id}/like/`);
-            console.log("Post data after like:", data);
-
-            setPost((prevPosts) => ({
-                ...prevPosts,
-                results: prevPosts.results.map((post) => {
-                    return post.id === id
-                        ? { ...post, likes_count: data.likes_count, has_liked: data.has_liked }
-                        : post;
-                }),
-            }));
-        } catch (err) {
-            console.log("Error liking post:", err);
+            // Handle error if needed
         }
     };
 
-
-    // Handle unlike action
-    const handleUnlike = async () => {
+    // Handle like and unlike action
+    const handleLike = async () => {
+        if (loading) return;
+        setLoading(true);
         try {
-            await axios.delete(`/likes/${likes.id}/`);
-            setPost((prevPosts) => ({
-                ...prevPosts,
-                results: prevPosts.results.map((post) => {
-                    return post.id === id
-                        ? { ...post, likes_count: post.likes_count - 1, has_liked: false } // Update likes_count and has_liked
-                        : post;
-                }),
-            }));
+            const { data } = await axios.post(`/likes/posts/${id}/like/`);
+
+            // Update parent if provided
+            if (setPost) {
+                if (postPage) {
+                    setPost((prevPost) => ({
+                        ...prevPost,
+                        likes_count: data.likes_count,
+                        has_liked: data.has_liked,
+                    }));
+                } else {
+                    setPost((prevPosts) => ({
+                        ...prevPosts,
+                        results: prevPosts.results.map((post) =>
+                            post.id === id
+                                ? {
+                                    ...post,
+                                    likes_count: data.likes_count,
+                                    has_liked: data.has_liked,
+                                }
+                                : post
+                        ),
+                    }));
+                }
+            }
+
+            // Update local UI immediately
+            setLocalLikesCount(data.likes_count);
+            setLocalHasLiked(data.has_liked);
         } catch (err) {
-            console.log(err);
+            console.log("Error liking post:", err);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -87,16 +95,27 @@ const Post = (props) => {
             <Card.Body>
                 <Media className="align-items-center justify-content-between">
                     <Link to={`/users/${user_id}`}>
-                        <Avatar src={profile_picture} height={55} />
+                        <Avatar
+                            src={
+                                profile_picture ||
+                                "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"
+                            }
+                            height={imageSize}
+                        />
                         {author}
                     </Link>
                     <div className="d-flex align-items-center">
-                        <span>{updated_at}</span>
+                        <span>
+                            {new Date(updated_at).toLocaleString(undefined, {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                            })}
+                        </span>
                         {is_author && postPage && (
-                            <MoreDropdown
-                                handleEdit={handleEdit}
-                                handleDelete={handleDelete}
-                            />
+                            <MoreDropdown handleEdit={handleEdit} handleDelete={handleDelete} />
                         )}
                     </div>
                 </Media>
@@ -116,28 +135,30 @@ const Post = (props) => {
                         >
                             <i className="far fa-heart" />
                         </OverlayTrigger>
-                    ) : has_liked ? (
-                        <span onClick={handleUnlike}>
-                            <i className={`fas fa-heart ${styles.Heart}`} />
-                        </span>
                     ) : currentUser ? (
-                        <span onClick={handleLike}>
-                            <i className={`far fa-heart ${styles.HeartOutline}`} />
-                        </span>
+                        <>
+                            <span onClick={handleLike} style={{ pointerEvents: loading ? "none" : "auto" }}>
+                                <i
+                                    className={
+                                        localHasLiked
+                                            ? `fas fa-heart ${styles.Heart}`
+                                            : `far fa-heart ${styles.HeartOutline}`
+                                    }
+                                />
+                            </span>
+                            <span>{localLikesCount}</span>
+                        </>
                     ) : (
-                        <OverlayTrigger
-                            placement="top"
-                            overlay={<Tooltip>Log in to like posts!</Tooltip>}
-                        >
+                        <OverlayTrigger placement="top" overlay={<Tooltip>Log in to like posts!</Tooltip>}>
                             <i className="far fa-heart" />
                         </OverlayTrigger>
                     )}
-                    {likes_count}
                     <Link to={`/posts/${id}`}>
                         <i className="far fa-comments" />
                     </Link>
                     {comments_count}
                 </div>
+
             </Card.Body>
         </Card>
     );

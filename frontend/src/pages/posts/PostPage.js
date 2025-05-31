@@ -22,7 +22,8 @@ function PostPage() {
   const [post, setPost] = useState(null);
 
   const currentUser = useCurrentUser();
-  const profile_picture = currentUser?.profile_picture;
+  const profile_picture = currentUser?.profile_picture ||
+                                    "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg";
   const [comments, setComments] = useState({ results: [], next: null });
 
   useEffect(() => {
@@ -45,7 +46,6 @@ function PostPage() {
   return (
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
-        <p>Popular profiles for mobile</p>
         {post ? (
           <Post {...post} setPost={setPost} postPage />
         ) : (

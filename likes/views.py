@@ -11,30 +11,25 @@ class LikeViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, post_id=0):
-        """Toggle like for a post
-        (like if not liked, unlike if already liked)."""
+        """Toggle like for a post (like if not liked, unlike if already liked)."""
         try:
             post = Post.objects.get(id=post_id)
         except Post.DoesNotExist:
             raise NotFound(detail="Post not found")
 
-        like, created = Like.objects.get_or_create(user=request.user,
-                                                   post=post)
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if not created:
             like.delete()
-            return Response({"liked": False, "message": "Post unliked"})
+            liked = False
+        else:
+            liked = True
 
-        return Response({"liked": True, "message": "Post liked"})
+        # Recalculate post likes count
+        likes_count = Like.objects.filter(post=post).count()
 
-    @action(detail=False, methods=['get'],
-            url_path='is_liked/(?P<post_id>[^/.]+)')
-    def is_liked(self, request, post_id=None):
-        """Check if the logged-in user has liked a specific post."""
-        try:
-            post = Post.objects.get(id=post_id)
-        except Post.DoesNotExist:
-            raise NotFound(detail="Post not found")
-
-        liked = Like.objects.filter(user=request.user, post=post).exists()
-        return Response({"liked": liked})
+        return Response({
+            "liked": liked,
+            "likes_count": likes_count,
+            "has_liked": liked,
+        })
