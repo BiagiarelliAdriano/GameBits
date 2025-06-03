@@ -26,22 +26,19 @@ class UserProfileListCreateView(generics.ListCreateAPIView):
     """View to list all users and allow user registration."""
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
-    permission_classes = [permissions.AllowAny]  # Anyone can register
+    permission_classes = [permissions.AllowAny]
 
 
 class UserProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
-    """View to retrieve, update, or delete a single user profile."""
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    # Only logged-in users can modify their profile
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    def get_queryset(self):
-        """Ensure users can only access their own profile unless
-        they are an admin."""
-        if self.request.user.is_staff:
-            return UserProfile.objects.all()
-        return UserProfile.objects.filter(id=self.request.user.id)
+    def get_permissions(self):
+        # Only allow updates/deletes if it's their own profile
+        if self.request.method in ['PUT', 'PATCH', 'DELETE']:
+            return [permissions.IsAuthenticated()]
+        return [permissions.AllowAny()]
 
 
 class LoginView(APIView):

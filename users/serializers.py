@@ -9,12 +9,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
     updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
     profile_picture = serializers.SerializerMethodField()
+    posts_count = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
         fields = ['id', 'username', 'email', 'password', 'profile_picture',
                   'bio', 'level', 'experience_points', 'date_joined',
-                  'is_active', 'created_at', 'updated_at']
+                  'is_active', 'created_at', 'updated_at', 'posts_count']
         extra_kwargs = {
             'password': {'write_only': True},  # Hide password in responses
             'level': {'read_only': True},
@@ -24,6 +25,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def get_profile_picture(self, obj):
         return obj.profile_picture_url
+    
+    def get_posts_count(self, obj):
+        return obj.posts.count()
 
     def create(self, validated_data):
         """Create user with hashed password."""

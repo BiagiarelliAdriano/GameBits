@@ -19,7 +19,9 @@ export const UserDataProvider = ({ children }) => {
     useEffect(() => {
         const handleMount = async () => {
             try {
-                const { data } = await axios.get("/users/?ordering=-level");
+                const { data } = await axios.get("/users/?ordering=-level", {
+                    headers: { Authorization: "" },  // ← no token
+                });
 
                 // Ensure data is always in the format { results: [...] }
                 setUserData((prevState) => ({

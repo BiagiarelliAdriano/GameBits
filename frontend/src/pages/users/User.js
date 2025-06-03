@@ -33,22 +33,23 @@ const User = (props) => {
             <div className={`text-right ${!mobile && "ml-auto"}`}>
                 {!mobile &&
                     currentUser &&
-                    !user.username &&
-                    (following_id ? (
-                        <Button
-                            className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-                            onClick={() => { }}
-                        >
-                            unfollow
-                        </Button>
-                    ) : (
-                        <Button
-                            className={`${btnStyles.Button} ${btnStyles.Blue}`}
-                            onClick={() => { }}
-                        >
-                            follow
-                        </Button>
-                    ))}
+                    user.username !== currentUser.username && (
+                        following_id ? (
+                            <Button
+                                className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
+                                onClick={() => { }}
+                            >
+                                unfollow
+                            </Button>
+                        ) : (
+                            <Button
+                                className={`${btnStyles.Button} ${btnStyles.Blue}`}
+                                onClick={() => { }}
+                            >
+                                follow
+                            </Button>
+                        )
+                    )}
             </div>
         </div>
     );
