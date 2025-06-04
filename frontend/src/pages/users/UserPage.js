@@ -3,19 +3,18 @@ import React, { useEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
+import { Image } from "react-bootstrap";
 
 import Asset from "../../components/Asset";
 
 import styles from "../../styles/UserPage.module.css";
 import appStyles from "../../App.module.css";
-import btnStyles from "../../styles/Button.module.css";
 
 import PopularUsers from "./PopularUsers";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useParams } from "react-router-dom";
 import axios from "../../api/axiosDefaults";
 import { useUserData, useSetUserData } from "../../contexts/UserDataContext";
-import { Image } from "react-bootstrap";
 
 function UserPage() {
     const [hasLoaded, setHasLoaded] = useState(false);
@@ -23,59 +22,58 @@ function UserPage() {
     const { id } = useParams();
     const setUserData = useSetUserData();
     const { pageUser } = useUserData();
-    const user = pageUser?.results?.[0];
 
-    console.log("Context pageUser:", pageUser);
-    console.log("Extracted user:", user);
+    // Extract the user object or fallback to null
+    const user = pageUser?.results?.[0] || null;
 
     useEffect(() => {
+        if (!id) return;
+
         const fetchData = async () => {
             try {
-                const [{ data: pageUser }] = await Promise.all([
-                    axios.get(`/api/users/${id}/`),
-                ]);
-                console.log("Fetched pageUser:", pageUser);
-                setUserData(prevState => ({
-                    ...prevState,
-                    pageUser: { results: [pageUser] },
+                const { data: pageUserData } = await axios.get(`users/${id}/`);
+                setUserData(prev => ({
+                    ...prev,
+                    pageUser: { results: [pageUserData] },
                 }));
                 setHasLoaded(true);
             } catch (err) {
-                console.log("Error fetching user data:", err);
+                // You might want to handle errors differently depending on UX goals
+                console.error("Error fetching user data:", err);
             }
-        }
+        };
+
         fetchData();
     }, [id, setUserData]);
 
-    console.log("Username:", user?.username);
-    console.log("Post Count:", user?.posts_count);
-
     const mainProfile = (
-        <>
-            <Row noGutters className="px-3 text-center">
-                <Col lg={3} className="text-lg-left">
-                    <Image
-                        className={styles.ProfilePicture}
-                        roundedCircle
-                        src={user?.profile_picture ||
-                            "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"}
-                    />
-                </Col>
-                <Col lg={6}>
-                    <h3 className="m-2">{user?.username}</h3>
-                    <Row className="justify-content-center no-gutters">
-                        <Col xs={3} className="my-2">
-                            <div>{user?.posts_count}</div>
-                            <div>posts</div>
-                        </Col>
-                    </Row>
-                </Col>
-                <Col lg={3} className="text-lg-right">
-                    <p>Follow button</p>
-                </Col>
-                <Col className="p-3">Profile content</Col>
-            </Row>
-        </>
+        <Row noGutters className="px-3 text-center">
+            <Col lg={3} className="text-lg-left">
+                <Image
+                    className={styles.ProfilePicture}
+                    roundedCircle
+                    src={
+                        currentUser?.profile_picture_url ||
+                        "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"
+                    }
+                    height="40"
+                    alt="Profile"
+                />
+            </Col>
+            <Col lg={6}>
+                <h3 className="m-2">{user?.username || "User"}</h3>
+                <Row className="justify-content-center no-gutters">
+                    <Col xs={3} className="my-2">
+                        <div>{user?.posts_count ?? 0}</div>
+                        <div>posts</div>
+                    </Col>
+                </Row>
+            </Col>
+            <Col lg={3} className="text-lg-right">
+                <p>Follow button</p>
+            </Col>
+            <Col className="p-3">Profile content</Col>
+        </Row>
     );
 
     const mainProfilePosts = (
