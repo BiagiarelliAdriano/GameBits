@@ -3,40 +3,62 @@ import React, { useEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-import { Image } from "react-bootstrap";
+import { Button, Image } from "react-bootstrap";
 
 import Asset from "../../components/Asset";
 
 import styles from "../../styles/UserPage.module.css";
 import appStyles from "../../App.module.css";
+import btnStyles from "../../styles/Button.module.css"
 
 import PopularUsers from "./PopularUsers";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useParams } from "react-router-dom";
 import axios from "../../api/axiosDefaults";
 import { useUserData, useSetUserData } from "../../contexts/UserDataContext";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Post from "../posts/Post";
+import { fetchMoreData } from "../../utils/utils";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 function UserPage() {
     const [hasLoaded, setHasLoaded] = useState(false);
+    const [userPosts, setUserPosts] = useState({ results: [] });
+
     const currentUser = useCurrentUser();
     const { id } = useParams();
+
     const setUserData = useSetUserData();
     const { pageUser } = useUserData();
 
     // Extract the user object or fallback to null
     const user = pageUser?.results?.[0] || null;
 
+    const is_author = currentUser?.username === user?.username;
+
     useEffect(() => {
         if (!id) return;
 
+        setUserPosts({ results: [] });
+        setHasLoaded(false);
+        console.log("UserPage - id from useParams:", id);
+
         const fetchData = async () => {
             try {
-                const { data: pageUserData } = await axios.get(`users/${id}/`);
+                const [{ data: pageUserData }, { data: userPosts }] =
+                    await Promise.all([
+                        axios.get(`users/${id}/`),
+                        axios.get(`/posts/?author=${id}`),
+                    ]);
+                console.log("Fetched posts for user:", userPosts);
                 setUserData(prev => ({
                     ...prev,
                     pageUser: { results: [pageUserData] },
                 }));
+                setUserPosts(userPosts);
                 setHasLoaded(true);
+                console.log("Fetched pageUserData:", pageUserData);
             } catch (err) {
                 // You might want to handle errors differently depending on UX goals
                 console.error("Error fetching user data:", err);
@@ -64,23 +86,63 @@ function UserPage() {
                 <h3 className="m-2">{user?.username || "User"}</h3>
                 <Row className="justify-content-center no-gutters">
                     <Col xs={3} className="my-2">
+                        <div>{user?.followers}</div>
+                        <div>followers</div>
+                    </Col>
+                    <Col xs={3} className="my-2">
                         <div>{user?.posts_count ?? 0}</div>
                         <div>posts</div>
+                    </Col>
+                    <Col xs={3} className="my-2">
+                        <div>{user?.following}</div>
+                        <div>following</div>
                     </Col>
                 </Row>
             </Col>
             <Col lg={3} className="text-lg-right">
-                <p>Follow button</p>
+                {currentUser &&
+                    !is_author &&
+                    (user?.following_id ? (
+                        <Button
+                            className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
+                            onClick={() => { }}
+                        >
+                            unfollow
+                        </Button>
+                    ) : (
+                        <Button
+                            className={`${btnStyles.Button} ${btnStyles.Black}`}
+                            onClick={() => { }}
+                        >
+                            follow
+                        </Button>
+                    ))}
             </Col>
-            <Col className="p-3">Profile content</Col>
+            {user?.content && <Col className="p-3">{user.content}</Col>}
         </Row>
     );
 
     const mainProfilePosts = (
         <>
             <hr />
-            <p className="text-center">Profile owner's posts</p>
+            <p className="text-center">{user?.username}'s posts</p>
             <hr />
+            {userPosts.results.length ? (
+                <InfiniteScroll
+                    children={userPosts.results.map((post) => (
+                        <Post key={post.id} {...post} setPosts={setUserPosts} />
+                    ))}
+                    dataLength={userPosts.results.length}
+                    loader={<Asset spinner />}
+                    hasMore={!!userPosts.next}
+                    next={() => fetchMoreData(userPosts, setUserPosts)}
+                />
+            ) : (
+                <div className="text-center p-3">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} size="3x" />
+                    <p>No results found, {user?.username} hasn't posted yet.</p>
+                </div>
+            )}
         </>
     );
 
