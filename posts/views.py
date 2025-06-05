@@ -20,12 +20,17 @@ class PostListCreateView(generics.ListCreateAPIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def get_queryset(self):
-        """Allow filtering by liked and followed posts."""
+        """Allow filtering by liked, followed, author, and search."""
         user = self.request.user
         queryset = Post.objects.all().order_by('-created_at')
 
-        filter_type = self.request.query_params.get('filter')
+        # Filter by author
+        author_id = self.request.query_params.get('author')
+        if author_id:
+            queryset = queryset.filter(author__id=author_id)
 
+        # Filter by liked or followed
+        filter_type = self.request.query_params.get('filter')
         if user.is_authenticated:
             if filter_type == 'liked':
                 liked_posts = Like.objects.filter(user=user).values_list(
@@ -46,9 +51,7 @@ class PostListCreateView(generics.ListCreateAPIView):
                 Q(author__username__icontains=search_query)
             )
 
-        queryset = queryset.prefetch_related('likes')
-
-        return queryset
+        return queryset.prefetch_related('likes')
 
     def perform_create(self, serializer):
         """Override perform_create to associate the post with the logged-in

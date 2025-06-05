@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
 from .models import UserProfile
+from follow.models import Follow
 
 class UserProfileSerializer(serializers.ModelSerializer):
     """Serializer for the UserProfile model."""
@@ -10,12 +11,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
     updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
     profile_picture = serializers.SerializerMethodField()
     posts_count = serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
+    following = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
         fields = ['id', 'username', 'email', 'password', 'profile_picture',
                   'bio', 'level', 'experience_points', 'date_joined',
-                  'is_active', 'created_at', 'updated_at', 'posts_count']
+                  'is_active', 'created_at', 'updated_at', 'posts_count',
+                  'followers', 'following']
         extra_kwargs = {
             'password': {'write_only': True},  # Hide password in responses
             'level': {'read_only': True},
@@ -28,6 +32,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
     
     def get_posts_count(self, obj):
         return obj.posts.count()
+    
+    def get_followers(self, obj):
+        return Follow.objects.filter(following=obj).count()
+    
+    def get_following(self, obj):
+        return Follow.objects.filter(follower=obj).count()
 
     def create(self, validated_data):
         """Create user with hashed password."""
