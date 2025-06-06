@@ -1,5 +1,6 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from follow.models import Follow
 from .serializers import FollowSerializer
@@ -8,24 +9,25 @@ from users.models import UserProfile
 
 # Create your views here.
 class FollowViewSet(viewsets.ModelViewSet):
-    """Handles following and unfollowing users."""
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request, following_id=None):
-        """Toggle follow/Unfollow for a user."""
+    def get_queryset(self):
+        # Optional: filter to only the current user's follows if needed
+        return Follow.objects.filter(follower=self.request.user)
+
+    @action(detail=False, methods=['post'], url_path='toggle/(?P<following_id>[^/.]+)')
+    def toggle_follow(self, request, following_id=None):
         following = get_object_or_404(UserProfile, id=following_id)
 
         if request.user == following:
-            return Response({"error": "You cannot follow yourself"},
-                            status=400)
+            return Response({"error": "You cannot follow yourself"}, status=status.HTTP_400_BAD_REQUEST)
 
-        follow, created = Follow.objects.get_or_create(follower=request.user,
-                                                       following=following)
+        follow, created = Follow.objects.get_or_create(follower=request.user, following=following)
 
         if not created:
             follow.delete()
-            return Response({"message": "Unfollowed successfully"})
+            return Response({"message": "Unfollowed successfully"}, status=status.HTTP_200_OK)
 
-        return Response({"message": "Followed successfully"})
+        return Response({"message": "Followed successfully"}, status=status.HTTP_201_CREATED)

@@ -13,13 +13,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
     posts_count = serializers.SerializerMethodField()
     followers = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
+    following_id = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
         fields = ['id', 'username', 'email', 'password', 'profile_picture',
                   'bio', 'level', 'experience_points', 'date_joined',
                   'is_active', 'created_at', 'updated_at', 'posts_count',
-                  'followers', 'following']
+                  'followers', 'following', 'following_id']
         extra_kwargs = {
             'password': {'write_only': True},  # Hide password in responses
             'level': {'read_only': True},
@@ -38,6 +39,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
     
     def get_following(self, obj):
         return Follow.objects.filter(follower=obj).count()
+    
+    def get_following_id(self, obj):
+        request = self.context.get("request")
+        if request and request.user.is_authenticated:
+            follow = Follow.objects.filter(follower=request.user, following=obj).first()
+            if follow:
+                return follow.id
+            return None
 
     def create(self, validated_data):
         """Create user with hashed password."""
@@ -49,7 +58,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         if 'password' in validated_data:
             validated_data['password'] = make_password(validated_data['password'])
         return super().update(instance, validated_data)
-
 
 # Serializer for the Django User model (to handle user registration)
 class UserSerializer(serializers.ModelSerializer):

@@ -9,7 +9,7 @@ import Asset from "../../components/Asset";
 
 import styles from "../../styles/UserPage.module.css";
 import appStyles from "../../App.module.css";
-import btnStyles from "../../styles/Button.module.css"
+import btnStyles from "../../styles/Button.module.css";
 
 import PopularUsers from "./PopularUsers";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
@@ -30,7 +30,7 @@ function UserPage() {
     const { id } = useParams();
 
     const setUserData = useSetUserData();
-    const { pageUser } = useUserData();
+    const { pageUser, handleFollowToggle } = useUserData();
 
     // Extract the user object or fallback to null
     const user = pageUser?.results?.[0] || null;
@@ -42,23 +42,19 @@ function UserPage() {
 
         setUserPosts({ results: [] });
         setHasLoaded(false);
-        console.log("UserPage - id from useParams:", id);
 
         const fetchData = async () => {
             try {
-                const [{ data: pageUserData }, { data: userPosts }] =
-                    await Promise.all([
-                        axios.get(`users/${id}/`),
-                        axios.get(`/posts/?author=${id}`),
-                    ]);
-                console.log("Fetched posts for user:", userPosts);
+                const [{ data: pageUserData }, { data: userPostsData }] = await Promise.all([
+                    axios.get(`users/${id}/`),
+                    axios.get(`/posts/?author=${id}`),
+                ]);
                 setUserData(prev => ({
                     ...prev,
                     pageUser: { results: [pageUserData] },
                 }));
-                setUserPosts(userPosts);
+                setUserPosts(userPostsData);
                 setHasLoaded(true);
-                console.log("Fetched pageUserData:", pageUserData);
             } catch (err) {
                 // You might want to handle errors differently depending on UX goals
                 console.error("Error fetching user data:", err);
@@ -68,6 +64,12 @@ function UserPage() {
         fetchData();
     }, [id, setUserData]);
 
+    // Wrap the follow toggle so it passes the correct user ID
+    const onFollowToggle = async () => {
+        if (!user) return;
+        await handleFollowToggle(user.id);
+    };
+
     const mainProfile = (
         <Row noGutters className="px-3 text-center">
             <Col lg={3} className="text-lg-left">
@@ -75,7 +77,7 @@ function UserPage() {
                     className={styles.ProfilePicture}
                     roundedCircle
                     src={
-                        currentUser?.profile_picture_url ||
+                        user?.profile_picture_url ||
                         "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"
                     }
                     height="40"
@@ -100,23 +102,23 @@ function UserPage() {
                 </Row>
             </Col>
             <Col lg={3} className="text-lg-right">
-                {currentUser &&
-                    !is_author &&
-                    (user?.following_id ? (
+                {currentUser && !is_author && (
+                    user?.following_id ? (
                         <Button
                             className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-                            onClick={() => { }}
+                            onClick={onFollowToggle}
                         >
                             unfollow
                         </Button>
                     ) : (
                         <Button
                             className={`${btnStyles.Button} ${btnStyles.Black}`}
-                            onClick={() => { }}
+                            onClick={onFollowToggle}
                         >
                             follow
                         </Button>
-                    ))}
+                    )
+                )}
             </Col>
             {user?.content && <Col className="p-3">{user.content}</Col>}
         </Row>

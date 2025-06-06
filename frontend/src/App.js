@@ -11,50 +11,57 @@ import PostsPage from './pages/posts/PostsPage';
 import PostEditForm from "./pages/posts/PostEditForm";
 import UserPage from './pages/users/UserPage';
 
-function App() {
+// Import context providers
+import { CurrentUserProvider } from "./contexts/CurrentUserContext";
+import { UserDataProvider } from "./contexts/UserDataContext";
 
+function App() {
   return (
-    <div className={styles.App}>
-      <NavBar />
-      <Container className={styles.Main}>
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <PostsPage message="No results found. Adjust the search keyword." />
-            )}
-          />
-          <Route
-            exact
-            path="/feed"
-            render={() => (
-              <PostsPage
-                message="No results found. Adjust the search keyword or follow a user."
-                filter="followed"
+    <CurrentUserProvider>
+      <UserDataProvider>
+        <div className={styles.App}>
+          <NavBar />
+          <Container className={styles.Main}>
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => (
+                  <PostsPage message="No results found. Adjust the search keyword." />
+                )}
               />
-            )}
-          />
-          <Route
-            exact
-            path="/liked"
-            render={() => (
-              <PostsPage
-                message="No results found. Adjust the search keyword or like a post."
-                filter="liked"
+              <Route
+                exact
+                path="/feed"
+                render={() => (
+                  <PostsPage
+                    message="No results found. Adjust the search keyword or follow a user."
+                    filter="followed"
+                  />
+                )}
               />
-            )}
-          />
-          <Route exact path="/signin" render={() => <SignInForm />} />
-          <Route exact path="/signup" render={() => <SignUpForm />} />
-          <Route exact path="/posts/create" render={() => <PostCreateForm />} />
-          <Route exact path="/posts/:id" render={() => <PostPage />} />
-          <Route exact path="/posts/:id/edit" render={() => <PostEditForm />} />
-          <Route exact path="/users/:id" render={() => <UserPage />} />
-          <Route render={() => <p>Page not found!</p>} />
-        </Switch>
-      </Container>
-    </div>
+              <Route
+                exact
+                path="/liked"
+                render={() => (
+                  <PostsPage
+                    message="No results found. Adjust the search keyword or like a post."
+                    filter="liked"
+                  />
+                )}
+              />
+              <Route exact path="/signin" render={() => <SignInForm />} />
+              <Route exact path="/signup" render={() => <SignUpForm />} />
+              <Route exact path="/posts/create" render={() => <PostCreateForm />} />
+              <Route exact path="/posts/:id" render={() => <PostPage />} />
+              <Route exact path="/posts/:id/edit" render={() => <PostEditForm />} />
+              <Route exact path="/users/:id" render={() => <UserPage />} />
+              <Route render={() => <p>Page not found!</p>} />
+            </Switch>
+          </Container>
+        </div>
+      </UserDataProvider>
+    </CurrentUserProvider>
   );
 }
 
