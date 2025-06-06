@@ -28,6 +28,15 @@ class FollowViewSet(viewsets.ModelViewSet):
 
         if not created:
             follow.delete()
-            return Response({"message": "Unfollowed successfully"}, status=status.HTTP_200_OK)
+            action_performed = "unfollowed"
+        else:
+            action_performed = "followed"
 
-        return Response({"message": "Followed successfully"}, status=status.HTTP_201_CREATED)
+        followers_count = Follow.objects.filter(following=following).count()
+        is_following = Follow.objects.filter(follower=request.user, following=following).exists()
+
+        return Response({
+            "message": f"{action_performed} successfully",
+            "following_id": is_following,         # True if following, False if unfollowed
+            "followers_count": followers_count,   # Updated number of followers
+        }, status=status.HTTP_200_OK)

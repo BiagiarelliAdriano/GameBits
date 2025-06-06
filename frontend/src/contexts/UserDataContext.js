@@ -37,35 +37,32 @@ export const UserDataProvider = ({ children }) => {
     const handleFollowToggle = async (userId) => {
         try {
             const { data } = await axios.post(`follow/toggle/${userId}/`);
+            console.log("Follow toggle API response:", data);
 
-            setUserData((prevState) => {
-                // Update pageUser if it matches the toggled user
-                const updatedPageUser = { ...prevState.pageUser };
+            // Assuming API returns updated user data after toggle
+            setUserData(prev => {
+                const updatedPageUser = { ...prev.pageUser };
 
-                if (updatedPageUser?.results?.length) {
-                    const user = updatedPageUser.results[0];
-                    if (user.id === userId) {
-                        updatedPageUser.results[0] = {
-                            ...user,
-                            following_id: user.following_id ? null : true,
-                            followers: user.followers + (user.following_id ? -1 : 1),
-                        };
-                    }
+                if (updatedPageUser.results.length) {
+                    // Replace user data with updated info from API
+                    updatedPageUser.results[0] = {
+                        ...updatedPageUser.results[0],
+                        following_id: data.following_id, // example, if API returns this
+                        followers: data.followers_count, // example
+                    };
                 }
 
                 return {
-                    ...prevState,
+                    ...prev,
                     pageUser: updatedPageUser,
                 };
             });
-
             return data.message;
         } catch (err) {
-            // Optionally handle errors here
-            console.log(err);
-            return null;
+            console.error("Error toggling follow:", err);
         }
     };
+
 
     return (
         <UserDataContext.Provider
