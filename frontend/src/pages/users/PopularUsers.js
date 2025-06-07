@@ -6,16 +6,13 @@ import { useUserData } from "../../contexts/UserDataContext";
 import User from "./User";
 
 const PopularUsers = ({ mobile }) => {
-  const { popularUsers } = useUserData();
+  const { popularUsers, handleFollowToggle } = useUserData();
 
-  // Ensure popularUsers.results is an array and has content before accessing its length
   const hasUsers = Array.isArray(popularUsers.results) && popularUsers.results.length > 0;
 
   return (
     <Container
-      className={`${appStyles.Content} ${
-        mobile && "d-lg-none text-center mb-3"
-      }`}
+      className={`${appStyles.Content} ${mobile && "d-lg-none text-center mb-3"}`}
     >
       {hasUsers ? (
         <>
@@ -23,12 +20,21 @@ const PopularUsers = ({ mobile }) => {
           {mobile ? (
             <div className="d-flex justify-content-around">
               {popularUsers.results.slice(0, 4).map((user) => (
-                <User key={user.id} user={user} mobile />
+                <User
+                  key={user.id}
+                  user={user}
+                  mobile
+                  handleFollowToggle={handleFollowToggle}
+                />
               ))}
             </div>
           ) : (
             popularUsers.results.map((user) => (
-              <User key={user.id} user={user} />
+              <User
+                key={user.id}
+                user={user}
+                handleFollowToggle={handleFollowToggle}
+              />
             ))
           )}
         </>

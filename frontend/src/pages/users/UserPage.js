@@ -56,7 +56,6 @@ function UserPage() {
                 setUserPosts(userPostsData);
                 setHasLoaded(true);
             } catch (err) {
-                // You might want to handle errors differently depending on UX goals
                 console.error("Error fetching user data:", err);
             }
         };
@@ -64,7 +63,6 @@ function UserPage() {
         fetchData();
     }, [id, setUserData]);
 
-    // Wrap the follow toggle so it passes the correct user ID
     const onFollowToggle = async () => {
         if (!user) return;
         await handleFollowToggle(user.id);
@@ -88,7 +86,7 @@ function UserPage() {
                 <h3 className="m-2">{user?.username || "User"}</h3>
                 <Row className="justify-content-center no-gutters">
                     <Col xs={3} className="my-2">
-                        <div>{user?.followers}</div>
+                        <div>{is_author ? user?.followers : user?.followers}</div>
                         <div>followers</div>
                     </Col>
                     <Col xs={3} className="my-2">
@@ -96,7 +94,7 @@ function UserPage() {
                         <div>posts</div>
                     </Col>
                     <Col xs={3} className="my-2">
-                        <div>{user?.following}</div>
+                        <div>{is_author ? currentUser?.following : user?.following}</div>
                         <div>following</div>
                     </Col>
                 </Row>

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "../api/axiosDefaults";
-import { useCurrentUser } from "../contexts/CurrentUserContext";
+import { useCurrentUser, useSetCurrentUser } from "../contexts/CurrentUserContext";
 
 const UserDataContext = createContext();
 const SetUserDataContext = createContext();
@@ -10,11 +10,12 @@ export const useSetUserData = () => useContext(SetUserDataContext);
 
 export const UserDataProvider = ({ children }) => {
     const [userData, setUserData] = useState({
-        pageUser: { results: [] },
         popularUsers: { results: [] },
+        pageUser: { results: [] },
     });
 
     const currentUser = useCurrentUser();
+    const setCurrentUser = useSetCurrentUser();
 
     // Fetch popular users whenever currentUser changes (login/logout)
     useEffect(() => {
@@ -37,32 +38,53 @@ export const UserDataProvider = ({ children }) => {
     const handleFollowToggle = async (userId) => {
         try {
             const { data } = await axios.post(`follow/toggle/${userId}/`);
-            console.log("Follow toggle API response:", data);
 
-            // Assuming API returns updated user data after toggle
-            setUserData(prev => {
-                const updatedPageUser = { ...prev.pageUser };
+            setUserData((prev) => {
+                const updatedPopularUsers = prev.popularUsers.results.map((user) =>
+                    user.id === userId
+                        ? {
+                            ...user,
+                            following_id: data.following_id,
+                            followers: data.followers_count,
+                        }
+                        : user
+                );
 
-                if (updatedPageUser.results.length) {
-                    // Replace user data with updated info from API
-                    updatedPageUser.results[0] = {
-                        ...updatedPageUser.results[0],
-                        following_id: data.following_id, // example, if API returns this
-                        followers: data.followers_count, // example
-                    };
-                }
+                const updatedPageUser = prev.pageUser.results.map((user) =>
+                    user.id === userId
+                        ? {
+                            ...user,
+                            following_id: data.following_id,
+                            followers: data.followers_count,
+                        }
+                        : user
+                );
 
                 return {
                     ...prev,
-                    pageUser: updatedPageUser,
+                    popularUsers: {
+                        ...prev.popularUsers,
+                        results: updatedPopularUsers,
+                    },
+                    pageUser: {
+                        ...prev.pageUser,
+                        results: updatedPageUser,
+                    },
                 };
             });
+
+            setCurrentUser(prev => prev && {
+                ...prev,
+                following: data.following_id
+                    ? prev.following + 1 // Just followed someone
+                    : prev.following - 1 // Just unfollowed someone
+            });
+
             return data.message;
         } catch (err) {
             console.error("Error toggling follow:", err);
         }
     };
-
 
     return (
         <UserDataContext.Provider

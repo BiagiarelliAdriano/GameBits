@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../styles/User.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
@@ -7,10 +7,18 @@ import Avatar from "../../components/Avatar";
 import { Button } from "react-bootstrap";
 
 const User = (props) => {
-    const { user, mobile, imageSize = 55 } = props;
+    const { user, mobile, imageSize = 55, handleFollowToggle } = props;
     const { id, following_id, image } = user;
 
     const currentUser = useCurrentUser();
+    const [loading, setLoading] = useState(false);
+
+    const onToggleClick = async () => {
+        if (!handleFollowToggle || loading) return;
+        setLoading(true);
+        await handleFollowToggle(id);
+        setLoading(false);
+    };
 
     return (
         <div
@@ -37,16 +45,18 @@ const User = (props) => {
                         following_id ? (
                             <Button
                                 className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-                                onClick={() => { }}
+                                onClick={onToggleClick}
+                                disabled={loading}
                             >
-                                unfollow
+                                {loading ? "Unfollowing..." : "unfollow"}
                             </Button>
                         ) : (
                             <Button
                                 className={`${btnStyles.Button} ${btnStyles.Blue}`}
-                                onClick={() => { }}
+                                onClick={onToggleClick}
+                                disabled={loading}
                             >
-                                follow
+                                {loading ? "Following..." : "follow"}
                             </Button>
                         )
                     )}
