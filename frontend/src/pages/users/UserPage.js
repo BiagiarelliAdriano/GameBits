@@ -21,6 +21,7 @@ import Post from "../posts/Post";
 import { fetchMoreData } from "../../utils/utils";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { UserEditDropdown } from "../../components/MoreDropdown";
 
 function UserPage() {
     const [hasLoaded, setHasLoaded] = useState(false);
@@ -69,57 +70,60 @@ function UserPage() {
     };
 
     const mainProfile = (
-        <Row noGutters className="px-3 text-center">
-            <Col lg={3} className="text-lg-left">
-                <Image
-                    className={styles.ProfilePicture}
-                    roundedCircle
-                    src={
-                        user?.profile_picture_url ||
-                        "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"
-                    }
-                    height="40"
-                    alt="Profile"
-                />
-            </Col>
-            <Col lg={6}>
-                <h3 className="m-2">{user?.username || "User"}</h3>
-                <Row className="justify-content-center no-gutters">
-                    <Col xs={3} className="my-2">
-                        <div>{is_author ? user?.followers : user?.followers}</div>
-                        <div>followers</div>
-                    </Col>
-                    <Col xs={3} className="my-2">
-                        <div>{user?.posts_count ?? 0}</div>
-                        <div>posts</div>
-                    </Col>
-                    <Col xs={3} className="my-2">
-                        <div>{is_author ? currentUser?.following : user?.following}</div>
-                        <div>following</div>
-                    </Col>
-                </Row>
-            </Col>
-            <Col lg={3} className="text-lg-right">
-                {currentUser && !is_author && (
-                    user?.following_id ? (
-                        <Button
-                            className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-                            onClick={onFollowToggle}
-                        >
-                            unfollow
-                        </Button>
-                    ) : (
-                        <Button
-                            className={`${btnStyles.Button} ${btnStyles.Black}`}
-                            onClick={onFollowToggle}
-                        >
-                            follow
-                        </Button>
-                    )
-                )}
-            </Col>
-            {user?.content && <Col className="p-3">{user.content}</Col>}
-        </Row>
+        <>
+            {user?.is_owner && <UserEditDropdown id={user?.id} />}
+            <Row noGutters className="px-3 text-center">
+                <Col lg={3} className="text-lg-left">
+                    <Image
+                        className={styles.ProfilePicture}
+                        roundedCircle
+                        src={
+                            user?.profile_picture_url ||
+                            "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"
+                        }
+                        height="40"
+                        alt="Profile"
+                    />
+                </Col>
+                <Col lg={6}>
+                    <h3 className="m-2">{user?.username || "User"}</h3>
+                    <Row className="justify-content-center no-gutters">
+                        <Col xs={3} className="my-2">
+                            <div>{is_author ? user?.followers : user?.followers}</div>
+                            <div>followers</div>
+                        </Col>
+                        <Col xs={3} className="my-2">
+                            <div>{user?.posts_count ?? 0}</div>
+                            <div>posts</div>
+                        </Col>
+                        <Col xs={3} className="my-2">
+                            <div>{is_author ? currentUser?.following : user?.following}</div>
+                            <div>following</div>
+                        </Col>
+                    </Row>
+                </Col>
+                <Col lg={3} className="text-lg-right">
+                    {currentUser && !is_author && (
+                        user?.following_id ? (
+                            <Button
+                                className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
+                                onClick={onFollowToggle}
+                            >
+                                unfollow
+                            </Button>
+                        ) : (
+                            <Button
+                                className={`${btnStyles.Button} ${btnStyles.Black}`}
+                                onClick={onFollowToggle}
+                            >
+                                follow
+                            </Button>
+                        )
+                    )}
+                </Col>
+                {user?.bio && <Col className="p-3">{user.bio}</Col>}
+            </Row>
+        </>
     );
 
     const mainProfilePosts = (

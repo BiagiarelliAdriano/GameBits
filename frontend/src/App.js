@@ -10,6 +10,9 @@ import PostPage from "./pages/posts/PostPage";
 import PostsPage from './pages/posts/PostsPage';
 import PostEditForm from "./pages/posts/PostEditForm";
 import UserPage from './pages/users/UserPage';
+import UsernameForm from './pages/users/UsernameForm';
+import UserPasswordForm from './pages/users/UserPasswordForm';
+import UserEditForm from './pages/users/UserEditForm';
 
 // Import context providers
 import { CurrentUserProvider } from "./contexts/CurrentUserContext";
@@ -56,6 +59,21 @@ function App() {
               <Route exact path="/posts/:id" render={() => <PostPage />} />
               <Route exact path="/posts/:id/edit" render={() => <PostEditForm />} />
               <Route exact path="/users/:id" render={() => <UserPage />} />
+              <Route
+                exact
+                path="/users/:id/edit/username"
+                render={() => <UsernameForm />}
+              />
+              <Route
+                exact
+                path="/users/:id/edit/password"
+                render={() => <UserPasswordForm />}
+              />
+              <Route
+                exact
+                path="/users/:id/edit"
+                render={() => <UserEditForm />}
+              />
               <Route render={() => <p>Page not found!</p>} />
             </Switch>
           </Container>

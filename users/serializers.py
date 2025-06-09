@@ -14,13 +14,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
     followers = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
     following_id = serializers.SerializerMethodField()
+    is_owner = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
         fields = ['id', 'username', 'email', 'password', 'profile_picture',
                   'bio', 'level', 'experience_points', 'date_joined',
                   'is_active', 'created_at', 'updated_at', 'posts_count',
-                  'followers', 'following', 'following_id']
+                  'followers', 'following', 'following_id', 'is_owner']
         extra_kwargs = {
             'password': {'write_only': True},  # Hide password in responses
             'level': {'read_only': True},
@@ -39,6 +40,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
     
     def get_following(self, obj):
         return Follow.objects.filter(follower=obj).count()
+    
+    def get_is_owner(self, obj):
+        request = self.context.get("request")
+        return request.user == obj if request and request.user.is_authenticated else False
     
     def get_following_id(self, obj):
         request = self.context.get("request")
