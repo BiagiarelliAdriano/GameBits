@@ -35,7 +35,7 @@ const UserPasswordForm = () => {
     };
 
     useEffect(() => {
-        if (currentUser?.user_id?.toString() !== id) {
+        if (currentUser?.id?.toString() !== id) {
             // redirect user if they are not the owner of this profile
             history.push("/");
         }

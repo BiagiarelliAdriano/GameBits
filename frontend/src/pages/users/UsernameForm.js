@@ -28,12 +28,12 @@ const UsernameForm = () => {
     const setCurrentUser = useSetCurrentUser();
 
     useEffect(() => {
-        if (currentUser?.user_id?.toString() === id) {
-            setUsername(currentUser.username);
-        } else {
+        if (currentUser?.id?.toString() !== id) {
+            // redirect user if they are not the owner of this profile
             history.push("/");
         }
     }, [currentUser, history, id]);
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -48,9 +48,14 @@ const UsernameForm = () => {
             history.goBack();
         } catch (err) {
             console.log(err);
-            setErrors(err.response?.data);
+            setErrors(err.response?.data || {});
         }
     };
+
+    // Don't show form until currentUser has finished loading
+    if (currentUser === undefined) {
+        return null;
+    }
 
     return (
         <Row>

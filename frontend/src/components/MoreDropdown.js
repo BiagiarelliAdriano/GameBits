@@ -51,14 +51,22 @@ export const UserEditDropdown = ({ id }) => {
             <Dropdown.Toggle className={styles.DropdownToggle} as={ThreeDots} />
             <Dropdown.Menu className={styles.DropdownMenu}>
                 <Dropdown.Item
-                    onClick={() => history.push(`/users/${id}/edit`)}
+                    as="button"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        history.push(`/users/${id}/edit`);
+                    }}
                     aria-label="edit-profile"
                     className={styles.DropdownItem}
                 >
                     <i className="fas fa-edit" /> edit user
                 </Dropdown.Item>
                 <Dropdown.Item
-                    onClick={() => history.push(`/users/${id}/edit/username`)}
+                    as="button"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        history.push(`/users/${id}/edit/username`);
+                    }}
                     aria-label="edit-username"
                     className={styles.DropdownItem}
                 >
@@ -66,7 +74,11 @@ export const UserEditDropdown = ({ id }) => {
                     change username
                 </Dropdown.Item>
                 <Dropdown.Item
-                    onClick={() => history.push(`/users/${id}/edit/password`)}
+                    as="button"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        history.push(`/users/${id}/edit/password`);
+                    }}
                     aria-label="edit-password"
                     className={styles.DropdownItem}
                 >

@@ -36,7 +36,7 @@ const UserEditForm = () => {
 
     useEffect(() => {
         const handleMount = async () => {
-            if (currentUser?.user_id?.toString() === id) {
+            if (currentUser?.id?.toString() === id) {
                 try {
                     const { data } = await axios.get(`/users/${id}/`);
                     const { name, bio, profile_picture } = data;

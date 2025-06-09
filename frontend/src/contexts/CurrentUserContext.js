@@ -9,15 +9,17 @@ export const useCurrentUser = () => useContext(CurrentUserContext);
 export const useSetCurrentUser = () => useContext(SetCurrentUserContext);
 
 export const CurrentUserProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(undefined);
     const history = useHistory();
 
     const getAccessToken = () => localStorage.getItem('access_token');
     const getRefreshToken = () => localStorage.getItem('refresh_token');
 
     const handleMount = useCallback(async () => {
+
         try {
             const token = getAccessToken();
+
             if (token) {
                 try {
                     const { data } = await axios.get('users/current/', {
@@ -28,25 +30,25 @@ export const CurrentUserProvider = ({ children }) => {
                 } catch (err) {
                     if (err.response?.status === 401) {
                         const refreshToken = getRefreshToken();
+
                         if (refreshToken) {
                             const response = await axios.post('token/refresh/', { refresh: refreshToken });
                             const newAccessToken = response.data.access;
                             localStorage.setItem('access_token', newAccessToken);
+
                             const { data } = await axios.get('users/current/', {
                                 headers: { Authorization: `Bearer ${newAccessToken}` }
                             });
                             setCurrentUser(data);
                         } else {
-                            throw err; // No refresh token, treat as logout
+                            throw err;
                         }
                     } else {
                         throw err;
                     }
                 }
             } else {
-                // No token, no user logged in
                 setCurrentUser(null);
-                // Optionally redirect or silently fail here
             }
         } catch (err) {
             localStorage.removeItem('access_token');
