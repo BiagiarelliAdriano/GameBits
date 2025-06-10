@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.tokens import RefreshToken
+from cloudinary.uploader import upload
 from .models import UserProfile
 from .serializers import UserSerializer, UserProfileSerializer
 
@@ -34,12 +35,13 @@ class UserProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    def get_permissions(self):
-        # Only allow updates/deletes if it's their own profile
-        if self.request.method in ['PUT', 'PATCH', 'DELETE']:
-            return [permissions.IsAuthenticated()]
-        return [permissions.AllowAny()]
-
+    def perform_update(self, serializer):
+        # Handle profile picture upload
+        if 'profile_picture' in self.request.FILES:
+            file = self.request.FILES['profile_picture']
+            upload_result = upload(file)  # Upload to Cloudinary
+            serializer.validated_data['profile_picture'] = upload_result['secure_url']
+        serializer.save()
 
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]

@@ -26,21 +26,33 @@ const UserEditForm = () => {
     const imageFile = useRef();
 
     const [userData, setUserData] = useState({
-        name: "",
         bio: "",
         profile_picture: "",
     });
-    const { name, bio, profile_picture } = userData;
+    const { bio, profile_picture } = userData;
 
     const [errors, setErrors] = useState({});
+
+    const isMounted = useRef(true);
+
+    useEffect(() => {
+        return () => {
+            isMounted.current = false;
+        };
+    }, []);
 
     useEffect(() => {
         const handleMount = async () => {
             if (currentUser?.id?.toString() === id) {
                 try {
                     const { data } = await axios.get(`/users/${id}/`);
-                    const { name, bio, profile_picture } = data;
-                    setUserData({ name, bio, profile_picture });
+                    const { bio, profile_picture } = data;
+                    if (isMounted.current) {
+                        setUserData({
+                            bio,
+                            profile_picture: profile_picture || "",
+                        });
+                    }
                 } catch (err) {
                     console.log(err);
                     history.push("/");
@@ -62,8 +74,8 @@ const UserEditForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         const formData = new FormData();
-        formData.append("name", name);
         formData.append("bio", bio);
 
         if (imageFile.current?.files[0]) {
@@ -71,35 +83,34 @@ const UserEditForm = () => {
         }
 
         try {
-            const { data } = await axios.put(`/users/${id}/`, formData);
+            const { data } = await axios.patch(`/users/${id}/`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+
+            // 1. Update both user states
+            setUserData({
+                bio: data.bio,
+                profile_picture: data.profile_picture, // Use backend's URL
+            });
+
             setCurrentUser((prevUser) => ({
                 ...prevUser,
                 profile_picture: data.profile_picture,
             }));
-            history.goBack();
+
+            // 2. Force a delay to ensure state updates propagate
+            setTimeout(() => {
+                history.goBack();
+            }, 100);
+
         } catch (err) {
-            console.log(err);
+            console.error("Error:", err.response?.data);
             setErrors(err.response?.data || {});
         }
     };
 
     const textFields = (
         <>
-            <Form.Group>
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                    type="text"
-                    value={name}
-                    onChange={handleChange}
-                    name="name"
-                />
-                {errors?.name?.map((message, idx) => (
-                    <Alert variant="warning" key={idx}>
-                        {message}
-                    </Alert>
-                ))}
-            </Form.Group>
-
             <Form.Group>
                 <Form.Label>Bio</Form.Label>
                 <Form.Control
@@ -135,11 +146,16 @@ const UserEditForm = () => {
                 <Col className="py-2 p-0 p-md-2 text-center" md={7} lg={6}>
                     <Container className={appStyles.Content}>
                         <Form.Group>
-                            {profile_picture && (
-                                <figure>
-                                    <Image src={profile_picture} fluid />
-                                </figure>
-                            )}
+                            <figure>
+                                <Image
+                                    src={
+                                        profile_picture
+                                            ? profile_picture
+                                            : "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"
+                                    }
+                                    fluid
+                                />
+                            </figure>
                             {errors?.profile_picture?.map((message, idx) => (
                                 <Alert variant="warning" key={idx}>
                                     {message}

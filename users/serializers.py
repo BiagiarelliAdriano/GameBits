@@ -9,7 +9,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
     updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
-    profile_picture = serializers.SerializerMethodField()
+    profile_picture = serializers.ImageField(required=False, allow_null=True)
     posts_count = serializers.SerializerMethodField()
     followers = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()

@@ -56,13 +56,15 @@ function UserPage() {
                 }));
                 setUserPosts(userPostsData);
                 setHasLoaded(true);
+                console.log("Fetched user profile picture url:", pageUserData.profile_picture);
+                console.log("UserPage currentUser changed", currentUser);
             } catch (err) {
                 console.error("Error fetching user data:", err);
             }
         };
 
         fetchData();
-    }, [id, setUserData]);
+    }, [id, setUserData, currentUser]);
 
     const onFollowToggle = async () => {
         if (!user) return;
@@ -78,11 +80,13 @@ function UserPage() {
                         className={styles.ProfilePicture}
                         roundedCircle
                         src={
-                            user?.profile_picture_url ||
-                            "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"
+                            user?.profile_picture
+                                ? `${user.profile_picture}?${Date.now()}`
+                                : "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"
                         }
-                        height="40"
-                        alt="Profile"
+                        onError={(e) => {
+                            e.target.src = "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg";
+                        }}
                     />
                 </Col>
                 <Col lg={6}>
