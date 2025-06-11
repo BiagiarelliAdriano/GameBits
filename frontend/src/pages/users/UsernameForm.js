@@ -37,8 +37,14 @@ const UsernameForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (username.length > 24) {
+            setErrors({ username: ["Name too long. 24 characters maximum."] });
+            return;
+        }
+
         try {
-            await axios.put("/dj-rest-auth/user/", {
+            await axios.patch("/dj-rest-auth/user/", {
                 username,
             });
             setCurrentUser((prevUser) => ({
@@ -69,6 +75,7 @@ const UsernameForm = () => {
                                 type="text"
                                 value={username}
                                 onChange={(event) => setUsername(event.target.value)}
+                                maxLength={24}
                             />
                         </Form.Group>
                         {errors?.username?.map((message, idx) => (

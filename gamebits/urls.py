@@ -36,6 +36,7 @@ urlpatterns = [
     path('api/follow/', include('follow.urls')),
     path('api/replies/', include('replies.urls')),
     path('api/notifications/', include('notifications.urls')),
+    path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
 
     # JWT Authentication endpoints
     path('api/token/', TokenObtainPairView.as_view(),
