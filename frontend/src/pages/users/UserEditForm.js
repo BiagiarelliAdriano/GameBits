@@ -86,19 +86,15 @@ const UserEditForm = () => {
             const { data } = await axios.patch(`/users/${id}/`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-
-            // 1. Update both user states
             setUserData({
                 bio: data.bio,
-                profile_picture: data.profile_picture, // Use backend's URL
+                profile_picture: data.profile_picture,
             });
 
             setCurrentUser((prevUser) => ({
                 ...prevUser,
                 profile_picture: data.profile_picture,
             }));
-
-            // 2. Force a delay to ensure state updates propagate
             setTimeout(() => {
                 history.goBack();
             }, 100);

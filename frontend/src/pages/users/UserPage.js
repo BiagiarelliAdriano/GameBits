@@ -56,8 +56,6 @@ function UserPage() {
                 }));
                 setUserPosts(userPostsData);
                 setHasLoaded(true);
-                console.log("Fetched user profile picture url:", pageUserData.profile_picture);
-                console.log("UserPage currentUser changed", currentUser);
             } catch (err) {
                 console.error("Error fetching user data:", err);
             }

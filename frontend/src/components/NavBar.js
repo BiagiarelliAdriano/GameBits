@@ -59,7 +59,7 @@ const NavBar = () => {
                 to={`/users/${currentUser?.id}`}
             >
                 <Avatar
-                    src={currentUser?.profile_picture_url || "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"}
+                    src={currentUser?.profile_picture || "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"}
                     height="40"
                     alt="Profile"
                 />

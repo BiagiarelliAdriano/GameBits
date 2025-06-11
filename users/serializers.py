@@ -30,7 +30,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         }
 
     def get_profile_picture(self, obj):
-        return obj.profile_picture_url
+        return obj.profile_picture
     
     def get_posts_count(self, obj):
         return obj.posts.count()

@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 
 const User = (props) => {
     const { user, mobile, imageSize = 55, handleFollowToggle } = props;
-    const { id, following_id, image } = user;
+    const { id, following_id, profile_picture } = user;
 
     const currentUser = useCurrentUser();
     const [loading, setLoading] = useState(false);
@@ -28,7 +28,7 @@ const User = (props) => {
                 <Link className="align-self-center" to={`/users/${id}`}>
                     <Avatar
                         src={
-                            image ||
+                            profile_picture ||
                             "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"
                         }
                         height={imageSize}

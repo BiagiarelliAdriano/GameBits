@@ -24,7 +24,6 @@ const Post = (props) => {
         comments_count,
         postPage,
         setPost,
-        imageSize = 55,
     } = props;
 
     const currentUser = useCurrentUser();
@@ -96,11 +95,9 @@ const Post = (props) => {
                 <Media className="align-items-center justify-content-between">
                     <Link to={`/users/${user_id}`}>
                         <Avatar
-                            src={
-                                profile_picture ||
-                                "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"
-                            }
-                            height={imageSize}
+                            src={profile_picture || "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"}
+                            height="40"
+                            alt="Profile"
                         />
                         {author}
                     </Link>
