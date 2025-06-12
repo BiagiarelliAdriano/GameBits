@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 
 import appStyles from "../../App.module.css";
-import { useParams } from "react-router";
+import { useParams, Redirect } from "react-router-dom";
 import Post from "./Post";
 
 import CommentCreateForm from "../comments/CommentCreateForm";
@@ -43,6 +43,10 @@ function PostPage() {
 
     handleMount();
   }, [id]);
+
+  if (!currentUser) {
+    return <Redirect to="/signup" />;
+  }
 
   return (
     <Row className="h-100">
