@@ -33,9 +33,8 @@ class PostListCreateView(generics.ListCreateAPIView):
         filter_type = self.request.query_params.get('filter')
         if user.is_authenticated:
             if filter_type == 'liked':
-                liked_posts = Like.objects.filter(user=user).values_list(
-                    'post_id', flat=True)
-                queryset = queryset.filter(id__in=liked_posts)
+                liked_posts = Like.objects.filter(user=user).values_list('post_id', flat=True)
+                queryset = queryset.filter(id__in=liked_posts).exclude(author=user)
 
             elif filter_type == 'followed':
                 followed_users = Follow.objects.filter(

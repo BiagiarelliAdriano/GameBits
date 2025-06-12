@@ -36,14 +36,14 @@ const NavBar = () => {
             <NavLink
                 className={styles.NavLink}
                 activeClassName={styles.Active}
-                to="/follow"
+                to="/feed"
             >
                 <i className="fa-solid fa-walkie-talkie"></i> Feed
             </NavLink>
             <NavLink
                 className={styles.NavLink}
                 activeClassName={styles.Active}
-                to="/likes"
+                to="/liked"
             >
                 <i className="fa-solid fa-heart"></i> Liked
             </NavLink>
