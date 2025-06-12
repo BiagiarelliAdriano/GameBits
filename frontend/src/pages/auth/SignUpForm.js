@@ -8,6 +8,8 @@ import appStyles from "../../App.module.css";
 import { Form, Button, Image, Col, Row, Container, Alert } from "react-bootstrap";
 import axios from "../../api/axiosDefaults";
 
+import signUpImage from "../../assets/signup.jpg";
+
 const SignUpForm = () => {
     const [signUpData, setSignUpData] = useState({
         username: "",
@@ -127,9 +129,7 @@ const SignUpForm = () => {
             >
                 <Image
                     className={`${appStyles.FillerImage}`}
-                    src={
-                        "https://codeinstitute.s3.amazonaws.com/AdvancedReact/hero2.jpg"
-                    }
+                    src={signUpImage}
                 />
             </Col>
         </Row>
