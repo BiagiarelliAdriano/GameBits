@@ -6,7 +6,7 @@ import axios from "../../api/axiosDefaults";
 import styles from "../../styles/CommentCreateEditForm.module.css";
 
 function CommentEditForm(props) {
-    const { id, content, setShowEditForm, setComments } = props;
+    const { id, content, setShowEditForm, setComments, className } = props;
 
     const [formContent, setFormContent] = useState(content);
 
@@ -39,7 +39,7 @@ function CommentEditForm(props) {
     };
 
     return (
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} className={className}>
             <Form.Group className="pr-1">
                 <Form.Control
                     className={styles.Form}

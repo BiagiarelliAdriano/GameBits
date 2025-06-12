@@ -16,7 +16,7 @@ const PopularUsers = ({ mobile }) => {
     >
       {hasUsers ? (
         <>
-          <p>Highest Level Users</p>
+          <p>Popular Users</p>
           {mobile ? (
             <div className="d-flex justify-content-around">
               {popularUsers.results.slice(0, 4).map((user) => (

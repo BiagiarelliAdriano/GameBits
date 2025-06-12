@@ -28,12 +28,8 @@ function CommentCreateForm(props) {
                 results: [data, ...prevComments.results],
             }));
             setPost((prevPost) => ({
-                results: [
-                    {
-                        ...prevPost.results[0],
-                        comments_count: prevPost.results[0].comments_count + 1,
-                    },
-                ],
+                ...prevPost,
+                comments_count: prevPost.comments_count + 1,
             }));
             setContent("");
         } catch (err) {

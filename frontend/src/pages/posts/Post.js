@@ -12,7 +12,7 @@ const Post = (props) => {
     const {
         id,
         author,
-        user_id,
+        author_id,
         profile_picture,
         title,
         game,
@@ -93,7 +93,7 @@ const Post = (props) => {
         <Card className={styles.Post}>
             <Card.Body>
                 <Media className="align-items-center justify-content-between">
-                    <Link to={`/users/${user_id}`}>
+                    <Link to={`/users/${author_id}`}>
                         <Avatar
                             src={profile_picture || "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"}
                             height="40"
@@ -155,7 +155,6 @@ const Post = (props) => {
                     </Link>
                     {comments_count}
                 </div>
-
             </Card.Body>
         </Card>
     );

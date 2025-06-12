@@ -11,6 +11,7 @@ import Post from "./Post";
 import CommentCreateForm from "../comments/CommentCreateForm";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import Comment from "../comments/Comment";
+import PopularUsers from "../users/PopularUsers";
 
 import InfiniteScroll from "react-infinite-scroll-component";
 import Asset from "../../components/Asset";
@@ -78,6 +79,7 @@ function PostPage() {
                   {...comment}
                   setPost={setPost}
                   setComments={setComments}
+                  postId={post.id}
                 />
               ))}
             </InfiniteScroll>
@@ -90,7 +92,7 @@ function PostPage() {
       </Col>
 
       <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
-        Popular profiles for desktop
+        <PopularUsers />
       </Col>
     </Row>
   );
