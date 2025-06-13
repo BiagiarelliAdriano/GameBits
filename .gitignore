@@ -1,5 +1,5 @@
 env.py
-**__pycache__**
+__pycache__/
 .venv/
 db.sqlite3
-**node_modules/
+node_modules/

@@ -6,7 +6,7 @@ from .mixins import CreatedAtUpdatedAtMixin
 
 # Create your models here.
 class Comment(CreatedAtUpdatedAtMixin):
-    """Model for comments on posts."""
+    """Comment model linking a user to a post with content and timestamps."""
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
                              related_name="comments")
     post = models.ForeignKey(Post, on_delete=models.CASCADE,

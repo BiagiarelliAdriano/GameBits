@@ -2,38 +2,29 @@ import React, { useState } from "react";
 import styles from "../../styles/Post.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, Media, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import axios from "../../api/axiosDefaults";
-import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import { MoreDropdown } from "../../components/MoreDropdown";
+import { useAlert } from "../../contexts/AlertContext";
 
 const Post = (props) => {
+    // Destructure props received from parent component
     const {
-        id,
-        author,
-        author_id,
-        profile_picture,
-        title,
-        game,
-        content,
-        image,
-        updated_at,
-        likes_count,
-        has_liked,
-        comments_count,
-        postPage,
-        setPost,
+        id, author, author_id, profile_picture, title, game,
+        content, image, updated_at, likes_count, has_liked,
+        comments_count, postPage, setPost
     } = props;
 
     const currentUser = useCurrentUser();
     const is_author = currentUser?.username === author;
+    const { showAlert } = useAlert();
     const history = useHistory();
+
+    // Local state for optimistic like handling
     const [localLikesCount, setLocalLikesCount] = useState(likes_count);
     const [localHasLiked, setLocalHasLiked] = useState(has_liked);
-
-    // Add loading state to disable like button while request is processing
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false); // Disable spamming like button while request pending
 
     const handleEdit = () => {
         history.push(`/posts/${id}/edit`);
@@ -42,20 +33,20 @@ const Post = (props) => {
     const handleDelete = async () => {
         try {
             await axios.delete(`/posts/${id}/`);
-            history.goBack();
+            showAlert({ message: "Post successfully delete!", variant: "success" });
+            history.push("/");
         } catch (err) {
-            // Handle error if needed
+            console.error("Error deleting post:", err);
         }
     };
 
-    // Handle like and unlike action
     const handleLike = async () => {
-        if (loading) return;
+        if (loading) return; // Prevent multiple requests
         setLoading(true);
         try {
             const { data } = await axios.post(`/likes/posts/${id}/like/`);
 
-            // Update parent if provided
+            // If parent passed a setPost updater, sync parent state too
             if (setPost) {
                 if (postPage) {
                     setPost((prevPost) => ({
@@ -68,22 +59,18 @@ const Post = (props) => {
                         ...prevPosts,
                         results: prevPosts.results.map((post) =>
                             post.id === id
-                                ? {
-                                    ...post,
-                                    likes_count: data.likes_count,
-                                    has_liked: data.has_liked,
-                                }
+                                ? { ...post, likes_count: data.likes_count, has_liked: data.has_liked }
                                 : post
                         ),
                     }));
                 }
             }
 
-            // Update local UI immediately
+            // Optimistically update local state
             setLocalLikesCount(data.likes_count);
             setLocalHasLiked(data.has_liked);
         } catch (err) {
-            console.log("Error liking post:", err);
+            console.error("Error liking post:", err);
         } finally {
             setLoading(false);
         }
@@ -101,6 +88,7 @@ const Post = (props) => {
                         />
                         {author}
                     </Link>
+
                     <div className="d-flex align-items-center">
                         <span>
                             {new Date(updated_at).toLocaleString(undefined, {
@@ -117,19 +105,20 @@ const Post = (props) => {
                     </div>
                 </Media>
             </Card.Body>
+
             <Link to={`/posts/${id}`}>
                 <Card.Img src={image} alt={title} />
             </Link>
+
             <Card.Body>
                 {title && <Card.Title className="text-center">{title}</Card.Title>}
                 {game && <Card.Text>{game}</Card.Text>}
                 {content && <Card.Text>{content}</Card.Text>}
+
                 <div className={styles.PostBar}>
+                    {/* Like button logic */}
                     {is_author ? (
-                        <OverlayTrigger
-                            placement="top"
-                            overlay={<Tooltip>You can't like your own post!</Tooltip>}
-                        >
+                        <OverlayTrigger placement="top" overlay={<Tooltip>You can't like your own post!</Tooltip>}>
                             <i className="far fa-heart" />
                         </OverlayTrigger>
                     ) : currentUser ? (
@@ -150,6 +139,7 @@ const Post = (props) => {
                             <i className="far fa-heart" />
                         </OverlayTrigger>
                     )}
+
                     <Link to={`/posts/${id}`}>
                         <i className="far fa-comments" />
                     </Link>

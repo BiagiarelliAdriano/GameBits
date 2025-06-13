@@ -5,6 +5,9 @@ from .mixins import CreatedAtUpdatedAtMixin
 
 # Create your models here.
 class Follow(CreatedAtUpdatedAtMixin):
+    """
+    Model representing a following relationship between two user profiles.
+    """
     follower = models.ForeignKey(UserProfile, related_name="following",
                                  on_delete=models.CASCADE)
     following = models.ForeignKey(UserProfile, related_name="followers",

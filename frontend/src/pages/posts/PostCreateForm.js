@@ -13,7 +13,7 @@ import styles from "../../styles/PostCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import axios from "../../api/axiosDefaults";
-import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function PostCreateForm() {
     const [errors, setErrors] = useState({});
@@ -25,10 +25,12 @@ function PostCreateForm() {
         image: "",
     });
     const { title, game, content, image } = postData;
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB limit for images
 
     const imageInput = useRef(null);
     const history = useHistory();
 
+    // Handle text input changes (title, game, content)
     const handleChange = (event) => {
         setPostData({
             ...postData,
@@ -38,30 +40,53 @@ function PostCreateForm() {
 
     const [imagePreview, setImagePreview] = useState(null); // State for image preview
 
+    // Handle image selection
     const handleChangeImage = (event) => {
         if (event.target.files.length) {
             const file = event.target.files[0];
 
-            // Set image preview URL
-            setImagePreview(URL.createObjectURL(file));
+            if (!file.type.startsWith("image/")) {
+                setErrors({ image: ["Only image files are allowed."] });
+                setPostData({ ...postData, image: null });
+                setImagePreview(null);
+                imageInput.current.value = null;
+                return;
+            }
 
-            setPostData({
-                ...postData,
-                image: file,
-            });
+            if (file.size > MAX_FILE_SIZE) {
+                setErrors({ image: [`Image is too large. Max size is 5MB.`] });
+                setPostData({ ...postData, image: null });
+                setImagePreview(null);
+                imageInput.current.value = null;
+                return;
+            }
+
+            // Clear previous image errors
+            setErrors((prev) => ({ ...prev, image: null }));
+
+            if (imagePreview) {
+                URL.revokeObjectURL(imagePreview); // Clean up previous preview URL
+            }
+
+            const newPreviewUrl = URL.createObjectURL(file);
+            setImagePreview(newPreviewUrl);
+            setPostData({ ...postData, image: file });
         }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+        // If image error exists, prevent submit
+        if (errors.image) {
+            return;
+        }
         const formData = new FormData();
-    
+
         formData.append('title', title);
         formData.append('game', game);
         formData.append('content', content);
         formData.append('image', imageInput.current.files[0]);
-        
+
         try {
             const { data } = await axios.post('/posts/', formData, {
                 headers: {
@@ -69,16 +94,19 @@ function PostCreateForm() {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-    
-            history.push(`/posts/${data.id}`);
+
+            history.push({
+                pathname: `/posts/${data.id}`,
+                state: { alertMessage: "Post successfully created." },
+            });
         } catch (err) {
             if (err.response?.status !== 401) {
                 setErrors(err.response?.data);
             }
         }
     };
-    
 
+    // Render all text input fields
     const textFields = (
         <div className="text-center">
             <Form.Group>
@@ -156,7 +184,7 @@ function PostCreateForm() {
                                     src={imagePreview}
                                     alt=""
                                     className="img-fluid mb-3"
-                                    style={{ maxHeight: '200', objectFit: 'cover' }}
+                                    style={{ maxHeight: '200px', objectFit: 'cover' }}
                                 />
                             ) : (
                                 // If no image, show upload icon + message via Asset

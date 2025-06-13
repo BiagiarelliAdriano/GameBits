@@ -1,7 +1,11 @@
 import React from 'react';
 import styles from '../styles/Avatar.module.css';
 
-const Avatar = ({ src, height = 45, text }) => {
+/**
+ * Avatar component renders a user avatar image
+ * and optional text next to it.
+ */
+const Avatar = ({ src, height = 45, text, alt = "avatar" }) => {
     return (
         <span>
             <img
@@ -9,11 +13,11 @@ const Avatar = ({ src, height = 45, text }) => {
                 src={src}
                 height={height}
                 width={height}
-                alt="avatar"
+                alt={alt || text || "user avatar"}
             />
-            {text}
+            {text && <span> {text} </span>}
         </span>
-    )
-}
+    );
+};
 
-export default Avatar
+export default Avatar;

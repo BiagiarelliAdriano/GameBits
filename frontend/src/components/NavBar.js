@@ -6,18 +6,25 @@ import { NavLink, useHistory } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
 import Avatar from './Avatar';
 import useClickOutsideToggle from '../hooks/useClickOutsideToggle';
+import { useAlert } from "../contexts/AlertContext";
 
+// NavBar component handles site navigation with conditional links based on auth state
 const NavBar = () => {
+    // Get current user and setter from content
     const currentUser = useCurrentUser();
     const setCurrentUser = useSetCurrentUser();
     const history = useHistory();
+    const { showAlert } = useAlert();
 
+    // Custom hook to toggle navbar menu open/close
     const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
+    // Sign out function clears tokens, resets user context, and redirects to sign in page
     const handleSignOut = () => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         setCurrentUser(null);
+        showAlert({ message: "Successfully signed out.", variant: "info" });
         history.push("/signin");
     };
 
@@ -31,6 +38,7 @@ const NavBar = () => {
         </NavLink>
     );
 
+    // Icons shown when user is logged in
     const loggedInIcons = (
         <>
             <NavLink
@@ -67,6 +75,7 @@ const NavBar = () => {
         </>
     );
 
+    // Icons shown when user is logged out
     const loggedOutIcons = (
         <>
             <NavLink
@@ -86,6 +95,7 @@ const NavBar = () => {
         </>
     );
 
+    // Render navbar with brand, toggle, and nav links
     return (
         <Navbar
             expanded={expanded}

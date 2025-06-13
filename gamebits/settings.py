@@ -27,11 +27,11 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-if str(BASE_DIR) not in sys.path:
-    sys.path.append(str(BASE_DIR))
-
 if os.path.isfile(os.path.join(BASE_DIR, 'env.py')):
     import env
+
+if str(BASE_DIR) not in sys.path:
+    sys.path.append(str(BASE_DIR))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -42,8 +42,19 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOST'), 'localhost', '127.0.0.1',
-                 '*.herokuapp.com', 'gamebits-579c6fd85599.herokuapp.com']
+# Corrected ALLOWED_HOSTS handling to split env variable if set
+env_hosts = os.environ.get('ALLOWED_HOSTS')
+if env_hosts:
+    env_hosts = [host.strip() for host in env_hosts.split(',')]
+else:
+    env_hosts = []
+
+ALLOWED_HOSTS = env_hosts + [
+    'localhost',
+    '127.0.0.1',
+    '*.herokuapp.com',
+    'gamebits-579c6fd85599.herokuapp.com'
+]
 
 
 # Application definition
@@ -185,8 +196,6 @@ WHITENOISE_ROOT = BASE_DIR / 'frontend' / 'build'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CORS_ALLOW_ALL_ORIGINS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

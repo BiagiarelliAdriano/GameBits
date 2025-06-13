@@ -24,36 +24,44 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { UserEditDropdown } from "../../components/MoreDropdown";
 
 function UserPage() {
+    // Local state to track posts and loading state
     const [hasLoaded, setHasLoaded] = useState(false);
     const [userPosts, setUserPosts] = useState({ results: [] });
 
+    // Current logged-in user and URL param id
     const currentUser = useCurrentUser();
     const { id } = useParams();
 
+    // User data context hooks
     const setUserData = useSetUserData();
     const { pageUser, handleFollowToggle } = useUserData();
 
-    // Extract the user object or fallback to null
+    // Extract user object from user data context
     const user = pageUser?.results?.[0] || null;
 
+    // Check if current user is viewing their own profile
     const is_author = currentUser?.username === user?.username;
 
     useEffect(() => {
         if (!id) return;
 
+        // Reset posts and loading state when id changes
         setUserPosts({ results: [] });
         setHasLoaded(false);
 
+        // Fetch user profile and posts in parallel
         const fetchData = async () => {
             try {
                 const [{ data: pageUserData }, { data: userPostsData }] = await Promise.all([
                     axios.get(`users/${id}/`),
                     axios.get(`/posts/?author=${id}`),
                 ]);
+                // Update user data context with fetched user info
                 setUserData(prev => ({
                     ...prev,
                     pageUser: { results: [pageUserData] },
                 }));
+                // Set posts and mark loaded
                 setUserPosts(userPostsData);
                 setHasLoaded(true);
             } catch (err) {
@@ -64,13 +72,16 @@ function UserPage() {
         fetchData();
     }, [id, setUserData, currentUser]);
 
+    // Handles toggling follow/unfollow
     const onFollowToggle = async () => {
         if (!user) return;
         await handleFollowToggle(user.id);
     };
 
+    // Main user profile header + info
     const mainProfile = (
         <>
+            {/* Show dropdown if user owns this profile */}
             {user?.is_owner && <UserEditDropdown id={user?.id} />}
             <Row noGutters className="px-3 text-center">
                 <Col lg={3} className="text-lg-left">
@@ -79,7 +90,7 @@ function UserPage() {
                         roundedCircle
                         src={
                             user?.profile_picture
-                                ? `${user.profile_picture}?${Date.now()}`
+                                ? `${user.profile_picture}?${Date.now()}` // Cache bust for updated pic
                                 : "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg"
                         }
                         onError={(e) => {
@@ -91,7 +102,7 @@ function UserPage() {
                     <h3 className="m-2">{user?.username || "User"}</h3>
                     <Row className="justify-content-center no-gutters">
                         <Col xs={3} className="my-2">
-                            <div>{is_author ? user?.followers : user?.followers}</div>
+                            <div>{user?.followers}</div>
                             <div>followers</div>
                         </Col>
                         <Col xs={3} className="my-2">
@@ -105,6 +116,7 @@ function UserPage() {
                     </Row>
                 </Col>
                 <Col lg={3} className="text-lg-right">
+                    {/* Show follow/unfollow button if viewing others' profiles */}
                     {currentUser && !is_author && (
                         user?.following_id ? (
                             <Button
@@ -128,6 +140,7 @@ function UserPage() {
         </>
     );
 
+    // User's posts with infinite scroll
     const mainProfilePosts = (
         <>
             <hr />
@@ -135,14 +148,15 @@ function UserPage() {
             <hr />
             {userPosts.results.length ? (
                 <InfiniteScroll
-                    children={userPosts.results.map((post) => (
+                    dataLength={userPosts.results.length}
+                    next={() => fetchMoreData(userPosts, setUserPosts)}
+                    hasMore={!!userPosts.next}
+                    loader={<Asset spinner />}
+                >
+                    {userPosts.results.map((post) => (
                         <Post key={post.id} {...post} setPosts={setUserPosts} />
                     ))}
-                    dataLength={userPosts.results.length}
-                    loader={<Asset spinner />}
-                    hasMore={!!userPosts.next}
-                    next={() => fetchMoreData(userPosts, setUserPosts)}
-                />
+                </InfiniteScroll>
             ) : (
                 <div className="text-center p-3">
                     <FontAwesomeIcon icon={faMagnifyingGlass} size="3x" />
@@ -154,6 +168,7 @@ function UserPage() {
 
     return (
         <Row>
+            {/* Main content column with profile info and posts */}
             <Col className="py-2 p-0 p-lg-2" lg={8}>
                 <PopularUsers mobile />
                 <Container className={appStyles.Content}>
@@ -167,6 +182,8 @@ function UserPage() {
                     )}
                 </Container>
             </Col>
+
+            {/* Sidebar with popular users (desktop only) */}
             <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
                 <PopularUsers />
             </Col>

@@ -13,11 +13,13 @@ import styles from "../../styles/PostCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import axios from "../../api/axiosDefaults";
-import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 function PostEditForm() {
+    // Error state for backend validation
     const [errors, setErrors] = useState({});
 
+    // Form data state
     const [postData, setPostData] = useState({
         title: "",
         game: "",
@@ -26,17 +28,24 @@ function PostEditForm() {
     });
     const { title, game, content, image } = postData;
 
+    // Refs and router hooks
     const imageInput = useRef(null);
     const history = useHistory();
     const { id } = useParams();
 
+    // Fetch existing post data on mount
     useEffect(() => {
         const handleMount = async () => {
             try {
                 const { data } = await axios.get(`/posts/${id}/`)
                 const { title, game, content, image, is_author } = data;
 
-                is_author ? setPostData({ title, game, content, image }) : history.push("/");
+                // Only allow authors to edit their own posts
+                if (is_author) {
+                    setPostData({ title, game, content, image });
+                } else {
+                    history.push("/");
+                }
             } catch (err) {
                 console.log(err);
             }
@@ -45,6 +54,7 @@ function PostEditForm() {
         handleMount();
     }, [history, id]);
 
+    // Handle text input changes
     const handleChange = (event) => {
         setPostData({
             ...postData,
@@ -52,8 +62,10 @@ function PostEditForm() {
         });
     };
 
-    const [imagePreview, setImagePreview] = useState(null); // State for image preview
+    // Image preview state
+    const [imagePreview, setImagePreview] = useState(null);
 
+    // Handle image file selection
     const handleChangeImage = (event) => {
         if (event.target.files.length) {
             const file = event.target.files[0];
@@ -68,6 +80,7 @@ function PostEditForm() {
         }
     };
 
+    // Submit form
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -98,7 +111,7 @@ function PostEditForm() {
         }
     };
 
-
+    // Form fields section reused on both mobile and desktop
     const textFields = (
         <div className="text-center">
             <Form.Group>
@@ -149,6 +162,7 @@ function PostEditForm() {
                 </Alert>
             ))}
 
+            {/* Buttons */}
             <Button
                 className={`${btnStyles.Button} ${btnStyles.Blue}`}
                 onClick={() => history.goBack()}
@@ -165,6 +179,7 @@ function PostEditForm() {
     return (
         <Form onSubmit={handleSubmit}>
             <Row>
+                {/* Left: Image upload and preview */}
                 <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
                     <Container
                         className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
@@ -176,7 +191,7 @@ function PostEditForm() {
                                     src={imagePreview}
                                     alt=""
                                     className="img-fluid mb-3"
-                                    style={{ maxHeight: '200', objectFit: 'cover' }}
+                                    style={{ maxHeight: '200px', objectFit: 'cover' }}
                                 />
                             ) : (
                                 // If no image, show upload icon + message via Asset
@@ -215,9 +230,12 @@ function PostEditForm() {
                                 {message}
                             </Alert>
                         ))}
+                        {/* Mobile view text fields */}
                         <div className="d-md-none">{textFields}</div>
                     </Container>
                 </Col>
+
+                {/* Right: Desktop view text fields */}
                 <Col md={5} lg={4} className="d-none d-md-block p-0 p-md-2">
                     <Container className={appStyles.Content}>{textFields}</Container>
                 </Col>

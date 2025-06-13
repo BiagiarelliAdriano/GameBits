@@ -1,3 +1,5 @@
+"""Views for user registration, profile management, authentication, and profile editing."""
+
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,6 +13,7 @@ from .serializers import UserSerializer, UserProfileSerializer
 
 
 class RegisterUserView(APIView):
+    """View to handle user registration."""
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
@@ -29,8 +32,8 @@ class UserProfileListCreateView(generics.ListCreateAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [permissions.AllowAny]
 
-
 class UserProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """View to retrieve, update, or delete a user profile."""
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -44,6 +47,7 @@ class UserProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
         serializer.save()
 
 class LoginView(APIView):
+    """View to authenticate user and return JWT tokens."""
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
@@ -62,6 +66,7 @@ class LoginView(APIView):
 
 
 class CurrentUserView(APIView):
+    """View to retrieve the currently authenticated user profile."""
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -69,6 +74,7 @@ class CurrentUserView(APIView):
         return Response(serializer.data)
 
 class EditUsernameView(APIView):
+    """View to allow authenticated users to update their username."""
     permission_classes = [IsAuthenticated]
 
     def patch(self, request, pk):
@@ -77,7 +83,7 @@ class EditUsernameView(APIView):
             return Response({"detail": "Forbidden."}, status=status.HTTP_403_FORBIDDEN)
         
         new_username = request.data.get("username")
-        if not new_username:
+        if not new_username or not new_username.strip():
             return Response({"detail": "Username is required."}, status=status.HTTP_400_BAD_REQUEST)
         
         user.username = new_username
@@ -85,6 +91,7 @@ class EditUsernameView(APIView):
         return Response({"detail": "Username updated."}, status=status.HTTP_200_OK)
 
 class EditPasswordView(APIView):
+    """View to allow authenticated users to update their password."""
     permission_classes = [IsAuthenticated]
 
     def patch(self, request, pk):
@@ -93,8 +100,11 @@ class EditPasswordView(APIView):
             return Response({"detail": "Forbidden."}, status=status.HTTP_403_FORBIDDEN)
 
         password = request.data.get("password")
-        if not password:
+        if not password or not password.strip():
             return Response({"detail": "Password is required."}, status=status.HTTP_400_BAD_REQUEST)
+        if len(password.strip()) < 6:
+            return Response({"detail": "Password must be at least 6 characters."},
+                    status=status.HTTP_400_BAD_REQUEST)
         
         user.set_password(password)
         user.save()

@@ -2,13 +2,16 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "../api/axiosDefaults";
 import { useCurrentUser, useSetCurrentUser } from "../contexts/CurrentUserContext";
 
+// Contexts for user data and setter
 const UserDataContext = createContext();
 const SetUserDataContext = createContext();
 
+// Custom hooks for consuming contexts
 export const useUserData = () => useContext(UserDataContext);
 export const useSetUserData = () => useContext(SetUserDataContext);
 
 export const UserDataProvider = ({ children }) => {
+    // Holds user data like popular users and the user shown on a page
     const [userData, setUserData] = useState({
         popularUsers: { results: [] },
         pageUser: { results: [] },
@@ -27,7 +30,7 @@ export const UserDataProvider = ({ children }) => {
                     popularUsers: data,
                 }));
             } catch (err) {
-                console.log(err)
+                console.error("Error fetching popular users:", err);
             }
         };
 
@@ -37,8 +40,10 @@ export const UserDataProvider = ({ children }) => {
     // Toggle follow/unfollow for a user by ID
     const handleFollowToggle = async (userId) => {
         try {
+            // Backend toggles follow state and returns updated info
             const { data } = await axios.post(`follow/toggle/${userId}/`);
 
+            // Update popularUsers and pageUser in state accordingly
             setUserData((prev) => {
                 const updatedPopularUsers = prev.popularUsers.results.map((user) =>
                     user.id === userId
@@ -73,11 +78,12 @@ export const UserDataProvider = ({ children }) => {
                 };
             });
 
+            // Also update currentUser's following count locally
             setCurrentUser(prev => prev && {
                 ...prev,
-                following: data.following_id
-                    ? prev.following + 1 // Just followed someone
-                    : prev.following - 1 // Just unfollowed someone
+                following: data.is_following
+                    ? prev.following + 1  // Just followed someone
+                    : prev.following - 1  // Just unfollowed someone
             });
 
             return data.message;

@@ -8,16 +8,19 @@ import User from "./User";
 const PopularUsers = ({ mobile }) => {
   const { popularUsers, handleFollowToggle } = useUserData();
 
-  const hasUsers = Array.isArray(popularUsers.results) && popularUsers.results.length > 0;
+  // Defensive null check on popularUsers
+  const hasUsers = popularUsers?.results?.length > 0;
 
   return (
     <Container
-      className={`${appStyles.Content} ${mobile && "d-lg-none text-center mb-3"}`}
+      className={`${appStyles.Content} ${mobile ? "d-lg-none text-center mb-3" : ""}`}
     >
       {hasUsers ? (
         <>
           <p>Popular Users</p>
+
           {mobile ? (
+            // Render first 4 users for mobile
             <div className="d-flex justify-content-around">
               {popularUsers.results.slice(0, 4).map((user) => (
                 <User
@@ -29,6 +32,7 @@ const PopularUsers = ({ mobile }) => {
               ))}
             </div>
           ) : (
+            // Render full list for desktop
             popularUsers.results.map((user) => (
               <User
                 key={user.id}
@@ -39,7 +43,8 @@ const PopularUsers = ({ mobile }) => {
           )}
         </>
       ) : (
-        <Asset spinner />
+        // Graceful fallback depending on whether data is empty or still loading
+        <Asset message="No popular users yet." spinner={!popularUsers?.results} />
       )}
     </Container>
   );

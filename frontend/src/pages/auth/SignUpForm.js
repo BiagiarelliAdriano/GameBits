@@ -7,10 +7,15 @@ import appStyles from "../../App.module.css";
 
 import { Form, Button, Image, Col, Row, Container, Alert } from "react-bootstrap";
 import axios from "../../api/axiosDefaults";
+import { useAlert } from "../../contexts/AlertContext";
 
 import signUpImage from "../../assets/signup.jpg";
 
+// SignUpForm handles user registration with form validation and error display.
+// On a successful signup, redirects to the sign-in page.
+
 const SignUpForm = () => {
+    // Form state for input fields.
     const [signUpData, setSignUpData] = useState({
         username: "",
         email: "",
@@ -19,36 +24,59 @@ const SignUpForm = () => {
     });
     const { username, email, password1, password2 } = signUpData;
 
+    // Stores validation or submission errors from backend
     const [errors, setErrors] = useState({});
+    // Tracks whether form submission is in progress to disable button
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const history = useHistory();
 
+    // Access showAlert from global alert context
+    const { showAlert } = useAlert();
+
+    // Update form state and clear errors for the changed field
     const handleChange = (event) => {
         setSignUpData({
             ...signUpData,
             [event.target.name]: event.target.value,
         });
+        // Clear errors for this field and non_field_errors on change
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [event.target.name]: null,
+            non_field_errors: null,
+        }));
     };
 
+    // Submit registration data to backend API
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setIsSubmitting(true);
         try {
-            await axios.post('http://127.0.0.1:8000/api/users/register/', signUpData);
+            await axios.post('users/register/', signUpData);
+            // Show the welcome alert right before redirect
+            showAlert({ message: "Welcome to GameBits! Now, sign in!", variant: "success" });
+            // Redirect to sign-in page on success
             history.push("/signin");
         } catch (err) {
-            setErrors(err.response?.data)
+            // Show backend validation errors if any
+            setErrors(err.response?.data || {});
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     return (
+        // JSX rendering form fields, error alerts, and sign-up image
         <Row className={styles.Row}>
             <Col className="my-auto py-2 p-md-2" md={6}>
                 <Container className={`${appStyles.Content} p-4 `}>
-                    <h1 className={styles.Header}>sign up</h1>
+                    <h1 className={styles.Header}>Sign Up</h1>
 
                     <Form onSubmit={handleSubmit}>
+                        {/* Username */}
                         <Form.Group controlId="username">
-                            <Form.Label className="d-none">username</Form.Label>
+                            <Form.Label className="d-none">Username</Form.Label>
                             <Form.Control
                                 className={styles.Input}
                                 type="text"
@@ -62,6 +90,7 @@ const SignUpForm = () => {
                             <Alert variant="warning" key={idx}>{message}</Alert>
                         )}
 
+                        {/* Email */}
                         <Form.Group controlId="email">
                             <Form.Label className="d-none">Email</Form.Label>
                             <Form.Control
@@ -77,6 +106,7 @@ const SignUpForm = () => {
                             <Alert variant="warning" key={idx}>{message}</Alert>
                         )}
 
+                        {/* Password */}
                         <Form.Group controlId="password1">
                             <Form.Label className="d-none">Password</Form.Label>
                             <Form.Control
@@ -92,6 +122,7 @@ const SignUpForm = () => {
                             <Alert variant="warning" key={idx}>{message}</Alert>
                         )}
 
+                        {/* Confirm Password */}
                         <Form.Group controlId="password2">
                             <Form.Label className="d-none">Confirm password</Form.Label>
                             <Form.Control
@@ -107,9 +138,15 @@ const SignUpForm = () => {
                             <Alert variant="warning" key={idx}>{message}</Alert>
                         )}
 
-                        <Button className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`} type="submit">
-                            Sign up
+                        {/* Submit Button */}
+                        <Button
+                            className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`}
+                            type="submit"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? "Signing Up..." : "Sign up"}
                         </Button>
+
                         {errors.non_field_errors?.map((message, idx) => (
                             <Alert key={idx} variant="warning" className="mt-3">
                                 {message}
@@ -130,6 +167,7 @@ const SignUpForm = () => {
                 <Image
                     className={`${appStyles.FillerImage}`}
                     src={signUpImage}
+                    alt="Sign Up Illustration"
                 />
             </Col>
         </Row>

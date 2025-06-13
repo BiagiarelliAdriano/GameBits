@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound
@@ -12,6 +12,11 @@ class LikeViewSet(viewsets.ViewSet):
 
     def create(self, request, post_id=0):
         """Toggle like for a post (like if not liked, unlike if already liked)."""
+        if not post_id or post_id == 0:
+            return Response(
+                {"detail": "post_id is required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         try:
             post = Post.objects.get(id=post_id)
         except Post.DoesNotExist:

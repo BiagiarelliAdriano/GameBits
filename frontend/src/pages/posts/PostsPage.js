@@ -17,33 +17,46 @@ import { fetchMoreData } from "../../utils/utils";
 import PopularUsers from "../users/PopularUsers";
 
 function PostsPage({ message, filter = "" }) {
+  // Posts state
   const [posts, setPosts] = useState({ results: [] });
+
+  // Track loading state
   const [hasLoaded, setHasLoaded] = useState(false);
+
+  // Track pathname for refetching on route change
   const { pathname } = useLocation();
 
+  // Search query state
   const [query, setQuery] = useState("");
 
+  // Fetch posts with search & filter whenever query, pathname, or filter changes
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(`/posts/`, {
           params: { search: query, filter: filter }
         });
+
         if (response.data && Array.isArray(response.data.results)) {
           setPosts(response.data);
         } else {
-          console.error("Invalid response data:", response.data);
+          console.error("Invalid response data format:", response.data);
         }
+
         setHasLoaded(true);
       } catch (err) {
-        console.log("Error fetching posts:", err)
+        console.error("Error fetching posts:", err);
+        setHasLoaded(true);  // prevent permanent spinner if error happens
       }
     };
 
     setHasLoaded(false);
+
+    // Debounce API call by 1s when user types
     const timer = setTimeout(() => {
       fetchPosts();
     }, 1000);
+
     return () => {
       clearTimeout(timer);
     };
@@ -51,9 +64,12 @@ function PostsPage({ message, filter = "" }) {
 
   return (
     <Row className="h-100">
+      {/* Left Column - Posts + Search */}
       <Col className="py-2 p-0 p-lg-2" lg={8}>
         <PopularUsers mobile />
+
         <i className={`fas fa-search ${styles.SearchIcon}`} />
+
         <Form
           className={styles.SearchBar}
           onSubmit={(event) => event.preventDefault()}
@@ -67,9 +83,10 @@ function PostsPage({ message, filter = "" }) {
           />
         </Form>
 
+        {/* Handle loaded vs loading state */}
         {hasLoaded ? (
           <>
-            {(posts && posts.results && posts.results.length) ? (
+            {posts?.results?.length ? (
               <InfiniteScroll
                 children={posts.results.map((post) => (
                   <Post key={post.id} {...post} setPosts={setPosts} />
@@ -81,7 +98,7 @@ function PostsPage({ message, filter = "" }) {
               />
             ) : (
               <Container className={appStyles.Content}>
-                <Asset />
+                <Asset message={message || "No posts found."} />
               </Container>
             )}
           </>
@@ -91,6 +108,8 @@ function PostsPage({ message, filter = "" }) {
           </Container>
         )}
       </Col>
+
+      {/* Right Column - Desktop Popular Users */}
       <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
         <PopularUsers />
       </Col>

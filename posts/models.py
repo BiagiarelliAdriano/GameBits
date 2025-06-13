@@ -5,6 +5,9 @@ from .mixins import CreatedAtUpdatedAtMixin
 
 # Create your models here.
 class Post(CreatedAtUpdatedAtMixin):
+    """
+    Model representing a post created by a user.
+    """
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,

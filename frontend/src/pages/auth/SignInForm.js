@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "../../api/axiosDefaults";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
@@ -7,11 +7,12 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import styles from "../../styles/SignInUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
+import { useAlert } from "../../contexts/AlertContext";
 
 import signInImage from "../../assets/signin.jpg";
 
@@ -23,26 +24,49 @@ function SignInForm() {
     });
     const { username, password } = signInData;
     const [errors, setErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const history = useHistory();
+    const location = useLocation();
+    // Get global alert show function
+    const { showAlert } = useAlert();
+
+    // On mount, check if redirected with a message in location.state and show alert
+    useEffect(() => {
+        if (location.state?.alert) {
+            showAlert(location.state.alert);
+            // Clear the state so alert doesn't show again on back navigation
+            history.replace({ ...location, state: {} });
+        }
+    }, [location, showAlert, history]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setIsSubmitting(true); // Disable button
         try {
-            const res = await axios.post("http://127.0.0.1:8000/api/token/", signInData);
+            // Send username/password to get JWT tokens
+            const res = await axios.post("token/", signInData);
             const { data } = res;
 
+            // Save tokens in localStorage for authenticated requests
             localStorage.setItem('access_token', data.access);
             localStorage.setItem('refresh_token', data.refresh);
 
-            const { data: userData } = await axios.get("http://127.0.0.1:8000/api/users/current/", {
+            // Fetch current user profile using access token
+            const { data: userData } = await axios.get("users/current/", {
                 headers: {
                     Authorization: `Bearer ${data.access}`,
                 },
             });
             setCurrentUser(userData);
-            history.push("/");;
+            // Show success alert after sign-in
+            showAlert({ message: "Successfully signed in!", variant: "success" });
+            // Redirect home
+            history.push("/");
         } catch (err) {
-            setErrors(err.response?.data);
+            // Show error messages returned from backend
+            setErrors(err.response?.data || {});
+        } finally {
+            setIsSubmitting(false); // Re-enable button
         }
     };
 
@@ -51,6 +75,12 @@ function SignInForm() {
             ...signInData,
             [event.target.name]: event.target.value,
         });
+        // Optionally clear errors for this field on change
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [event.target.name]: null,
+            non_field_errors: null,
+        }));
     };
 
     return (
@@ -95,8 +125,9 @@ function SignInForm() {
                         <Button
                             className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`}
                             type="submit"
+                            disabled={isSubmitting} // disable button while submitting
                         >
-                            Sign In
+                            {isSubmitting ? "Signing In..." : "Sign In"}
                         </Button>
                         {errors.non_field_errors?.map((message, idx) => (
                             <Alert key={idx} variant="warning" className="mt-3">
@@ -118,6 +149,7 @@ function SignInForm() {
                 <Image
                     className={`${appStyles.FillerImage}`}
                     src={signInImage}
+                    alt="Sign In Illustration"
                 />
             </Col>
         </Row>

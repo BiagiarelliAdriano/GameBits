@@ -11,10 +11,22 @@ from likes.models import Like
 from follow.models import Follow
 from django.db.models import Q
 
+"""
+Views for the posts app.
+Includes listing, creating, retrieving, updating, and deleting posts.
+Supports filtering by author, liked posts, followed authors, and search.
+"""
 
 # Create your views here.
 class PostListCreateView(generics.ListCreateAPIView):
-    """View to list and create posts."""
+    """
+    API view to list all posts or create a new post.
+    Supports filtering by:
+    - author (author ID)
+    - liked posts (for authenticated users)
+    - followed users' posts (for authenticated users)
+    - search by title, game, or author username
+    """
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     parser_classes = (MultiPartParser, FormParser)
