@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -9,6 +9,7 @@ import Alert from 'react-bootstrap/Alert';
 
 import { useHistory } from 'react-router-dom';
 import Asset from '../../components/Asset';
+import { useAlert } from '../../contexts/AlertContext';
 
 import styles from '../../styles/PostCreateEditForm.module.css';
 import appStyles from '../../App.module.css';
@@ -29,6 +30,9 @@ function PostCreateForm() {
   } = postData;
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB limit for images
 
+  const { showAlert } = useAlert();
+  const [imagePreview, setImagePreview] = useState(null); // State for image preview
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const imageInput = useRef(null);
   const history = useHistory();
 
@@ -39,8 +43,6 @@ function PostCreateForm() {
       [event.target.name]: event.target.value,
     });
   };
-
-  const [imagePreview, setImagePreview] = useState(null); // State for image preview
 
   // Handle image selection
   const handleChangeImage = (event) => {
@@ -78,16 +80,26 @@ function PostCreateForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // If image error exists, prevent submit
-    if (errors.image) {
-      return;
+
+    // Clear previous errors
+    setErrors({});
+
+    // Client-side validation for required text fields
+    if (!title.trim() || !game.trim() || !content.trim()) {
+      showAlert({ message: 'Please fill out all the required fields: Title, Game, and Content.', variant: 'warning' });
+      setIsSubmitting(false);
+      return; // stop submit
     }
+
+    setIsSubmitting(true);
     const formData = new FormData();
 
     formData.append('title', title);
     formData.append('game', game);
     formData.append('content', content);
-    formData.append('image', imageInput.current.files[0]);
+    if (imageInput.current.files[0]) {
+      formData.append('image', imageInput.current.files[0]);
+    }
 
     try {
       const { data } = await axios.post('/posts/', formData, {
@@ -102,8 +114,12 @@ function PostCreateForm() {
         state: { alertMessage: 'Post successfully created.' },
       });
     } catch (err) {
+      setIsSubmitting(false);
       if (err.response?.status !== 401) {
+        showAlert({ message: 'You must be logged in to create a post.', variant: 'danger' });
+      } else {
         setErrors(err.response?.data);
+        showAlert({ message: 'Failed to create post. Please check the form for errors.', variant: 'danger' });
       }
     }
   };
@@ -119,10 +135,11 @@ function PostCreateForm() {
           placeholder="Type the title of your post..."
           value={title}
           onChange={handleChange}
+          disabled={isSubmitting}
         />
       </Form.Group>
-      {errors?.title?.map((message, idx) => (
-        <Alert variant="warning" key={idx}>
+      {errors?.title?.map((message) => (
+        <Alert variant="warning" key={message}>
           {message}
         </Alert>
       ))}
@@ -135,10 +152,11 @@ function PostCreateForm() {
           placeholder="Type the name of the game..."
           value={game}
           onChange={handleChange}
+          disabled={isSubmitting}
         />
       </Form.Group>
-      {errors?.game?.map((message, idx) => (
-        <Alert variant="warning" key={idx}>
+      {errors?.game?.map((message) => (
+        <Alert variant="warning" key={message}>
           {message}
         </Alert>
       ))}
@@ -151,10 +169,11 @@ function PostCreateForm() {
           placeholder="Share the story behind your post..."
           value={content}
           onChange={handleChange}
+          disabled={isSubmitting}
         />
       </Form.Group>
-      {errors?.content?.map((message, idx) => (
-        <Alert variant="warning" key={idx}>
+      {errors?.content?.map((message) => (
+        <Alert variant="warning" key={message}>
           {message}
         </Alert>
       ))}
@@ -162,14 +181,16 @@ function PostCreateForm() {
       <Button
         className={`${btnStyles.Button} ${btnStyles.Blue}`}
         onClick={() => history.goBack()}
+        disabled={isSubmitting}
       >
         cancel
       </Button>
       <Button
         className={`${btnStyles.Button} ${btnStyles.Blue}`}
         type="submit"
+        disabled={isSubmitting}
       >
-        create
+        {isSubmitting ? 'Creating...' : 'Create'}
       </Button>
     </div>
   );
@@ -183,7 +204,7 @@ function PostCreateForm() {
           >
             <Form.Group className="text-center">
               {imagePreview ? (
-              // If image exists, show the preview using Asset
+                // If image exists, show the preview using Asset
                 <img
                   src={imagePreview}
                   alt=""
@@ -191,7 +212,7 @@ function PostCreateForm() {
                   style={{ maxHeight: '200px', objectFit: 'cover' }}
                 />
               ) : (
-              // If no image, show upload icon + message via Asset
+                // If no image, show upload icon + message via Asset
                 <Asset
                   message="Click or tap to upload an image"
                   spinner={false}
@@ -220,10 +241,11 @@ function PostCreateForm() {
                 onChange={handleChangeImage}
                 ref={imageInput}
                 className="d-none"
+                disabled={isSubmitting}
               />
             </Form.Group>
-            {errors?.image?.map((message, idx) => (
-              <Alert variant="warning" key={idx}>
+            {errors?.image?.map((message) => (
+              <Alert variant="warning" key={message}>
                 {message}
               </Alert>
             ))}
