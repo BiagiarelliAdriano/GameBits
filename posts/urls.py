@@ -3,7 +3,8 @@ from .views import PostListCreateView, PostDetailView
 
 """
 URL patterns for the posts app.
-Includes endpoints to list/create posts and retrieve/update/delete individual posts.
+Includes endpoints to list/create posts and retrieve/update/delet
+individual posts.
 """
 
 urlpatterns = [

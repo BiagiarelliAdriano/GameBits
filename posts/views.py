@@ -17,6 +17,7 @@ Includes listing, creating, retrieving, updating, and deleting posts.
 Supports filtering by author, liked posts, followed authors, and search.
 """
 
+
 # Create your views here.
 class PostListCreateView(generics.ListCreateAPIView):
     """
@@ -45,8 +46,13 @@ class PostListCreateView(generics.ListCreateAPIView):
         filter_type = self.request.query_params.get('filter')
         if user.is_authenticated:
             if filter_type == 'liked':
-                liked_posts = Like.objects.filter(user=user).values_list('post_id', flat=True)
-                queryset = queryset.filter(id__in=liked_posts).exclude(author=user)
+                liked_posts = Like.objects.filter(user=user).values_list(
+                    'post_id', flat=True
+                )
+                queryset = (
+                    queryset.filter(id__in=liked_posts)
+                    .exclude(author=user)
+                )
 
             elif filter_type == 'followed':
                 followed_users = Follow.objects.filter(
@@ -71,6 +77,7 @@ class PostListCreateView(generics.ListCreateAPIView):
         context = super().get_serializer_context()
         context['request'] = self.request
         return context
+
 
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     """View to retrieve, update, or delete a single post."""

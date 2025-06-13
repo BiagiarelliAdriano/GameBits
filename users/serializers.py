@@ -4,11 +4,14 @@ from django.contrib.auth import get_user_model
 from .models import UserProfile
 from follow.models import Follow
 
+
 class UserProfileSerializer(serializers.ModelSerializer):
     """Serializer for the UserProfile model."""
 
-    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
-    updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S',
+                                           read_only=True)
+    updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S',
+                                           read_only=True)
     profile_picture = serializers.ImageField(required=False, allow_null=True)
     posts_count = serializers.SerializerMethodField()
     followers = serializers.SerializerMethodField()
@@ -32,29 +35,37 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def get_profile_picture(self, obj):
         """Return the correct profile picture of the user."""
         return obj.profile_picture
-    
+
     def get_posts_count(self, obj):
         """Return the number of posts created by the user."""
         return obj.posts.count()
-    
+
     def get_followers(self, obj):
         """Return the total number of followers this user has."""
         return Follow.objects.filter(following=obj).count()
-    
+
     def get_following(self, obj):
         """Return the total number of users this user is following."""
         return Follow.objects.filter(follower=obj).count()
-    
+
     def get_is_owner(self, obj):
         """Return True if the requesting user is the owner of this profile."""
         request = self.context.get("request")
-        return request.user == obj if request and request.user.is_authenticated else False
-    
+        return (
+            request.user == obj
+            if request and request.user.is_authenticated
+            else False
+        )
+
     def get_following_id(self, obj):
-        """Return the follow relationship ID if the current user follows this user, else None."""
+        """Return the follow relationship ID if the current user follows
+        this user, else None."""
         request = self.context.get("request")
         if request and request.user.is_authenticated:
-            follow = Follow.objects.filter(follower=request.user, following=obj).first()
+            follow = Follow.objects.filter(
+                follower=request.user,
+                following=obj
+            ).first()
             if follow:
                 return follow.id
             return None
@@ -67,8 +78,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         """Ensure password is hashed when updated."""
         if 'password' in validated_data:
-            validated_data['password'] = make_password(validated_data['password'])
+            validated_data['password'] = make_password(
+                validated_data['password']
+            )
         return super().update(instance, validated_data)
+
 
 # Serializer for the Django User model (to handle user registration)
 class UserSerializer(serializers.ModelSerializer):

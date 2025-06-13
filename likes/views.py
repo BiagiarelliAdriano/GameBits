@@ -11,7 +11,9 @@ class LikeViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, post_id=0):
-        """Toggle like for a post (like if not liked, unlike if already liked)."""
+        """Toggle like for a post
+        (like if not liked, unlike if already liked).
+        """
         if not post_id or post_id == 0:
             return Response(
                 {"detail": "post_id is required."},
@@ -22,7 +24,8 @@ class LikeViewSet(viewsets.ViewSet):
         except Post.DoesNotExist:
             raise NotFound(detail="Post not found")
 
-        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        like, created = Like.objects.get_or_create(user=request.user,
+                                                   post=post)
 
         if not created:
             like.delete()
