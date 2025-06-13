@@ -1,11 +1,11 @@
-import React from "react";
-import { Container } from "react-bootstrap";
-import appStyles from "../../App.module.css";
-import Asset from "../../components/Asset";
-import { useUserData } from "../../contexts/UserDataContext";
-import User from "./User";
+import React from 'react';
+import { Container } from 'react-bootstrap';
+import appStyles from '../../App.module.css';
+import Asset from '../../components/Asset';
+import { useUserData } from '../../contexts/UserDataContext';
+import User from './User';
 
-const PopularUsers = ({ mobile }) => {
+function PopularUsers({ mobile }) {
   const { popularUsers, handleFollowToggle } = useUserData();
 
   // Defensive null check on popularUsers
@@ -13,7 +13,7 @@ const PopularUsers = ({ mobile }) => {
 
   return (
     <Container
-      className={`${appStyles.Content} ${mobile ? "d-lg-none text-center mb-3" : ""}`}
+      className={`${appStyles.Content} ${mobile ? 'd-lg-none text-center mb-3' : ''}`}
     >
       {hasUsers ? (
         <>
@@ -48,6 +48,6 @@ const PopularUsers = ({ mobile }) => {
       )}
     </Container>
   );
-};
+}
 
 export default PopularUsers;

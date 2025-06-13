@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import Form from "react-bootstrap/Form";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Container from "react-bootstrap/Container";
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
 
-import Post from "./Post";
-import Asset from "../../components/Asset";
+import { useLocation } from 'react-router';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Post from './Post';
+import Asset from '../../components/Asset';
 
-import appStyles from "../../App.module.css";
-import styles from "../../styles/PostsPage.module.css";
-import { useLocation } from "react-router";
-import axios from "../../api/axiosDefaults";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { fetchMoreData } from "../../utils/utils";
-import PopularUsers from "../users/PopularUsers";
+import appStyles from '../../App.module.css';
+import styles from '../../styles/PostsPage.module.css';
+import axios from '../../api/axiosDefaults';
+import { fetchMoreData } from '../../utils/utils';
+import PopularUsers from '../users/PopularUsers';
 
-function PostsPage({ message, filter = "" }) {
+function PostsPage({ message, filter = '' }) {
   // Posts state
   const [posts, setPosts] = useState({ results: [] });
 
@@ -27,26 +27,26 @@ function PostsPage({ message, filter = "" }) {
   const { pathname } = useLocation();
 
   // Search query state
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
 
   // Fetch posts with search & filter whenever query, pathname, or filter changes
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`/posts/`, {
-          params: { search: query, filter: filter }
+        const response = await axios.get('/posts/', {
+          params: { search: query, filter },
         });
 
         if (response.data && Array.isArray(response.data.results)) {
           setPosts(response.data);
         } else {
-          console.error("Invalid response data format:", response.data);
+          console.error('Invalid response data format:', response.data);
         }
 
         setHasLoaded(true);
       } catch (err) {
-        console.error("Error fetching posts:", err);
-        setHasLoaded(true);  // prevent permanent spinner if error happens
+        console.error('Error fetching posts:', err);
+        setHasLoaded(true); // prevent permanent spinner if error happens
       }
     };
 
@@ -98,7 +98,7 @@ function PostsPage({ message, filter = "" }) {
               />
             ) : (
               <Container className={appStyles.Content}>
-                <Asset message={message || "No posts found."} />
+                <Asset message={message || 'No posts found.'} />
               </Container>
             )}
           </>

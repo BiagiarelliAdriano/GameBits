@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Container from "react-bootstrap/Container";
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
 
-import appStyles from "../../App.module.css";
-import { useParams, Redirect, useLocation } from "react-router-dom";
-import Post from "./Post";
+import { useParams, Redirect, useLocation } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import appStyles from '../../App.module.css';
+import Post from './Post';
 
-import CommentCreateForm from "../comments/CommentCreateForm";
-import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import Comment from "../comments/Comment";
-import PopularUsers from "../users/PopularUsers";
+import CommentCreateForm from '../comments/CommentCreateForm';
+import { useCurrentUser } from '../../contexts/CurrentUserContext';
+import Comment from '../comments/Comment';
+import PopularUsers from '../users/PopularUsers';
 
-import InfiniteScroll from "react-infinite-scroll-component";
-import Asset from "../../components/Asset";
-import axios from "../../api/axiosDefaults";
-import { fetchMoreData } from "../../utils/utils";
-import { useAlert } from "../../contexts/AlertContext";
+import Asset from '../../components/Asset';
+import axios from '../../api/axiosDefaults';
+import { fetchMoreData } from '../../utils/utils';
+import { useAlert } from '../../contexts/AlertContext';
 
 function PostPage() {
   // Get post ID from URL params
@@ -34,13 +34,13 @@ function PostPage() {
   // Get current user from context
   const currentUser = useCurrentUser();
   // Fallback profile picture in case none exists
-  const profile_picture = currentUser?.profile_picture ||
-    "https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg";
+  const profile_picture = currentUser?.profile_picture
+    || 'https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg';
 
   // Show alert on mount if it exists
   useEffect(() => {
     if (alertMessage) {
-      showAlert({ message: alertMessage, variant: "success" });
+      showAlert({ message: alertMessage, variant: 'success' });
     }
   }, [alertMessage, showAlert]);
 
@@ -60,7 +60,7 @@ function PostPage() {
         }
       } catch (err) {
         console.log(err);
-        if (isMounted) setError("An error occured while loading the post.");
+        if (isMounted) setError('An error occured while loading the post.');
       }
     };
 
@@ -104,7 +104,7 @@ function PostPage() {
               setComments={setComments}
             />
           ) : comments.results.length ? (
-            "Comments"
+            'Comments'
           ) : null}
 
           {/* Show existing comments with infinite scroll */}

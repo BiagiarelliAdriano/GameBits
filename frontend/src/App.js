@@ -1,24 +1,24 @@
-import React from "react";
-import styles from "./App.module.css";
-import NavBar from "./components/NavBar";
-import Container from "react-bootstrap/Container";
-import { Route, Switch, Redirect } from "react-router-dom";
-import "./api/axiosDefaults";
+import React from 'react';
+import Container from 'react-bootstrap/Container';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import styles from './App.module.css';
+import NavBar from './components/NavBar';
+import './api/axiosDefaults';
 
-import SignUpForm from "./pages/auth/SignUpForm";
-import SignInForm from "./pages/auth/SignInForm";
-import PostCreateForm from "./pages/posts/PostCreateForm";
-import PostPage from "./pages/posts/PostPage";
-import PostsPage from "./pages/posts/PostsPage";
-import PostEditForm from "./pages/posts/PostEditForm";
-import UserPage from "./pages/users/UserPage";
-import UsernameForm from "./pages/users/UsernameForm";
-import UserPasswordForm from "./pages/users/UserPasswordForm";
-import UserEditForm from "./pages/users/UserEditForm";
+import SignUpForm from './pages/auth/SignUpForm';
+import SignInForm from './pages/auth/SignInForm';
+import PostCreateForm from './pages/posts/PostCreateForm';
+import PostPage from './pages/posts/PostPage';
+import PostsPage from './pages/posts/PostsPage';
+import PostEditForm from './pages/posts/PostEditForm';
+import UserPage from './pages/users/UserPage';
+import UsernameForm from './pages/users/UsernameForm';
+import UserPasswordForm from './pages/users/UserPasswordForm';
+import UserEditForm from './pages/users/UserEditForm';
 
 // Import context providers and current user hook
-import { CurrentUserProvider, useCurrentUser } from "./contexts/CurrentUserContext";
-import { UserDataProvider } from "./contexts/UserDataContext";
+import { CurrentUserProvider, useCurrentUser } from './contexts/CurrentUserContext';
+import { UserDataProvider } from './contexts/UserDataContext';
 
 /**
  * Protects a route so only authenticated users can access it.
@@ -29,18 +29,16 @@ function ProtectedRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
-      render={(props) =>
-        currentUser ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/signin",
-              state: { from: props.location },
-            }}
-          />
-        )
-      }
+      render={(props) => (currentUser ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/signin',
+            state: { from: props.location },
+          }}
+        />
+      ))}
     />
   );
 }
@@ -54,13 +52,11 @@ function RedirectIfAuthenticated({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
-      render={(props) =>
-        !currentUser ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/" />
-        )
-      }
+      render={(props) => (!currentUser ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/" />
+      ))}
     />
   );
 }
@@ -70,7 +66,7 @@ function RedirectIfAuthenticated({ component: Component, ...rest }) {
  */
 function NotFound() {
   return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
+    <div style={{ padding: '2rem', textAlign: 'center' }}>
       <h2>404 - Page Not Found</h2>
       <p>The page you requested does not exist.</p>
     </div>
