@@ -6,15 +6,17 @@ import styles from '../styles/MoreDropdown.module.css';
 // The forwardRef is important!!
 // Dropdown needs access to the DOM node in order to position the Menu
 // Custom toggle for dropdown
-const ThreeDots = React.forwardRef(({ onClick, className }, ref) => (
-  <i
-    className={`fas fa-ellipsis-v ${className}`}
-    ref={ref}
+const ThreeDots = React.forwardRef(({ onClick}, ref) => (
+  <div
+    className={`${styles.DrodpownMenu}`}
     onClick={(e) => {
       e.preventDefault();
       onClick(e);
     }}
-  />
+    ref={ref}
+  >
+    <span className={`${styles.DropdownItem}`}>Edit</span>
+  </div>
 ));
 
 export function MoreDropdown({ handleEdit, handleDelete }) {
