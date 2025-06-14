@@ -6,22 +6,27 @@ Repository: [Github Repo](https://github.com/BiagiarelliAdriano/GameBits)
 
 The platform is developed by Biagiarelli Adriano.
 
-![Gamebits Platform](https://i.ibb.co/1Y9mcYsV/gamebits.png)
+![Gamebits Platform](https://i.ibb.co/S412tDYZ/gamebits.png)
 
 # About
-Gamebits should be an online social platform focused on providing a safe place for everyone who enjoy videogames to share bits of their experiences and achievements in different worlds in videogames. The platform should offer Sign Up functionality, Sign In functionality, and provide the users with the possibility of creating posts, liking posts, comment on posts, follow other users, filter posts by liked posts, posts by followed users, search specific posts by name, key words in their content and/or game. Users should also be able to create small threads of comments to continue their conversation and be able to collapse these comments to better view the entire comment section. Furthermore, each time a user posts something, receive likes or is followed by other users, they will receive a certain, undefined amount of experience points so they are awarded correctly for providing good content for the platform. Doing so will achieve them by increasing in levels and users will be displayed on a future leaderboard page with the entire of users of the page in order from the highest to the lowest, so higher leveled users are easier to find and be appreciated, even though this doesn't mean that lower leveled users are obscured. Each time a user receives a like, a comment under their own post or comment, when a user follows them or when they level up, they will receive a notification on their future applied Notifications page.
+GameBits is an online social platform focused on providing a safe place for everyone who enjoys video games to share bits of their experiences and achievements across different game worlds. The platform offers Sign Up and Sign In functionality, and allows users to create posts, like posts, comment on posts, follow other users, filter posts by liked posts or posts by followed users, and search for specific posts by name, keywords, or game.
 
 # User Experience Design
 ## Strategy
-The platform is designed to be easy to use and intuitive for anyone that would like to use the platform, not only people interested in videogames. The main goal of the page is to offer a place to share your gaming bits of experiences and cool moments with anyone and share that special moment with as many people as possible. As a final goal, the page was aiming at increasing the positive feedback and social communication and sharing experience in any gaming community.
+The platform is designed to be easy to use and intuitive for anyone, not just those interested in video games. Its main goal is to provide a space where users can share their own game bits — moments, experiences, and highlights from their favorite games — and connect with others who appreciate them. Ultimately, GameBits aims to foster positive feedback, social interaction, and the sharing of experiences across gaming communities.
 
 ### Color palette
-The following color palette was chosen for the website. The colors were chosen with the strategy to present a more modern color scheme, with darker colors for backgrounds and bright neon lights and colors for the details.
+The following color palette was selected to give the website a modern and vibrant look, combining dark backgrounds with bright neon accents for a striking visual contrast.
 
 ![Color palette](https://i.ibb.co/zhd8YLNG/colorpalette.png)
 
+## Media
+
+- The Sign Up and Sign In images are sourced from [Pexels](https://www.pexels.com).
+- All other images currently used in the live version of GameBits were uploaded directly from my personal computer and do not represent media that I own or claim ownership of.
+
 ## Wireframes
-These are representations of how the page should've looked like. At least parts of it.
+Initial Wireframes.
 
 ![Home page](https://i.ibb.co/hF8d4qvK/wireframe1.png)
 
@@ -30,66 +35,74 @@ These are representations of how the page should've looked like. At least parts 
 ![Post creation or edit page](https://i.ibb.co/xKtLPC3s/wireframe3.png)
 
 ## User stories
-I started out my project by mapping out all of the different features my page should have had. Starting with User Stories, with prioritization from Must-have to Could-have, present in the GitHub repository:
+The Agile Methodology was used to plan this project. This was implemented through Github and the Project Board which can be seen in this GitHub repository:
+
 [User Stories.](https://github.com/BiagiarelliAdriano/GameBits/issues?page=1)
-Most of the Backend functionalities described in the User stories were actually implemented and are present in the final project. Many of the Frontend side of the functionalities were unfortunately not implemented due to timing issues and several bugs and errors, so they are either not present or not fully functional.
 
-# Technologies used
+GitHub Issues were used to create and manage User Stories, as well as track fixes, improvements, and updates throughout the development process. Each issue was assigned, labeled, and categorized to provide clarity and organization. The User Stories were divided between Frontend and Backend tasks to better structure the development workflow. Additionally, some User Stories remain open in the ToDo list, serving as future updates and potential improvements for the project.
 
- - ### Languages:
-	 - [JavaScript](https://www.javascript.com/) - A dynamic programming language that's used for web development. 
-	 - [HTML](https://en.wikipedia.org/wiki/HTML5) - A markup language used for structuring and presenting content.
-	 - [CSS](https://en.wikipedia.org/wiki/CSS) - A style sheet language used for the general aesthetic design in web development.
-	 - [Python](https://www.python.org/) - A programming language that lets you work quickly and integrate systems more effectively.
-- ### Libraries and Frameworks:
-	- [React](https://react.dev/) - Advanced front-end JavaScript library for building user interfaces.
-	- [Bootstrap](https://getbootstrap.com/) - Popular CSS Framework for developing response and mobile-first websites.
-	- [Font Awesome](https://fontawesome.com/) - A font and icon toolkit based on CSS.
-	- [Google Fonts](https://fonts.google.com/) - A library of 1482 open source font families and APIs for convenient use via CSS.
-	- [Django](https://pypi.org/project/Django/) - Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design.
-	 - [Django REST Framework](https://pypi.org/project/djangorestframework/) - A powerful and flexible toolkit for building Web APIs.
-- ### NPM Packages / Dependencies:
-	- [axios](https://www.npmjs.com/package/axios) - HTTP client for making network requests.
-	- [jwt-decode](https://jwt.io/) - Library for decoding JWT tokens.
-	- [react-bootstrap](https://react-bootstrap.github.io/) - React components for using Bootstrap with React.
-	- [react-dom](https://legacy.reactjs.org/docs/react-dom.html) - React library for rendering components on the DOM.
-	- [react-infinite-scroll-component](https://www.npmjs.com/package/react-infinite-scroll-component) - Component for implementing infinite scrolling in React.
-	- [react-modal](https://www.npmjs.com/package/react-modal) - Library for creating modal dialogs in React.
-	- [react-paginate](https://www.npmjs.com/package/react-paginate) - Library for creating pagination controls in React.
-	- [react-router-dom](https://www.npmjs.com/package/react-router-dom) - Library for routing in single-page applications.
-	- [react-scripts](https://www.npmjs.com/package/react-scripts) - Scripts for creating and building React projects with Create React App.
-	- [dj-database-url](https://pypi.org/project/dj-database-url/) - Allows you to utilize the 12factor inspired DATABASE_URL environment variable to configure your Django application.
-	- [dj-rest-auth](https://pypi.org/project/dj-rest-auth/) - API endpoints for handling authentication securely in Django Rest Framework.
-	- [django-allauth](https://pypi.org/project/django-allauth/) - Integrate set of Django applications addressing authentication, registration, account management as well as 3rd party (social) account authentication.
-	- [django-cloudinary-storage](https://pypi.org/project/django-cloudinary-storage/) - package that facilitates integration with Cloudinary by implementing Django Storage API.
-	- [charset-normalizer](https://pypi.org/project/charset-normalizer/) - A library that helps you read text from an unknown charset encoding.
-	- [django-cors-headers](https://pypi.org/project/django-cors-headers/) - Adds Cross-Origin Resource Sharing (CORS) headers to responses.
-	- [django-filter](https://pypi.org/project/django-filter/) - Declaratively add dynamic QuerySet filtering from URL parameters.
-	- [djangorestframework-simplejwt](https://pypi.org/project/djangorestframework-simplejwt/) - JSON Web Token authentication plugin for the Django REST Framework.
-	- [gunicorn](https://pypi.org/project/gunicorn/) - A Python WSGI HTTP Server for UNIX.
-	- [Pillow](https://pypi.org/project/pillow/) - Adds image processing capabilities to your Python interpreter.
-	- [psycopg2](https://pypi.org/project/psycopg2/) - PostgreSQL database adapter for Python.
-	- [requests](https://pypi.org/project/requests/) - Allows you to send HTTP/1.1 requests.
-	- [urllib3](https://pypi.org/project/urllib3/) - A powerful, user-friendly HTTP client for Python.
-- ### Other Tools:
-	- [Favicon](https://favicon.io/) - Used to create the favicon.
-	- [VSCode](https://code.visualstudio.com/) - Used to create and edit the website.
-	- [GitHub](https://github.com/) - Used to manage the project.
-	- [Heroku](https://dashboard.heroku.com/apps#) - Used to host and deploy the website.
-	- [GitBash](https://en.wikipedia.org/wiki/Bash_%28Unix_shell%29) - Terminal used to push changes to the GitHub repository.
-	- [Google Chrom DevTools](https://developer.chrome.com/docs/devtools/) - Used to test responsiveness and debug.
-	- [MockFlow](https://mockflow.com/) - Used to create mock-up designs.
-	- [Krita](https://krita.org/en/) - Used to create/edit images for the website.
-	- [ImgBB](https://imgbb.com/) - Used to upload images for the README.md file.
-	- [Cloudinary](https://cloudinary.com/) - Used to upload and store images uploaded to the website.
-	- [Coolors](https://coolors.co/) - Used to create the color palette.
-	- [DBDiagram](https://dbdiagram.io/home) - Used to create the Entity Relationship Diagram.
-	- [JSHint](https://jshint.com/) - Used to validate JavaScript code.
-	- [Postman](https://www.postman.com/) - Used to test and convalidate database responses.
-	- [PEP8CI](https://pep8ci.herokuapp.com/#) - Used to validate Python code.
-	- [Postgresql](https://www.postgresql.org/) - PostgreSQL is a powerful, open source object-relational database system with over 35 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance.
-	- [Virtual Environment](https://docs.python.org/3/library/venv.html) - Used to create a virtual environment.
-	- [StackEdit](https://stackedit.io/) - Used to create the README.md file.
+# Technologies Used
+
+### Languages
+- [JavaScript](https://www.javascript.com/) — A dynamic programming language used for web development.
+- [HTML](https://en.wikipedia.org/wiki/HTML5) — Markup language for structuring and presenting content.
+- [CSS](https://en.wikipedia.org/wiki/CSS) — Style sheet language used for web design and layout.
+- [Python](https://www.python.org/) — A versatile programming language for backend development and system integration.
+
+### Frontend Libraries & Frameworks
+- [React](https://react.dev/) — A powerful JavaScript library for building user interfaces.
+- [Bootstrap](https://getbootstrap.com/) — Popular CSS framework for responsive, mobile-first web design.
+- [React Router DOM](https://www.npmjs.com/package/react-router-dom) — Declarative routing for React single-page applications.
+- [Axios](https://www.npmjs.com/package/axios) — HTTP client for making API requests.
+- [React Bootstrap](https://react-bootstrap.github.io/) — React components built with Bootstrap styles.
+- [React Infinite Scroll Component](https://www.npmjs.com/package/react-infinite-scroll-component) — Implements infinite scrolling in React.
+- [React Modal](https://www.npmjs.com/package/react-modal) — Accessible modal dialogs for React.
+- [React Paginate](https://www.npmjs.com/package/react-paginate) — Pagination component for React applications.
+- [JWT Decode](https://jwt.io/) — Decode JSON Web Tokens on the client side.
+- [React DOM](https://legacy.reactjs.org/docs/react-dom.html) — Library for rendering React components to the DOM.
+
+### Backend Libraries & Frameworks
+- [Django](https://www.djangoproject.com/) — High-level Python web framework encouraging rapid, clean design.
+- [Django REST Framework](https://www.django-rest-framework.org/) — Toolkit for building Web APIs in Django.
+- [Django Allauth](https://django-allauth.readthedocs.io/en/latest/) — Authentication, registration, and account management for Django.
+- [dj-rest-auth](https://dj-rest-auth.readthedocs.io/en/latest/) — REST API endpoints for authentication.
+- [Django Cloudinary Storage](https://pypi.org/project/django-cloudinary-storage/) — Integrates Cloudinary media storage with Django.
+- [django-cors-headers](https://github.com/adamchainz/django-cors-headers) — Adds Cross-Origin Resource Sharing headers to Django responses.
+- [django-filter](https://django-filter.readthedocs.io/en/stable/) — Dynamic QuerySet filtering based on URL parameters.
+- [djangorestframework-simplejwt](https://github.com/jazzband/djangorestframework-simplejwt) — JWT authentication for Django REST Framework.
+- [gunicorn](https://gunicorn.org/) — WSGI HTTP server for UNIX.
+- [Pillow](https://python-pillow.org/) — Image processing capabilities for Python.
+- [psycopg2](https://www.psycopg.org/) — PostgreSQL adapter for Python.
+- [requests](https://docs.python-requests.org/en/latest/) — HTTP library for Python.
+- [urllib3](https://urllib3.readthedocs.io/en/latest/) — HTTP client for Python.
+
+### DevOps & Deployment
+- [Heroku](https://www.heroku.com/) — Cloud platform for hosting and deploying web applications.
+- [PostgreSQL](https://www.postgresql.org/) — Powerful open-source object-relational database system.
+- [Virtual Environment](https://docs.python.org/3/library/venv.html) — Isolated Python environment for dependency management.
+
+### Testing & Validation Tools
+- [Postman](https://www.postman.com/) — API testing and development environment.
+- [JSHint](https://jshint.com/) — JavaScript code quality tool.
+- [PEP8CI](https://pep8ci.herokuapp.com/) — Python code style validation.
+
+### Design & Media Tools
+- [MockFlow](https://mockflow.com/) — Wireframing and mockup tool.
+- [Krita](https://krita.org/en/) — Open-source digital painting software.
+- [ImgBB](https://imgbb.com/) — Image hosting service for README assets.
+- [Cloudinary](https://cloudinary.com/) — Cloud-based media management and delivery.
+- [Coolors](https://coolors.co/) — Color palette generator.
+- [DBDiagram](https://dbdiagram.io/) — Tool to create database entity-relationship diagrams.
+
+### Development Tools
+- [VSCode](https://code.visualstudio.com/) — Source code editor.
+- [GitHub](https://github.com/) — Version control and project management platform.
+- [Git Bash](https://git-scm.com/downloads) — Command-line shell for Git operations.
+- [Google Chrome DevTools](https://developer.chrome.com/docs/devtools/) — Browser-based development and debugging tools.
+- [StackEdit](https://stackedit.io/) — Online Markdown editor used to create this README.
+
+### Other
+- [Favicon.io](https://favicon.io/) — Favicon generator.
 
 # Features
 ## Entity Relationship Diagram
@@ -98,114 +111,172 @@ To create the entity relationship diagram, I used a graph modelling tool [DBDiag
 ![DBDiagram](https://i.ibb.co/yFFVp1zb/entityrelationshipdiagram.png)
 
 ## Database
-For this project, I mainly used a PostgreSQL database for the production database.
+The production database for this project is primarily powered by PostgreSQL.
 
 ## Models
 
-**Users**
+### Users
 
-The Users model is designed to contain all the relevant informations necessary for users profiles.
+The **Users** model is a custom user profile extending Django's built-in `AbstractUser` model. It includes additional fields for profile customization, a leveling system, and timestamps for creation and updates.
 
-|Database Value| Field Type | Field Argument |
-|--|--|--|
-| id | IntField | primary key |
-| username | CharField | max_length=50, unique, not null |
-| email | CharField | max_length=100, unique, not null |
-| password | CharField | max_length=255, not null |
-| profile_picture | ImageField| default: 'default.png' |
-| bio | TextField| blank=True, max_length=500 |
-| level | IntField | default=1 |
-| experience_points | IntField | default=0 |
-| is_active | BooleanField| default=True |
-| created_at | DateTimeField | auto_now_add=True |
-| updated_at | DateTimeField | auto_now=True |
+| Database Field      | Field Type           | Description                                         |
+|---------------------|----------------------|-----------------------------------------------------|
+| `username`          | CharField            | Unique username (max length 150, inherited)         |
+| `email`             | EmailField           | Unique email address (max length 254, inherited)    |
+| `password`          | CharField            | Hashed password managed by Django authentication    |
+| `profile_picture`   | CloudinaryField      | Optional profile image, stored via Cloudinary       |
+| `bio`               | TextField            | Optional short biography (max length 500)           |
+| `level`             | IntegerField         | User level, defaults to 1                            |
+| `experience_points` | IntegerField         | Experience points, defaults to 0                     |
+| `is_active`         | BooleanField         | Active user status, defaults to True                 |
+| `created_at`        | DateTimeField        | Timestamp of creation, auto-generated                |
+| `updated_at`        | DateTimeField        | Timestamp of last update, auto-generated             |
+| `groups`            | ManyToManyField      | User groups with custom related name                  |
+| `user_permissions`  | ManyToManyField      | User permissions with custom related name             |
 
-**Posts**
+---
 
-The Posts model is designed to contain all the relevant informations necessary for the posts users are going to share.
+**Notes:**  
+- This model inherits core fields like `username`, `email`, and `password` from Django’s `AbstractUser`.  
+- Profile pictures use Cloudinary for cloud storage.  
+- Custom related names are set on `groups` and `user_permissions` fields to avoid conflicts.  
+- The model automatically orders users by creation date descending.
 
-|Database Value| Field Type | Field Argument |
-|--|--|--|
-| author | ForeignKey | get_user_model, on_delete=models.CASCADE, related_name='posts', verbose_name='author' |
-| title| CharField | max_length=255, verbose_name="Post Title" |
-| game | CharField | max_length=100, verbose_name="Post Game" |
-| content | TextField | verbose_name="Post Content" |
-| image | ImageField| upload_to='images/', blank=True, null=True, verbose_name="Post Image" |
+### Posts
 
-**Likes**
+The **Posts** model represents content created and shared by users. It includes information about the author, post title, associated game, content text, and an optional image. It also tracks creation and update timestamps through a mixin.
 
-The Likes model is designed to make the like functionality work.
+| Database Field | Field Type    | Description                                           |
+|----------------|---------------|-------------------------------------------------------|
+| `author`       | ForeignKey    | References the user who created the post (CASCADE on delete), related name: `posts` |
+| `title`        | CharField    | Title of the post (max length 255)                    |
+| `game`         | CharField    | Name of the game related to the post (max length 100)|
+| `content`      | TextField    | The main textual content of the post                  |
+| `image`        | ImageField   | Optional image uploaded with the post (`upload_to='images/'`) |
+| `created_at`   | DateTimeField| Timestamp when the post was created (from mixin)      |
+| `updated_at`   | DateTimeField| Timestamp when the post was last updated (from mixin) |
 
-|Database Value| Field Type | Field Argument |
-|--|--|--|
-| user| ForeignKey | settings.AUTH_USER_MODEL, on_delete=models.CASCADE |
-| post| ForeignKey| Post, on_delete=models.CASCADE, related_name="likes" |
+---
 
-**Comments**
+**Notes:**  
+- The model inherits timestamp fields `created_at` and `updated_at` from `CreatedAtUpdatedAtMixin`.  
+- Posts are ordered by most recent creation date first.  
+- The string representation shows the post title and the author’s username.
 
-The Comments model is designed to make the comments functionality work.
+### Likes
 
-|Database Value| Field Type | Field Argument |
-|--|--|--|
-| user | ForeignKey | UserProfile, on_delete=models.CASCADE, related_name="comments" |
-| post| ForeignKey| Post, on_delete=models.CASCADE, related_name="comments" |
-| content | TextField | verbose_name="Comment Content" |
+The **Likes** model enables users to like posts, tracking which user liked which post. It also includes timestamps for when the like was created or updated.
 
-**Replies**
+| Database Field | Field Type | Description                                        |
+|----------------|------------|--------------------------------------------------|
+| `user`         | ForeignKey | References the user who liked the post (CASCADE on delete) |
+| `post`         | ForeignKey | References the liked post (CASCADE on delete), related name: `likes` |
+| `created_at`   | DateTimeField | Timestamp when the like was created (from mixin)  |
+| `updated_at`   | DateTimeField | Timestamp when the like was last updated (from mixin) |
 
-The Replies model is designed to make the replies threads functionality work.
+---
 
-|Database Value| Field Type | Field Argument |
-|--|--|--|
-| user| ForeignKey | UserProfile, on_delete=models.CASCADE, related_name='replies' |
-| comment| ForeignKey| Comment, on_delete=models.CASCADE, related_name='replies' |
-| content | TextField | verbose_name="Post Content" |
-| parent_reply | ForeignKey| 'self', null=True, blank=True, on_delete=models.CASCADE, related_name='nested_replies'|
+**Notes:**  
+- The model inherits timestamp fields `created_at` and `updated_at` from `CreatedAtUpdatedAtMixin`.  
+- The combination of user and post is unique, so a user can like a post only once.  
+- The string representation shows the username and the title of the liked post.
+
+### Comments
+
+The **Comments** model allows users to comment on posts, storing the comment content along with timestamps.
+
+| Database Field | Field Type  | Description                                  |
+|----------------|-------------|----------------------------------------------|
+| `user`         | ForeignKey  | References the user who made the comment (CASCADE on delete), related name: `comments` |
+| `post`         | ForeignKey  | References the post being commented on (CASCADE on delete), related name: `comments` |
+| `content`      | TextField   | The text content of the comment              |
+| `created_at`   | DateTimeField | Timestamp when the comment was created (from mixin)  |
+| `updated_at`   | DateTimeField | Timestamp when the comment was last updated (from mixin) |
+
+---
+
+**Notes:**  
+- The model inherits `created_at` and `updated_at` timestamp fields from `CreatedAtUpdatedAtMixin`.  
+- The string representation includes the username of the commenter and the title of the post.
+
+### Replies
+
+The **Replies** model enables threaded reply functionality by allowing users to reply to comments and to other replies.
+
+| Database Field  | Field Type  | Description                                                  |
+|-----------------|-------------|--------------------------------------------------------------|
+| `user`          | ForeignKey  | References the user who created the reply (CASCADE on delete), related name: `replies` |
+| `comment`       | ForeignKey  | References the comment being replied to (CASCADE on delete), related name: `replies` |
+| `content`       | TextField   | The text content of the reply                                 |
+| `parent_reply`  | ForeignKey  | Self-referential field for nested replies (nullable, blank), related name: `nested_replies` |
+| `created_at`    | DateTimeField | Timestamp when the reply was created (from mixin)          |
+| `updated_at`    | DateTimeField | Timestamp when the reply was last updated (from mixin)     |
+
+---
+
+**Notes:**  
+- Replies are ordered by creation time (`created_at`).  
+- The string representation shows the username of the replier and the ID of the comment replied to.
+- Although the backend code for Replies exists, this functionality is currently not integrated with the frontend and remains unimplemented in the live application. It is planned for future updates.
 
 **Follow**
 
-The Follow model is designed to make following other users functionality work.
+The Follow model is designed to represent the following relationship between users.
 
-|Database Value| Field Type | Field Argument |
-|--|--|--|
-| follower| ForeignKey | UserProfile, related_name="following", on_delete=models.CASCADE |
-| following | ForeignKey| UserProfile, related_name="followers", on_delete=models.CASCADE) |
+| Database Value | Field Type  | Field Argument                                                      |
+|----------------|-------------|-------------------------------------------------------------------|
+| follower       | ForeignKey  | UserProfile, related_name="following", on_delete=models.CASCADE    |
+| following      | ForeignKey  | UserProfile, related_name="followers", on_delete=models.CASCADE    |
+
+This model enforces uniqueness to prevent duplicate follow relationships between the same two users.
+
+**Notes:**
+
+- The model uses a mixin to automatically track creation and update timestamps (`created_at` and `updated_at`).
 
 **Notifications**
 
-The Notifications model is designed to make all the notifications functionality work.
+The Notifications model is designed to manage notification functionality for various user interactions.
 
-    NOTIFICATION_TYPES = [
-	    ('likes', 'Likes'),
-	    ('follow', 'Follow'),
-	    ('Comment', 'Comment'),
-	    ('reply', 'Reply'),
-	    ('level_up', 'Level Up'),
+| Database Value     | Field Type   | Field Argument                                                            |
+|--------------------|--------------|---------------------------------------------------------------------------|
+| user               | ForeignKey   | get_user_model(), on_delete=models.CASCADE, related_name="notifications"  |
+| created_by         | ForeignKey   | get_user_model(), on_delete=models.CASCADE, related_name="created_notifications" |
+| notification_type  | CharField    | max_length=50, choices=NOTIFICATION_TYPES                                |
+| content            | TextField    | None                                                                      |
+| post               | ForeignKey   | Post, on_delete=models.CASCADE, null=True, blank=True                    |
+| comment            | ForeignKey   | Comment, on_delete=models.CASCADE, null=True, blank=True                 |
+| reply              | ForeignKey   | Reply, on_delete=models.CASCADE, null=True, blank=True                   |
+| is_read            | BooleanField | default=False                                                             |
 
-|Database Value| Field Type | Field Argument |
-|--|--|--|
-| user | ForeignKey| get_user_model(), on_delete=models.CASCADE, related_name="notifications" |
-| created_by| ForeignKey| get_user_model(), on_delete=models.CASCADE, related_name="created_notifications" |
-| notification_type| CharField | max_length=50, choices=NOTIFICATION_TYPES |
-| content | TextField| None |
-| post| ForeignKey| Post, on_delete=models.CASCADE, null=True, blank=True |
-| comment| ForeignKey| Comment, on_delete=models.CASCADE, null=True, blank=True |
-| reply| ForeignKey| Reply, on_delete=models.CASCADE, null=True, blank=True|
-| is_read| BooleanField| default=False |
+`NOTIFICATION_TYPES` include: Likes, Follow, Comment, Reply, and Level Up.
+
+**Notes:**
+
+- The model uses a mixin to automatically track creation and update timestamps (`created_at` and `updated_at`).
+- Although the backend code for notifications is implemented and supports multiple notification types, these notification features are currently **not used or integrated in the frontend** and remain for future development.
 
 ## Frontend
 
-### Sign Up Form Page
+### Sign Up Page
 
-![SignUpFormPage](https://i.ibb.co/7JW66tSh/signup.png)
+![SignUpFormPage](https://i.ibb.co/3mpsDwq3/signup.png)
 
-The image was taken as a placefolder following the Moments walkthrough project from Code Insitute.
+The Sign Up page allows new users to create an account on the platform. Accessible by clicking the **Sign Up** button located in the NavBar, users are presented with a simple and intuitive form where they can provide the necessary information to register. Upon successful registration, users are automatically redirected to the Sign In page, allowing them to immediately log in and start using their newly created account without additional navigation.
 
-### Sign In Form Page
+The Sign Up page is designed with accessibility and user experience in mind, ensuring a smooth onboarding process. The background image used on this page was sourced for free from [Pexels](https://www.pexels.com).
 
-![SignInFormPage](https://i.ibb.co/r2J8THFd/signin.png)
+## Sign In Page
 
-The image was taken as a placefolder following the Moments walkthrough project from Code Insitute.
+![SignInFormPage](https://i.ibb.co/KzDfBx4K/signin.png)
+
+The Sign In page allows existing users to log into their accounts by providing their **username** and **password**. Upon successful authentication, users are immediately redirected to the homepage, where they are fully signed in and able to interact with all features of the platform.
+
+For users who find themselves on the Sign In page but do not yet have an account, a convenient **"Don't have an account? Sign up now!"** button is available. Clicking this button redirects users to the Sign Up page, where they can easily create a new account and join the platform.
+
+The authentication system includes **token-based session management**. When a user successfully signs in, an authorization token is generated and stored securely. This token allows the user to remain logged in for up to **7 days**. Each time the user accesses the platform within this period, the token is automatically refreshed, ensuring a seamless experience without the need for repeated logins. If the user remains inactive for more than 7 days, the token expires, and they will be prompted to log in again upon returning.
+
+The Sign In page maintains a user-friendly interface and is designed for quick and secure access. As with the Sign Up page, the background image used here was sourced for free from [Pexels](https://www.pexels.com).
 
 ### NavBar while user is not logged in
 
