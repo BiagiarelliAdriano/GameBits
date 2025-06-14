@@ -64,7 +64,24 @@ function SignInForm() {
       history.push('/');
     } catch (err) {
       // Show error messages returned from backend
-      setErrors(err.response?.data || {});
+      const errorData = err.response?.data || {};
+      setErrors(errorData);
+
+      // Handle 401 unauthorized with 'detail' message
+      if (errorData.detail) {
+        showAlert({
+          message: "It looks like your username or password is incorrect. Please try again!",
+          variant: "danger",
+        });
+      }
+
+      // Handle unexpected errors like network issues
+      if (!err.response) {
+        showAlert({
+          message: "Something went wrong. Please check your connection and try again.",
+          variant: "danger",
+        });
+      }
     } finally {
       setIsSubmitting(false); // Re-enable button
     }
@@ -122,6 +139,7 @@ function SignInForm() {
                 {message}
               </Alert>
             ))}
+
             <Button
               className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`}
               type="submit"
@@ -129,6 +147,7 @@ function SignInForm() {
             >
               {isSubmitting ? 'Signing In...' : 'Sign In'}
             </Button>
+
             {errors.non_field_errors?.map((message, idx) => (
               <Alert key={idx} variant="warning" className="mt-3">
                 {message}
@@ -138,9 +157,7 @@ function SignInForm() {
         </Container>
         <Container className={`mt-3 ${appStyles.Content}`}>
           <Link className={styles.Link} to="/signup">
-            Don't have an account?
-            {' '}
-            <span>Sign up now!</span>
+            Don't have an account? <span>Sign up now!</span>
           </Link>
         </Container>
       </Col>
