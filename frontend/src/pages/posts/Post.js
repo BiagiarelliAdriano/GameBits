@@ -134,13 +134,14 @@ function Post(props) {
                   }
                 />
               </span>
-              <span>{localLikesCount}</span>
             </>
           ) : (
             <OverlayTrigger placement="top" overlay={<Tooltip>Log in to like posts!</Tooltip>}>
               <i className="far fa-heart" />
             </OverlayTrigger>
           )}
+          {/* Always display like count */}
+          <span>{localLikesCount}</span>
 
           <Link to={`/posts/${id}`}>
             <i className="far fa-comments" />
