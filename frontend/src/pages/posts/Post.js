@@ -100,15 +100,17 @@ function Post(props) {
               })}
             </span>
             {is_author && postPage && (
-            <MoreDropdown handleEdit={handleEdit} handleDelete={handleDelete} />
+              <MoreDropdown handleEdit={handleEdit} handleDelete={handleDelete} />
             )}
           </div>
         </Media>
       </Card.Body>
 
-      <Link to={`/posts/${id}`}>
-        <Card.Img src={image} alt={title} />
-      </Link>
+      {image && (
+        <Link to={`/posts/${id}`}>
+          <Card.Img src={image} alt={title} />
+        </Link>
+      )}
 
       <Card.Body>
         {title && <Card.Title className="text-center">{title}</Card.Title>}
@@ -126,10 +128,10 @@ function Post(props) {
               <span onClick={handleLike} style={{ pointerEvents: loading ? 'none' : 'auto' }}>
                 <i
                   className={
-                                        localHasLiked
-                                          ? `fas fa-heart ${styles.Heart}`
-                                          : `far fa-heart ${styles.HeartOutline}`
-                                    }
+                    localHasLiked
+                      ? `fas fa-heart ${styles.Heart}`
+                      : `far fa-heart ${styles.HeartOutline}`
+                  }
                 />
               </span>
               <span>{localLikesCount}</span>
