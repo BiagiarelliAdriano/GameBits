@@ -80,7 +80,11 @@ function PostsPage({ message, filter = '' }) {
             type="text"
             className="mr-sm-2"
             placeholder="Search posts..."
+            maxLength={50}
           />
+          <div className="text-right small text-muted">
+            {query.length}/50
+          </div>
         </Form>
 
         {/* Handle loaded vs loading state */}
