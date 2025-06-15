@@ -128,7 +128,11 @@ function PostEditForm() {
           placeholder="Type the title of your post..."
           value={title}
           onChange={handleChange}
+          maxLength={50}
         />
+        <div className="text-right small text-muted">
+          {title.length}/50
+        </div>
       </Form.Group>
       {errors?.title?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -144,7 +148,11 @@ function PostEditForm() {
           placeholder="Type the name of the game..."
           value={game}
           onChange={handleChange}
+          maxLength={50}
         />
+        <div className="text-right small text-muted">
+          {game.length}/50
+        </div>
       </Form.Group>
       {errors?.game?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -160,7 +168,11 @@ function PostEditForm() {
           placeholder="Share the story behind your post..."
           value={content}
           onChange={handleChange}
-        />
+          maxLength={255}
+          />
+          <div className="text-right small text-muted">
+            {content.length}/255
+          </div>
       </Form.Group>
       {errors?.content?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -194,7 +206,7 @@ function PostEditForm() {
           >
             <Form.Group className="text-center">
               {imagePreview ? (
-              // If image exists, show the preview using Asset
+                // If image exists, show the preview using Asset
                 <img
                   src={imagePreview}
                   alt=""
@@ -202,7 +214,7 @@ function PostEditForm() {
                   style={{ maxHeight: '200px', objectFit: 'cover' }}
                 />
               ) : (
-              // If no image, show upload icon + message via Asset
+                // If no image, show upload icon + message via Asset
                 <Asset
                   message="Click or tap to upload an image"
                   spinner={false}

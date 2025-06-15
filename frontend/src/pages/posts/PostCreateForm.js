@@ -136,7 +136,11 @@ function PostCreateForm() {
           value={title}
           onChange={handleChange}
           disabled={isSubmitting}
+          maxLength={50}
         />
+        <div className="text-right small text-muted">
+          {title.length}/50
+        </div>
       </Form.Group>
       {errors?.title?.map((message) => (
         <Alert variant="warning" key={message}>
@@ -153,7 +157,11 @@ function PostCreateForm() {
           value={game}
           onChange={handleChange}
           disabled={isSubmitting}
+          maxLength={50}
         />
+        <div className="text-right small text-muted">
+          {game.length}/50
+        </div>
       </Form.Group>
       {errors?.game?.map((message) => (
         <Alert variant="warning" key={message}>
@@ -170,7 +178,11 @@ function PostCreateForm() {
           value={content}
           onChange={handleChange}
           disabled={isSubmitting}
+          maxLength={255}
         />
+        <div className="text-right small text-muted">
+          {content.length}/255
+        </div>
       </Form.Group>
       {errors?.content?.map((message) => (
         <Alert variant="warning" key={message}>
