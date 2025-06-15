@@ -6,7 +6,7 @@ Repository: [Github Repo](https://github.com/BiagiarelliAdriano/GameBits)
 
 The platform is developed by Biagiarelli Adriano.
 
-![Gamebits Platform](https://i.ibb.co/S412tDYZ/gamebits.png)
+![Gamebits Platform](https://i.ibb.co/fYppbnd5/gamebits.png)
 
 # About
 GameBits is an online social platform focused on providing a safe place for everyone who enjoys video games to share bits of their experiences and achievements across different game worlds. The platform offers Sign Up and Sign In functionality, and allows users to create posts, like posts, comment on posts, follow other users, filter posts by liked posts or posts by followed users, and search for specific posts by name, keywords, or game.
@@ -260,7 +260,7 @@ The Notifications model is designed to manage notification functionality for var
 
 ### Sign Up Page
 
-![SignUpFormPage](https://i.ibb.co/3mpsDwq3/signup.png)
+![SignUpFormPage](https://i.ibb.co/S9B1JH1/signup.png)
 
 The Sign Up page allows new users to create an account on the platform. Accessible by clicking the **Sign Up** button located in the NavBar, users are presented with a simple and intuitive form where they can provide the necessary information to register. Upon successful registration, users are automatically redirected to the Sign In page, allowing them to immediately log in and start using their newly created account without additional navigation.
 
@@ -268,7 +268,7 @@ The Sign Up page is designed with accessibility and user experience in mind, ens
 
 ## Sign In Page
 
-![SignInFormPage](https://i.ibb.co/KzDfBx4K/signin.png)
+![SignInFormPage](https://i.ibb.co/spzGzzXn/signin.png)
 
 The Sign In page allows existing users to log into their accounts by providing their **username** and **password**. Upon successful authentication, users are immediately redirected to the homepage, where they are fully signed in and able to interact with all features of the platform.
 
@@ -278,41 +278,268 @@ The authentication system includes **token-based session management**. When a us
 
 The Sign In page maintains a user-friendly interface and is designed for quick and secure access. As with the Sign Up page, the background image used here was sourced for free from [Pexels](https://www.pexels.com).
 
-### NavBar while user is not logged in
+### NavBar While User Is Not Logged In
 
 ![Navbar while user is not logged in](https://i.ibb.co/vC8sQtdY/navbar.png)
 
-The NavBar for a user that access the page for the first time presents a Home button, a Sign In button to access the Sign In Form and a Sign Up button to access the Sign Up Form. The User can also click on the page logo to access the Home page.
+When a user accesses the platform without being logged in, the NavBar displays the following options: **Home**, **Sign In**, and **Sign Up**. The **Sign In** button directs the user to the Sign In form, while the **Sign Up** button leads to the account registration form. Additionally, clicking on the platform logo also redirects the user to the Home page.
 
 ### NavBar while user is logged in
 
-![NavBar while user is logged in](https://i.ibb.co/PG1XBC3X/navbarloggedin.png)
+![NavBar while user is logged in](https://i.ibb.co/gLL9rGD8/navbarloggedin.png)
 
 When the user logs in their account, the Navigation bar presents a New Post button to access the Post Creation Form, a Feed button to filter posts on the main page to view posts only by users followed by the current user, a Liked button to filter posts on the main page to view only posts that were liked by the current user, a Sign Out button that logs the user out and returns the state of the NavBar to the previous one and a Profile button to access the Profile page of the current User.
 
-### Page Not Found
+## Home Page (Not Logged In)
 
-![Page Not Found](https://i.ibb.co/jPLVpYs9/pagenotfound.png)
+![Home page while not logged in](https://i.ibb.co/Ng5trfxq/gamebitsloggedout.png)
 
-When a user tries to access a non-existent page, this is the page they find themselves in, so they can still access the Navigation bar and return to normal site pages.
+When a user is not logged in, they have limited access to the Home page. The following features are available:
 
-### Post Creation Form
+- **Navigation Bar:**
+  - The NavBar contains only the following buttons:
+    - **Home** (returns to the Home page)
+    - **Sign In** (redirects to the login page)
+    - **Sign Up** (redirects to the account creation page)
 
-![Post Creation Form](https://i.ibb.co/WNbkrsMJ/newpost.png)
+- **Post Browsing:**
+  - The user can view all posts created by other users.
+  - Infinite scrolling is enabled, allowing continuous browsing through all posts.
 
-Users can interact with the button to upload an image and with the text contents. Clicking on the Cancel button will bring users back to the most previous page they accessed. Clicking on the Create button should create the post in the database, return the user to the Home page and present the newly created post in the Home page. After uploading an image, a Change image button will appear so Users can still change the image before posting.
+- **Post Interactions:**
+  - The user can see the number of likes and comments for each post.
+  - The user can hover over the Like button, but cannot click it. When they hover, a small tooltip appears saying they need to log in to like posts.
+  - The user can click on the **author's username** or **profile picture** to visit that user's profile page.
+  - If the user clicks on the **post image** or the **Comments button**, they are redirected to the **Sign Up** page to create an account and gain full access to post details and comments.
 
-### Post
+## Home Page (Logged In)
 
-![Post](https://i.ibb.co/5hy2SMXz/post.png)
+![Home Page while logged in](https://i.ibb.co/fYppbnd5/gamebits.png)
 
-Example post viewed in the Home page. Users should be able to interact with the user's name and profile picture to access their user profile, click the image of the post to open the post page, click on the heart icon to like the post, click the text bubbles icon to open the comment section.
+When a user is logged in, they have full access to the Home page with the following features:
+
+- **Navigation Bar:**
+  - The NavBar contains the following buttons:
+    - **Home** (returns to the Home page)
+    - **New Post** (redirects to the post creation form)
+    - **Feed** (shows posts from followed users)
+    - **Liked** (shows posts the user has liked)
+    - **Sign Out** (logs the user out)
+    - **Profile Picture** (clickable, redirects to the user's own profile page)
+
+- **Post Browsing:**
+  - The user can view all posts created by other users.
+  - Infinite scrolling is enabled, allowing continuous browsing through all posts.
+
+- **Post Interactions:**
+  - The user can see the number of likes and comments for each post.
+  - The user can click the Like button to like or unlike any post.
+  - The user can click on the **author's username** or **profile picture** to visit that user's profile page.
+  - When the user clicks on the **post image** or the **Comments button**, they are redirected to that post's detail page to view and write comments.
+
+- **Popular Users List:**
+  - The user can see the complete list of users, ordered by creation date (most recent first).
+  - They can follow or unfollow other users directly from this list.
+  - The Follow / Unfollow button is not displayed next to their own name.
+
+## Feed Page
+
+![Feed Page](https://i.ibb.co/wZK7BLN6/feedpage.png)
+
+- The **Feed** page can be accessed by clicking the **Feed** button in the Navigation bar.
+- This page displays all posts created by users that the currently logged-in user follows.
+- The posts are filtered from the general list of posts available on the Home page.
+- Infinite scrolling is enabled for continuous browsing.
+
+## Liked Page
+
+![Liked Page](https://i.ibb.co/QFz8HJ8p/likedpage.png)
+
+- The **Liked** page can be accessed by clicking the **Liked** button in the Navigation bar.
+- This page displays all posts that the currently logged-in user has previously liked.
+- The posts are filtered from the general list of posts available on the Home page.
+- Infinite scrolling is enabled for continuous browsing.
 
 ### Search Bar
 
-![Search Bar](https://i.ibb.co/KjBMKqvc/searchbear.png)
+![Search Bar](https://i.ibb.co/zTGj1gbM/searchbar.png)
 
-A search bar is present on the top of each Home, Feed, Liked page to let users filter the posts searching key names or contents.
+A search bar is present at the top of the Home, Feed, and Liked pages, allowing users to filter the displayed posts based on specific keywords. Users can search for posts by:
+
+- **Username** of the author
+- **Title** of the post
+- **Game** associated with the post
+
+This enables users to easily find posts related to specific users or topics of interest. The search results are dynamically filtered within the current page context (Home, Feed, or Liked).
+
+### Page Not Found
+
+![Page Not Found](https://i.ibb.co/jZbXxLpn/pagenotfound.png)
+
+When a user attempts to access a non-existent or invalid route, they are presented with this custom "Page Not Found" screen. The navigation bar remains accessible at the top, allowing users to easily return to the home page or navigate to other valid sections of the website.
+
+## Popular Users Section
+
+![Popular Users List](https://i.ibb.co/Vcq0HkBJ/popularuserslist.png)
+
+The **Popular Users** list displays the complete list of all users on the server, ordered by their account creation date — from the most recent to the oldest.
+
+- **For users who are not logged in:**
+  - They can click on any profile picture in the list to visit that user's profile page.
+  - However, they **cannot see** or interact with the Follow button.
+
+- **For logged-in users:**
+  - They can click on any profile picture to visit that user's profile page.
+  - They **can see and interact** with the Follow button next to every user except themselves (users cannot follow themselves).
+  - They can follow and unfollow other users directly from the Popular Users list.
+
+The Popular Users list is accessible and interactive on the following pages:
+- Home page
+- Any post page
+- Feed page
+- Liked posts page
+- Any user profile page
+
+This ensures users can always discover and connect with others throughout the platform.
+
+### Post Creation Form
+
+![Post Creation Form](https://i.ibb.co/gbym777V/newpost.png)
+
+The Post Creation Form allows users to create new posts by filling out all the required fields: title, game, content, and optionally uploading an image. Users cannot submit the form if any required field is left empty or if they attempt to create a post containing only an image without text content.
+
+Users can upload an image using the provided button; once an image has been selected, a Change image button appears to allow them to modify their selection before submission. The Create button triggers the post submission process. While the form is processing, the button changes to Creating... to provide feedback that the submission is in progress.
+
+Upon successful creation, the user is automatically redirected to the newly created post's dedicated page, where they can view and interact with their content. Clicking the Cancel button before clicking the Create button returns the user to the previous page they were visiting before accessing the post creation form.
+
+### Post Page
+
+![Post Page](https://i.ibb.co/9ktCkChH/postpage.png)
+
+The Post page displays the full details of an individual post. Users can access this page by clicking on a post image from the Home, Feed, or Liked pages, or immediately after successfully creating a new post.
+
+Only logged-in users are able to access and interact with this page.
+
+On the Post page, users can:
+
+- View the complete post details, including title, game, content, image, author, like count, and comment count.
+- Click on the author's username or profile picture to visit the author's profile page.
+- Like or unlike the post.
+- View and write comments in the comment section.
+- Navigate through the site using the Navigation Bar and interact with the Popular Users list, both of which remain accessible on this page.
+
+### Comment Section
+
+![Comment Section](https://i.ibb.co/bgK6MhhK/commentsection.png)
+
+The Comment Section allows users to interact with posts by writing and managing comments.
+
+- Logged-in users can write their own comments using the comment form located at the top of the comment section.
+- The **Post** button is disabled until the user writes a comment.
+- After posting, the new comment appears immediately below the form. Comments are displayed in order of creation, with the most recent comments appearing first.
+- All users can view comments from other users, but can only edit or delete their own comments.
+
+For comments owned by the logged-in user:
+
+- A blue action button appears on the right side of the comment.
+- Clicking this button opens a dropdown menu with two options: **Edit Comment** and **Delete Comment**.
+
+![Comment with edit options](https://i.ibb.co/h1gKBXL2/commentwitheditoptions.png)
+
+**Edit Comment:**
+- Selecting **Edit Comment** closes the dropdown and turns the comment into an editable text field.
+- After making changes, users can click **Save** to apply the updates, which are reflected dynamically.
+- Clicking **Cancel** will discard any changes and return the comment to its original state.
+
+![Comment while editing](https://i.ibb.co/6RK8xy5k/commentwhileediting.png)
+
+**Delete Comment:**
+- Selecting **Delete Comment** immediately removes the comment from the comment section dynamically.
+
+### User Profile
+
+![User Profile page](https://i.ibb.co/N2VY5q3Z/userprofilepage.png)
+
+The User Profile page provides a detailed view of each user's profile and posts.
+
+- The profile page can be accessed in multiple ways:  
+  - By clicking the user's profile picture or username in any post.
+  - Through the Popular Users list.
+  - Through the profile picture in the Navigation Bar (to access your own profile).
+
+The page displays the following information:
+
+- User profile picture.
+- Username.
+- Number of followers.
+- Number of users the profile is following.
+- Total number of posts created by the user.
+- User bio (only if a bio has been set).
+- A section titled "*username*'s posts", displaying all posts created by the user. These posts can be fully interacted with as described in the Post section.
+- The Popular Users list remains available, as does the Navigation Bar.
+
+**Interaction Options:**
+
+- If the logged-in user is viewing their own profile:
+  - An **Edit** button is displayed.
+  - Clicking the Edit button opens a dropdown with the following options:
+    - **Edit User** (to modify profile details)
+    - **Change Username**
+    - **Change Password**
+
+- If the logged-in user is viewing another user's profile:
+  - A **Follow / Unfollow** button is shown instead of the Edit button, allowing the user to follow or unfollow the profile owner.
+
+### Edit User Page
+
+![Edit User page](https://i.ibb.co/jkMWN53r/usereditpage.png)
+
+The Edit User page allows users to update their profile information.
+
+- This page is accessible through the **Edit** dropdown menu located in the user’s own profile page.
+- Only the owner of the profile can access this page.
+
+The page displays:
+
+- The current profile picture.
+- A **Change the image** button to upload a new profile picture.
+- A text area to modify the user's bio.
+- Two buttons:
+  - **Cancel**: Redirects the user back to the previous page without applying any changes.
+  - **Save**: Saves any changes made (or none, if no changes were made) and redirects the user back to the profile page, where the updated information will be immediately visible.
+
+### Change Username Page
+
+![Change Username Page](https://i.ibb.co/20LrbYh2/usereditusernamepage.png)
+
+The Change Username page allows users to update their current username.
+
+- This page is accessible through the **Edit** dropdown menu in the user’s own profile page.
+- Only the owner of the profile can access this page.
+
+The page contains:
+
+- A single input field to enter the new username.
+- Two buttons:
+  - **Cancel**: Redirects the user back to the previous page without saving any changes.
+  - **Save**: Applies the new username (or keeps the existing one if no changes were made) and redirects the user back to the profile page, where the updated username will be immediately visible.
+
+### Change Password Page
+
+![Change Password Page](https://i.ibb.co/Lhv2zSXT/usereditpasswordpage.png)
+
+The Change Password page allows users to update their current password.
+
+- This page is accessible through the **Edit** dropdown menu in the user’s own profile page.
+- Only the owner of the profile can access this page.
+
+The page contains:
+
+- A **New Password** input field to enter the desired new password.
+- A **Confirm Password** input field to confirm the new password matches.
+- Two buttons:
+  - **Cancel**: Redirects the user back to the previous page without applying any changes.
+  - **Save**: Applies the password change (only if both fields match and are valid) and redirects the user back to the profile page. 
 
 ### Spinner Icon
 
@@ -330,7 +557,19 @@ The Gamebits logo was created by myself on Krita writing the letters G and B in 
 The main font used in the application is [Montserrat](https://fonts.google.com/specimen/Montserrat?query=montserrat). The use of this font is consistent with the color scheme. Needless to say, the font was chosen due to its readability and its feel of modern typography together with the whole page scheme.
 
 ## Future Features
-I do intend to continue on working on Gamebits to make it fully functional, with all correct features applied that were described in the About section of this document. This includes Notifications, Experience Points and Leveling system, comments threads. Future features that can be included in this style of page are chat functions between users, with post sharing capabilities, special designed badges for users that reach certain levels to specially customize their own profile and a list of achievements, objectives of certain actions taken on the page, that could push futher engagement on the platform.
+
+Gamebits is now fully functional and operational with all the core features implemented. However, I still have many ideas and improvements I would like to bring to the platform in future iterations, to further expand its possibilities and deliver an even more complete and engaging experience for users.
+
+Some of the future features I plan to work on include:
+
+- **Comment Threads:** Allow users to reply to specific comments, creating structured discussions under posts.
+- **Liking Comments:** Introduce the ability to like individual comments, adding more interaction possibilities.
+- **Notification System:** Develop a complete notifications system to inform users when they receive likes, comments, follows, or level-ups.
+- **Experience-Based Level System:** Implement a leveling system where users gain experience points for their activity and engagement on the platform.
+- **Mobile Adaptations:** Further refine and optimize the mobile experience to ensure smooth usability across all devices.
+- **Other Expansions:** Explore additional features such as chat functionality, post sharing, custom badges for users who reach certain levels, and a system of achievements that reward users for accomplishing specific objectives and milestones on the platform.
+
+I strongly believe in the potential of Gamebits as a continuously expandable project, capable of offering an even richer, more interactive, and fun experience for all users.
 
 # Testing
 
@@ -355,9 +594,387 @@ Many, if not all features applied to the Frontend are not functional. Users are 
 
 I've tested all the files through the CI PEP8 Linter and although I found a few errors, I have rectified these and now all files are passing with "All clear, no errors found".
 
-# Deployment To Heroku
+# Deployment
+This section will fully explain how to deploy both the backend and frontend of the GameBits project to production, as well as how to run both locally for development.
 
-The project was deployed to Heroku. The deployment process used was taken from the [Advanced Front End: Deployment of both applications guide from Code Institute](https://code-institute-students.github.io/advfe-unified-workspace/deployment/00-deployment).
+The project is deployed using:
+- Heroku (for both backend and frontend)
+- Neon PostgreSQL (external database for production)
+- Cloudinary (for media storage)
+- GitHub (for version control and repository management)
+The live link can be found here: [Gamebits](https://gamebits-579c6fd85599.herokuapp.com/)
+Both frontend and backend are deployed from the same GitHub repository.
+
+## Backend Deployment
+1. **Install the required dependencies**
+
+The backend of this project is built with Django REST Framework, and uses several additional libraries. Install all dependencies with:
+
+```
+pip install -r requirements.txt
+```
+
+> Make sure your virtual environment is activated before running this. All the commands explained in this section will assume you are using a Git Bash terminal. 
+
+If you're starting from scratch locally, also install PostgreSQL and set up your local database.
+
+2. **PostgreSQL database setup (local development)**
+
+For local development, PostgreSQL 15 is installed manually on the local machine. 
+
+To start PostgreSQL manually on Windows (inside Git Bash or similar terminal):
+
+```
+"/c/Program Files/PostgreSQL/15/bin/pg_ctl.exe" -D "D:/PostgreSQL/data" start
+```
+
+You should see a message confirming the server has started.
+
+> This step is only required for local development. PostgreSQL is not installed on Heroku because Neon is used.
+
+3. **Create environment variables file (`env.py`)**
+
+Ensure all environment variables are properly set in both development and production. The environment variables used are:
+
+-   `SECRET_KEY`: Your Django secret key.
+    
+-   `DEBUG`: Set to `False` in production.
+    
+-   `DATABASE_URL`: The full database URL (PostgreSQL).
+    
+-   `CLOUDINARY_URL`: Your Cloudinary URL for media storage.
+    
+-   `ALLOWED_HOSTS`: Comma-separated list of allowed hosts.
+    
+-   `CLIENT_ORIGIN`: The frontend URL allowed for CORS.
+
+> In local development these variables are loaded via `env.py` file:
+
+```python
+import os
+
+# Local environment variables for development/testing only
+os.environ['CLOUDINARY_URL'] = 'cloudinary://<cloud_name>:<api_key>:<api_secret>@<cloud>'
+os.environ.setdefault("SECRET_KEY", "your-local-secret-key")
+os.environ['DEBUG'] = 'True'
+os.environ['DEV'] = 'True'
+os.environ['DATABASE_URL'] = "postgresql://<username>:<password>@<host>:<port>/<database>"
+os.environ['ALLOWED_HOSTS'] = "<your-local-frontend-and-backend-urls>"
+os.environ['CLIENT_ORIGIN'] = "<frontend_URL>"
+```
+> In production you must set these directly as Config Vars in Heroku.
+
+**Never commit your `env.py` to GitHub** — make sure it is included in `.gitignore`.
+
+4. **Django project setup**
+
+Start your Django project with:
+
+```
+django-admin startproject gamebits .
+```
+
+> The `.` at the end ensures the project files are created in the current directory.
+
+5. **Add installed apps in `settings.py`**
+
+In your `settings.py`, add:
+
+```python
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
+    'corsheaders',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'comments',
+    'follow',
+    'likes',
+    'notifications',
+    'posts',
+    'replies',
+    'users',
+]
+```
+
+6. **Configure Cloudinary (media storage)**
+
+In `settings.py`:
+
+```python
+import os
+
+if os.path.exists('env.py'):
+    import env
+
+CLOUDINARY_STORAGE = {
+    'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
+}
+MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+```
+
+7. **Configure Database in `settings.py`**
+
+```python
+import dj_database_url
+
+if 'DEV' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'gamebits',
+            'USER': '<your_username>',
+            'PASSWORD': '<your_password>',
+            'HOST': '<your_local_host>',
+            'PORT': '<your_local_port>',
+        }
+    }
+else:
+    database_url = os.environ.get("DATABASE_URL")
+    if isinstance(database_url, bytes):
+        database_url = database_url.decode('utf-8')
+    if not database_url:
+        raise ValueError("DATABASE_URL is not set in the environment.")
+    DATABASES = {
+        'default': dj_database_url.parse(database_url)
+    }
+```
+
+In production, you are using a fully hosted PostgreSQL instance via Neon or a similar provider, connected via your `DATABASE_URL`. No Heroku Postgres Add-on is used.
+
+8. **Configure Middleware**
+
+```python
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+```
+
+9. **JWT Authentication (Simple JWT with dj-rest-auth)**
+
+In `settings.py`:
+
+```python
+REST_FRAMEWORK  = {
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'rest_framework_simplejwt.authentication.JWTAuthentication',
+	),
+	'DEFAULT_PERMISSION_CLASSES': (
+		'rest_framework.permissions.IsAuthenticated',
+	),
+	'DEFAULT_PAGINATION_CLASS':
+		'rest_framework.pagination.PageNumberPagination',
+	'PAGE_SIZE': 10,
+	'DEFAULT_RENDERER_CLASSES': (
+		'rest_framework.renderers.JSONRenderer',
+	)
+}
+
+SIMPLE_JWT  = {
+	'ACCESS_TOKEN_LIFETIME': timedelta(days=1), # Token expires in 1day
+	'REFRESH_TOKEN_LIFETIME': timedelta(days=7), # Refresh token lasts 7 days
+	'ROTATE_REFRESH_TOKENS': True,
+	'BLACKLIST_AFTER_ROTATION': True,
+} 
+```
+10. **Static Files (using WhiteNoise)**
+
+```python
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
+]
+WHITENOISE_ROOT = BASE_DIR / 'frontend' / 'build'
+```
+>`WhiteNoise` serves both backend static files and the React build.
+
+11. **Custom User Model**
+
+You use a custom user model:
+
+```
+AUTH_USER_MODEL = 'users.UserProfile'
+```
+
+You also have custom serializers properly configured in your `users/serializers.py` for registration and profile management. These include:
+
+-   `UserProfileSerializer`
+    
+-   `UserSerializer`
+    
+
+>This is fully configured, no additional deployment configuration is required for these.
+
+## Frontend Deployment
+
+The React frontend is contained inside the `/frontend` directory and is deployed together with the Django backend on Heroku.
+
+### Build the Frontend
+
+You must build the React app before deployment so Django can serve it statically:
+
+```
+cd frontend
+npm install
+npm run build
+```
+This creates the `frontend/build` directory that Django serves through WhiteNoise.
+
+### Axios Configuration
+
+Your Axios client should point to the deployed backend API URL. For example:
+
+```
+import axios from 'axios';
+
+axios.defaults.baseURL = 'https://gamebits-579c6fd85599.herokuapp.com/';
+```
+
+### Environment Variables
+To avoid hardcoding the backend URL directly into your frontend code, the React app uses an environment variable stored in a `.env` file inside the `/frontend` directory:
+
+```
+REACT_APP_API_URL=https://gamebits-579c6fd85599.herokuapp.com
+```
+
+In the code, Axios reads this variable:
+
+```
+const apiUrl = process.env.REACT_APP_API_URL;
+
+axios.defaults.baseURL = `${apiUrl}/api/`;
+axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+axios.defaults.withCredentials = true;
+```
+
+-   When deploying to Heroku, you can set this environment variable as a Config Var on Heroku just like your backend env variables.
+    
+-   Locally, make sure to create the `.env` file inside `/frontend` before building the project.
+
+### CORS Configuration
+
+Your Django `settings.py` includes:
+
+```python
+if 'CLIENT_ORIGIN' in os.environ:
+    CORS_ALLOWED_ORIGINS = [os.environ.get('CLIENT_ORIGIN')]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        'https://gamebits-579c6fd85599.herokuapp.com',
+        'http://localhost:3000',
+    ]
+CORS_ALLOW_CREDENTIALS = True
+```
+
+## Deployment to Heroku
+
+1. **Prepare Procfile**
+
+Create a file named `Procfile` in your root directory:
+
+```
+web: gunicorn --workers 3 --timeout 60 gamebits.wsgi:application
+```
+
+2. **Install Gunicorn & WhiteNoise**
+
+Ensure these are present in your `requirements.txt`:
+```
+gunicorn
+whitenoise
+dj-database-url
+psycopg2
+cloudinary
+cloudinary-storage
+django-cors-headers
+django-environ
+django
+rest_framework
+dj_rest_auth
+rest_framework_simplejwt
+```
+
+>(You may have additional packages depending on your full `requirements.txt` file.)
+
+3. **Git Push**
+
+Ensure everything is committed and pushed to GitHub.
+
+```
+git add .
+git commit -m "Prepare for deployment"
+git push
+```
+
+4. **Create Heroku App**
+
+```
+heroku create gamebits
+```
+
+5. **Add Heroku Buildpacks**
+
+```
+heroku buildpacks:add heroku/python
+heroku buildpacks:add heroku/node.js
+```
+
+6. **Set Heroku Config Vars**
+
+Set all required environment variables in Heroku dashboard (VERY IMPORTANT):
+Set these in **Heroku → Settings → Config Vars**.
+-   `SECRET_KEY`
+-   `DEBUG` = `False`
+-   `DATABASE_URL`
+-   `CLOUDINARY_URL`
+-   `ALLOWED_HOSTS`
+-   `CLIENT_ORIGIN`
+
+7. **Push to Heroku**
+
+```
+git push heroku main
+```
+
+8. **Run Migrations & Collectstatic**
+
+```
+heroku run python manage.py migrate
+heroku run python manage.py collectstatic --noinput
+```
+
+**Deployment complete.** Both backend and frontend are fully deployed and served from the same Heroku instance using WhiteNoise to serve static files.
+
+## **Important Final Notes**
+
+- You do not need `SITE_ID` because you're not using Django Sites Framework.
+    
+- You do not need to modify your serializers — they are fully working as-is.
+    
+- Your `settings.py` file is already correctly structured — I have adjusted the deployment instructions to perfectly match your exact setup.
+    
+- WhiteNoise is fully used for serving your React frontend build and static files.
+    
+- PostgreSQL is fully handled through your Neon-hosted database URL.
 
 # Credits
 
