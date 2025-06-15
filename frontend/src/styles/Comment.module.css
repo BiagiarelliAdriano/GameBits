@@ -8,3 +8,9 @@
     font-weight: lighter;
     color: #c1c1c5;
 }
+
+.CommentText {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}

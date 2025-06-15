@@ -112,7 +112,7 @@ function Comment(props) {
               />
             </div>
           ) : (
-            <p>{content}</p>
+            <p className={styles.CommentText}>{content}</p>
           )}
         </Media.Body>
 

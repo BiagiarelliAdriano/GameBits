@@ -15,7 +15,7 @@ function CommentCreateForm(props) {
   const {
     post, setPost, setComments, profilePicture,
   } = props || {};
-    // Tracks whether form submission is in progress to disable input/button
+  // Tracks whether form submission is in progress to disable input/button
   const [isSubmitting, setIsSubmitting] = useState(false);
   // Holds any error message from submission failure
   const [error, setError] = useState(null);
@@ -83,7 +83,11 @@ function CommentCreateForm(props) {
             rows={2}
             aria-label="Write a comment"
             disabled={isSubmitting}
+            maxLength={255}
           />
+          <div className="text-right small text-muted">
+            {content.length}/255
+          </div>
         </InputGroup>
       </Form.Group>
 
