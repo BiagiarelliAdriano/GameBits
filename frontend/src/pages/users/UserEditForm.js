@@ -152,7 +152,11 @@ function UserEditForm() {
           name="bio"
           rows={7}
           disabled={submitting}
+          maxLength={500}
         />
+        <div className="text-right small text-muted">
+          {bio.length}/500
+        </div>
         {/* Show any bio errors from server */}
         {errors?.bio?.map((message, idx) => (
           <Alert variant="warning" key={idx}>
@@ -192,8 +196,8 @@ function UserEditForm() {
               <figure>
                 <Image
                   src={
-                                        profile_picture || 'https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg'
-                                    }
+                    profile_picture || 'https://res.cloudinary.com/dumjqhvzz/image/upload/v1736331882/default_profile_snzudq.jpg'
+                  }
                   fluid
                   alt={`${currentUser?.username || 'User'}'s profile`}
                 />

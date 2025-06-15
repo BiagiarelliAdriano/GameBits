@@ -5,6 +5,12 @@
     margin: 4px;
 }
 
+.bio {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
 @media screen and (max-width: 991px) {
     .ProfilePicture {
         width: 250px;

@@ -135,7 +135,7 @@ function UserPage() {
             )
           )}
         </Col>
-        {user?.bio && <Col className="p-3">{user.bio}</Col>}
+        {user?.bio && <Col className="p-3 bio">{user.bio}</Col>}
       </Row>
     </>
   );

@@ -97,6 +97,9 @@ function UsernameForm() {
                 autoComplete="off"
                 spellCheck={false}
               />
+              <div className="text-right small text-muted">
+                {username.length}/24
+              </div>
             </Form.Group>
 
             {/* Show any username errors */}

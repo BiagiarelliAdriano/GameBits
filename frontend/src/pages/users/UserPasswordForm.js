@@ -90,9 +90,9 @@ function UserPasswordForm() {
 
   // Disable Save button if passwords empty or don't match or form is submitting
   const isSaveDisabled = !new_password1.trim()
-        || !new_password2.trim()
-        || new_password1 !== new_password2
-        || isSubmitting;
+    || !new_password2.trim()
+    || new_password1 !== new_password2
+    || isSubmitting;
 
   return (
     <Row>
@@ -109,8 +109,12 @@ function UserPasswordForm() {
                 onChange={handleChange}
                 name="new_password1"
                 autoComplete="new-password"
+                maxLength={24}
                 disabled={isSubmitting}
               />
+              <div className="text-right small text-muted">
+                {new_password1.length}/24
+              </div>
             </Form.Group>
 
             {/* Show errors related to new_password1 */}
@@ -130,8 +134,12 @@ function UserPasswordForm() {
                 onChange={handleChange}
                 name="new_password2"
                 autoComplete="new-password"
+                maxLength={24}
                 disabled={isSubmitting}
               />
+              <div className="text-right small text-muted">
+                {new_password2.length}/24
+              </div>
             </Form.Group>
 
             {/* Show errors related to new_password2 */}
@@ -150,12 +158,12 @@ function UserPasswordForm() {
 
             {/* Dynamic status message (success or info) */}
             {statusMessage && (
-            <Alert
-              variant={statusMessage.type === 'success' ? 'success' : 'info'}
-              className="mt-3"
-            >
-              {statusMessage.text}
-            </Alert>
+              <Alert
+                variant={statusMessage.type === 'success' ? 'success' : 'info'}
+                className="mt-3"
+              >
+                {statusMessage.text}
+              </Alert>
             )}
 
             {/* Cancel button */}
