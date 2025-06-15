@@ -115,7 +115,11 @@ function SignInForm() {
                 className={styles.Input}
                 value={username}
                 onChange={handleChange}
+                maxLength={24}
               />
+              <div className="text-right small text-muted">
+                {username.length}/24
+              </div>
             </Form.Group>
             {errors.username?.map((message, idx) => (
               <Alert key={idx} variant="warning">
@@ -132,7 +136,11 @@ function SignInForm() {
                 className={styles.Input}
                 value={password}
                 onChange={handleChange}
+                maxLength={24}
               />
+              <div className="text-right small text-muted">
+                {password.length}/24
+              </div>
             </Form.Group>
             {errors.password?.map((message, idx) => (
               <Alert key={idx} variant="warning">

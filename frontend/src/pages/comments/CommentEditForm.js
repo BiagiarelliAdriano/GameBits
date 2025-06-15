@@ -61,7 +61,11 @@ function CommentEditForm({
           rows={2}
           aria-label="Edit comment"
           disabled={isSubmitting}
-        />
+          maxLength={255}
+          />
+          <div className="text-right small text-muted">
+            {formContent.length}/255
+          </div>
       </Form.Group>
 
       {/* Display error message if any */}

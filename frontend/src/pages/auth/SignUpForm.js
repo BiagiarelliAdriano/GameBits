@@ -71,7 +71,7 @@ function SignUpForm() {
   };
 
   return (
-  // JSX rendering form fields, error alerts, and sign-up image
+    // JSX rendering form fields, error alerts, and sign-up image
     <Row className={styles.Row}>
       <Col className="my-auto py-2 p-md-2" md={6}>
         <Container className={`${appStyles.Content} p-4 `}>
@@ -88,7 +88,11 @@ function SignUpForm() {
                 name="username"
                 value={username}
                 onChange={handleChange}
+                maxLength={24}
               />
+              <div className="text-right small text-muted">
+                {username.length}/24
+              </div>
             </Form.Group>
             {errors.username?.map((message, idx) => <Alert variant="warning" key={idx}>{message}</Alert>)}
 
@@ -102,7 +106,11 @@ function SignUpForm() {
                 name="email"
                 value={email}
                 onChange={handleChange}
+                maxLength={50}
               />
+              <div className="text-right small text-muted">
+                {email.length}/50
+              </div>
             </Form.Group>
             {errors.email?.map((message, idx) => <Alert variant="warning" key={idx}>{message}</Alert>)}
 
@@ -116,7 +124,11 @@ function SignUpForm() {
                 name="password1"
                 value={password1}
                 onChange={handleChange}
+                maxLength={24}
               />
+              <div className="text-right small text-muted">
+                {password1.length}/24
+              </div>
             </Form.Group>
             {errors.password1?.map((message, idx) => <Alert variant="warning" key={idx}>{message}</Alert>)}
 
@@ -130,7 +142,11 @@ function SignUpForm() {
                 name="password2"
                 value={password2}
                 onChange={handleChange}
+                maxLength={24}
               />
+              <div className="text-right small text-muted">
+                {password2.length}/24
+              </div>
             </Form.Group>
             {errors.password2?.map((message, idx) => <Alert variant="warning" key={idx}>{message}</Alert>)}
 
