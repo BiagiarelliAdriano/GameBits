@@ -20,72 +20,51 @@ import btnStyles from '../../styles/Button.module.css';
 import appStyles from '../../App.module.css';
 
 function UserEditForm() {
-  // Current logged-in user and setter to update the context after profile edit
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
-
-  // Extract user id param from the URL (e.g., /users/:id/edit)
   const { id } = useParams();
-
-  // Show alert
   const { showAlert } = useAlert();
-
-  // History hook for navigation
   const history = useHistory();
-
-  // Ref to the file input element to access the uploaded file
   const imageFile = useRef();
 
-  // Local state for the form inputs (bio text and profile picture preview)
   const [userData, setUserData] = useState({
     bio: '',
     profile_picture: '',
   });
   const { bio, profile_picture } = userData;
-
-  // Local state to hold validation or server errors returned by backend
   const [errors, setErrors] = useState({});
-
-  // Submitting state to disable inputs while request is in flight
   const [submitting, setSubmitting] = useState(false);
 
-  // Clean up created object URL for image preview to avoid memory leaks
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB limit
+
+  // Clean up object URLs
   useEffect(() => () => {
     if (profile_picture && profile_picture.startsWith('blob:')) {
       URL.revokeObjectURL(profile_picture);
     }
   }, [profile_picture]);
 
-  // Load the user data on mount if the current user matches the id param
   useEffect(() => {
     const handleMount = async () => {
-      // Only allow editing if logged-in user is editing their own profile
       if (currentUser?.id?.toString() === id) {
         try {
-          // Fetch user data from backend API
           const { data } = await axios.get(`/users/${id}/`);
           const { bio, profile_picture } = data;
-
-          // Set form state with fetched data
           setUserData({
             bio,
             profile_picture: profile_picture || '',
           });
         } catch (err) {
-          // If error, log and redirect to homepage
           console.log(err);
           history.push('/');
         }
       } else {
-        // Redirect if trying to edit another user's profile
         history.push('/');
       }
     };
-
     handleMount();
   }, [currentUser, history, id]);
 
-  // Generic handler to update form input fields (only bio here)
   const handleChange = (event) => {
     setUserData({
       ...userData,
@@ -93,33 +72,56 @@ function UserEditForm() {
     });
   };
 
-  // Submit handler for saving changes
+  // Handle image file selection and validation
+  const handleChangeImage = (event) => {
+    if (event.target.files.length) {
+      const file = event.target.files[0];
+
+      if (!file.type.startsWith('image/')) {
+        setErrors({ profile_picture: ['Only image files are allowed.'] });
+        setUserData({ ...userData, profile_picture: '' });
+        imageFile.current.value = null;
+        return;
+      }
+
+      if (file.size > MAX_FILE_SIZE) {
+        setErrors({ profile_picture: ['Image is too large. Max size is 5MB.'] });
+        setUserData({ ...userData, profile_picture: '' });
+        imageFile.current.value = null;
+        return;
+      }
+
+      setErrors((prev) => ({ ...prev, profile_picture: null }));
+
+      if (profile_picture && profile_picture.startsWith('blob:')) {
+        URL.revokeObjectURL(profile_picture);
+      }
+
+      const newPreviewUrl = URL.createObjectURL(file);
+      setUserData({ ...userData, profile_picture: newPreviewUrl });
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setSubmitting(true); // Disable form inputs
-
-    // Create multipart/form-data payload to allow image upload
+    setSubmitting(true);
     const formData = new FormData();
     formData.append('bio', bio);
 
-    // Append image file only if user selected a new one
     if (imageFile.current?.files[0]) {
       formData.append('profile_picture', imageFile.current.files[0]);
     }
 
     try {
-      // Send PATCH request to update user profile
       const { data } = await axios.patch(`/users/${id}/`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      // Update local form state with saved data (could include new profile_picture URL)
       setUserData({
         bio: data.bio,
         profile_picture: data.profile_picture,
       });
 
-      // Update current user context with new profile picture URL
       setCurrentUser((prevUser) => ({
         ...prevUser,
         profile_picture: data.profile_picture,
@@ -127,20 +129,17 @@ function UserEditForm() {
 
       showAlert({ message: 'User successfully edited!', variant: 'success' });
 
-      // After short delay, navigate back to previous page
       setTimeout(() => {
         history.goBack();
       }, 100);
     } catch (err) {
-      // Show errors if the server returns validation errors
       console.error('Error:', err.response?.data);
       setErrors(err.response?.data || {});
     } finally {
-      setSubmitting(false); // Re-enable form inputs
+      setSubmitting(false);
     }
   };
 
-  // Form fields for text inputs and buttons
   const textFields = (
     <>
       <Form.Group>
@@ -157,7 +156,6 @@ function UserEditForm() {
         <div className="text-right small text-muted">
           {bio.length}/500
         </div>
-        {/* Show any bio errors from server */}
         {errors?.bio?.map((message, idx) => (
           <Alert variant="warning" key={idx}>
             {message}
@@ -165,7 +163,6 @@ function UserEditForm() {
         ))}
       </Form.Group>
 
-      {/* Cancel button to go back */}
       <Button
         type="button"
         className={`${btnStyles.Button} ${btnStyles.Blue} mr-2`}
@@ -175,7 +172,6 @@ function UserEditForm() {
         cancel
       </Button>
 
-      {/* Submit button */}
       <Button
         className={`${btnStyles.Button} ${btnStyles.Blue}`}
         type="submit"
@@ -189,7 +185,6 @@ function UserEditForm() {
   return (
     <Form onSubmit={handleSubmit}>
       <Row>
-        {/* Left column for image upload and preview */}
         <Col className="py-2 p-0 p-md-2 text-center" md={7} lg={6}>
           <Container className={appStyles.Content}>
             <Form.Group>
@@ -203,7 +198,6 @@ function UserEditForm() {
                 />
               </figure>
 
-              {/* Show image upload errors */}
               {errors?.profile_picture?.map((message, idx) => (
                 <Alert variant="warning" key={idx}>
                   {message}
@@ -211,7 +205,6 @@ function UserEditForm() {
               ))}
 
               <div>
-                {/* Label styled as button to trigger file input */}
                 <Form.Label
                   className={`${btnStyles.Button} ${btnStyles.Blue} btn my-auto`}
                   htmlFor="image-upload"
@@ -220,31 +213,20 @@ function UserEditForm() {
                 </Form.Label>
               </div>
 
-              {/* Hidden file input for image upload */}
               <Form.Control
                 id="image-upload"
                 ref={imageFile}
                 type="file"
                 accept="image/*"
-                onChange={(e) => {
-                  // Show preview of new selected image
-                  if (e.target.files.length) {
-                    setUserData({
-                      ...userData,
-                      profile_picture: URL.createObjectURL(e.target.files[0]),
-                    });
-                  }
-                }}
+                onChange={handleChangeImage}
                 disabled={submitting}
               />
             </Form.Group>
 
-            {/* On small screens show text fields below image */}
             <div className="d-md-none">{textFields}</div>
           </Container>
         </Col>
 
-        {/* Right column for bio and buttons (hidden on small screens) */}
         <Col md={5} lg={6} className="d-none d-md-block p-0 p-md-2 text-center">
           <Container className={appStyles.Content}>{textFields}</Container>
         </Col>
