@@ -54,6 +54,16 @@ function UserPasswordForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Client-side password length validation
+    if (new_password1.length < 8 || new_password2.length < 8) {
+      setErrors({
+        new_password1: ['Password must be at least 8 characters long.'],
+        new_password2: ['Password must be at least 8 characters long.'],
+      });
+      setStatusMessage(null);
+      return;
+    }
+
     // Client-side password match validation
     if (new_password1 !== new_password2) {
       setErrors({ new_password2: ['Passwords do not match.'] });
