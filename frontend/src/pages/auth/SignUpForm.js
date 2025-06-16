@@ -55,6 +55,16 @@ function SignUpForm() {
   // Submit registration data to backend API
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    // Client-side validation for password length
+    if (password1.length < 8 || password2.length < 8) {
+      setErrors({
+        password1: ['Password must be at least 8 characters long.'],
+        password2: ['Password must be at least 8 characters long.'],
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       await axios.post('users/register/', signUpData);
