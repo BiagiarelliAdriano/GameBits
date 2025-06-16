@@ -18,7 +18,7 @@ The platform is designed to be easy to use and intuitive for anyone, not just th
 ### Color palette
 The following color palette was selected to give the website a modern and vibrant look, combining dark backgrounds with bright neon accents for a striking visual contrast.
 
-![Color palette](https://i.ibb.co/zhd8YLNG/colorpalette.png)
+![Color Palette](https://i.ibb.co/zhd8YLNG/colorpalette.png)
 
 ## Media
 
@@ -28,16 +28,16 @@ The following color palette was selected to give the website a modern and vibran
 ## Wireframes
 Initial Wireframes.
 
-![Home page](https://i.ibb.co/hF8d4qvK/wireframe1.png)
+![Home Page](https://i.ibb.co/hF8d4qvK/wireframe1.png)
 
-![Post page](https://i.ibb.co/b5gcmY09/wireframe2.png)
+![Post Page](https://i.ibb.co/b5gcmY09/wireframe2.png)
 
-![Post creation or edit page](https://i.ibb.co/xKtLPC3s/wireframe3.png)
+![Post Creation Or Edit Page](https://i.ibb.co/xKtLPC3s/wireframe3.png)
 
 ## User stories
 The Agile Methodology was used to plan this project. This was implemented through Github and the Project Board which can be seen in this GitHub repository:
 
-[User Stories.](https://github.com/BiagiarelliAdriano/GameBits/issues?page=1)
+[User Stories](https://github.com/BiagiarelliAdriano/GameBits/issues?page=1)
 
 GitHub Issues were used to create and manage User Stories, as well as track fixes, improvements, and updates throughout the development process. Each issue was assigned, labeled, and categorized to provide clarity and organization. The User Stories were divided between Frontend and Backend tasks to better structure the development workflow. Additionally, some User Stories remain open in the ToDo list, serving as future updates and potential improvements for the project.
 
@@ -216,12 +216,12 @@ The **Replies** model enables threaded reply functionality by allowing users to 
 
 **Notes:**  
 - Replies are ordered by creation time (`created_at`).  
-- The string representation shows the username of the replier and the ID of the comment replied to.
+- The string representation shows the username of the replier and the ID of the comment replied to, to help debug threaded comments.
 - Although the backend code for Replies exists, this functionality is currently not integrated with the frontend and remains unimplemented in the live application. It is planned for future updates.
 
-**Follow**
+### Follows
 
-The Follow model is designed to represent the following relationship between users.
+The Follows model is designed to represent the following relationship between users.
 
 | Database Value | Field Type  | Field Argument                                                      |
 |----------------|-------------|-------------------------------------------------------------------|
@@ -249,7 +249,12 @@ The Notifications model is designed to manage notification functionality for var
 | reply              | ForeignKey   | Reply, on_delete=models.CASCADE, null=True, blank=True                   |
 | is_read            | BooleanField | default=False                                                             |
 
-`NOTIFICATION_TYPES` include: Likes, Follow, Comment, Reply, and Level Up.
+`NOTIFICATION_TYPES` include:
+- Likes
+- Follow
+- Comment
+- Reply
+- Level Up
 
 **Notes:**
 
@@ -258,67 +263,67 @@ The Notifications model is designed to manage notification functionality for var
 
 ## Frontend
 
-### Sign Up Page
+### Sign up page
 
-![SignUpFormPage](https://i.ibb.co/S9B1JH1/signup.png)
+![Sign Up Form Page](https://i.ibb.co/S9B1JH1/signup.png)
 
 The Sign Up page allows new users to create an account on the platform. Accessible by clicking the **Sign Up** button located in the NavBar, users are presented with a simple and intuitive form where they can provide the necessary information to register. Upon successful registration, users are automatically redirected to the Sign In page, allowing them to immediately log in and start using their newly created account without additional navigation.
 
 The Sign Up page is designed with accessibility and user experience in mind, ensuring a smooth onboarding process. The background image used on this page was sourced for free from [Pexels](https://www.pexels.com).
 
-## Sign In Page
+## Sign in page
 
-![SignInFormPage](https://i.ibb.co/spzGzzXn/signin.png)
+![Sign In Form Page](https://i.ibb.co/spzGzzXn/signin.png)
 
-The Sign In page allows existing users to log into their accounts by providing their **username** and **password**. Upon successful authentication, users are immediately redirected to the homepage, where they are fully signed in and able to interact with all features of the platform.
+The Sign in page allows existing users to sign in by providing their **username** and **password**. Upon successful authentication, users are immediately redirected to the homepage, where they are fully signed in and able to interact with all features of the platform.
 
-For users who find themselves on the Sign In page but do not yet have an account, a convenient **"Don't have an account? Sign up now!"** button is available. Clicking this button redirects users to the Sign Up page, where they can easily create a new account and join the platform.
+For users who find themselves on the Sign in page but do not yet have an account, a convenient **"Don't have an account? Sign up now!"** button is available. Clicking this button redirects users to the Sign up page, where they can easily create a new account and join the platform.
 
 The authentication system includes **token-based session management**. When a user successfully signs in, an authorization token is generated and stored securely. This token allows the user to remain logged in for up to **7 days**. Each time the user accesses the platform within this period, the token is automatically refreshed, ensuring a seamless experience without the need for repeated logins. If the user remains inactive for more than 7 days, the token expires, and they will be prompted to log in again upon returning.
 
-The Sign In page maintains a user-friendly interface and is designed for quick and secure access. As with the Sign Up page, the background image used here was sourced for free from [Pexels](https://www.pexels.com).
+The Sign in page maintains a user-friendly interface and is designed for quick and secure access. As with the Sign up page, the background image used here was sourced for free from [Pexels](https://www.pexels.com).
 
-### NavBar While User Is Not Logged In
+### NavBar while user is not logged in
 
-![Navbar while user is not logged in](https://i.ibb.co/vC8sQtdY/navbar.png)
+![Navbar While User Is Not Logged In](https://i.ibb.co/vC8sQtdY/navbar.png)
 
-When a user accesses the platform without being logged in, the NavBar displays the following options: **Home**, **Sign In**, and **Sign Up**. The **Sign In** button directs the user to the Sign In form, while the **Sign Up** button leads to the account registration form. Additionally, clicking on the platform logo also redirects the user to the Home page.
+When a user accesses the platform without being logged in, the Navbar displays the following options: **Home**, **Sign In**, and **Sign Up**. The **Sign In** button directs the user to the Sign in form, while the **Sign Up** button leads to the account registration form. Additionally, clicking on the platform logo also redirects the user to the Home page.
 
-### NavBar while user is logged in
+### Navbar while user is logged in
 
-![NavBar while user is logged in](https://i.ibb.co/gLL9rGD8/navbarloggedin.png)
+![NavBar While User Is Logged In](https://i.ibb.co/gLL9rGD8/navbarloggedin.png)
 
-When the user logs in their account, the Navigation bar presents a New Post button to access the Post Creation Form, a Feed button to filter posts on the main page to view posts only by users followed by the current user, a Liked button to filter posts on the main page to view only posts that were liked by the current user, a Sign Out button that logs the user out and returns the state of the NavBar to the previous one and a Profile button to access the Profile page of the current User.
+When the user logs into their account, the Navigation bar presents a New Post button to access the Post creation form, a Feed button to filter posts on the main page to view posts only by users followed by the current user, a Liked button to filter posts on the main page to view only posts that were liked by the current user, a Sign Out button that logs the user out and returns the state of the NavBar to the previous one and a Profile button to access the Profile page of the current user.
 
-## Home Page (Not Logged In)
+## Home page (not logged in)
 
-![Home page while not logged in](https://i.ibb.co/Ng5trfxq/gamebitsloggedout.png)
+![Home Page While Not Logged In](https://i.ibb.co/Ng5trfxq/gamebitsloggedout.png)
 
 When a user is not logged in, they have limited access to the Home page. The following features are available:
 
-- **Navigation Bar:**
+- **Navigation bar:**
   - The NavBar contains only the following buttons:
     - **Home** (returns to the Home page)
     - **Sign In** (redirects to the login page)
     - **Sign Up** (redirects to the account creation page)
 
-- **Post Browsing:**
+- **Post browsing:**
   - The user can view all posts created by other users.
   - Infinite scrolling is enabled, allowing continuous browsing through all posts.
 
-- **Post Interactions:**
+- **Post interactions:**
   - The user can see the number of likes and comments for each post.
   - The user can hover over the Like button, but cannot click it. When they hover, a small tooltip appears saying they need to log in to like posts.
   - The user can click on the **author's username** or **profile picture** to visit that user's profile page.
   - If the user clicks on the **post image** or the **Comments button**, they are redirected to the **Sign Up** page to create an account and gain full access to post details and comments.
 
-## Home Page (Logged In)
+## Home page (logged in)
 
-![Home Page while logged in](https://i.ibb.co/fYppbnd5/gamebits.png)
+![Home Page While Logged In](https://i.ibb.co/fYppbnd5/gamebits.png)
 
 When a user is logged in, they have full access to the Home page with the following features:
 
-- **Navigation Bar:**
+- **Navigation bar:**
   - The NavBar contains the following buttons:
     - **Home** (returns to the Home page)
     - **New Post** (redirects to the post creation form)
@@ -327,22 +332,22 @@ When a user is logged in, they have full access to the Home page with the follow
     - **Sign Out** (logs the user out)
     - **Profile Picture** (clickable, redirects to the user's own profile page)
 
-- **Post Browsing:**
+- **Post browsing:**
   - The user can view all posts created by other users.
   - Infinite scrolling is enabled, allowing continuous browsing through all posts.
 
-- **Post Interactions:**
+- **Post interactions:**
   - The user can see the number of likes and comments for each post.
   - The user can click the Like button to like or unlike any post.
   - The user can click on the **author's username** or **profile picture** to visit that user's profile page.
   - When the user clicks on the **post image** or the **Comments button**, they are redirected to that post's detail page to view and write comments.
 
-- **Popular Users List:**
+- **Popular users list:**
   - The user can see the complete list of users, ordered by creation date (most recent first).
   - They can follow or unfollow other users directly from this list.
   - The Follow / Unfollow button is not displayed next to their own name.
 
-## Feed Page
+## Feed page
 
 ![Feed Page](https://i.ibb.co/wZK7BLN6/feedpage.png)
 
@@ -351,16 +356,16 @@ When a user is logged in, they have full access to the Home page with the follow
 - The posts are filtered from the general list of posts available on the Home page.
 - Infinite scrolling is enabled for continuous browsing.
 
-## Liked Page
+## Liked page
 
-![Liked Page](https://i.ibb.co/QFz8HJ8p/likedpage.png)
+![Liked Page](https://i.ibb.co/7d93BLfd/likedpage.png)
 
 - The **Liked** page can be accessed by clicking the **Liked** button in the Navigation bar.
 - This page displays all posts that the currently logged-in user has previously liked.
 - The posts are filtered from the general list of posts available on the Home page.
 - Infinite scrolling is enabled for continuous browsing.
 
-### Search Bar
+### Search bar
 
 ![Search Bar](https://i.ibb.co/zTGj1gbM/searchbar.png)
 
@@ -372,17 +377,17 @@ A search bar is present at the top of the Home, Feed, and Liked pages, allowing 
 
 This enables users to easily find posts related to specific users or topics of interest. The search results are dynamically filtered within the current page context (Home, Feed, or Liked).
 
-### Page Not Found
+### Page not found
 
 ![Page Not Found](https://i.ibb.co/jZbXxLpn/pagenotfound.png)
 
 When a user attempts to access a non-existent or invalid route, they are presented with this custom "Page Not Found" screen. The navigation bar remains accessible at the top, allowing users to easily return to the home page or navigate to other valid sections of the website.
 
-## Popular Users Section
+## Popular users section
 
 ![Popular Users List](https://i.ibb.co/Vcq0HkBJ/popularuserslist.png)
 
-The **Popular Users** list displays the complete list of all users on the server, ordered by their account creation date — from the most recent to the oldest.
+The **Popular users** list displays the complete list of all users on the server, ordered by their account creation date — from the most recent to the oldest.
 
 - **For users who are not logged in:**
   - They can click on any profile picture in the list to visit that user's profile page.
@@ -393,7 +398,7 @@ The **Popular Users** list displays the complete list of all users on the server
   - They **can see and interact** with the Follow button next to every user except themselves (users cannot follow themselves).
   - They can follow and unfollow other users directly from the Popular Users list.
 
-The Popular Users list is accessible and interactive on the following pages:
+The Popular users list is accessible and interactive on the following pages:
 - Home page
 - Any post page
 - Feed page
@@ -402,17 +407,17 @@ The Popular Users list is accessible and interactive on the following pages:
 
 This ensures users can always discover and connect with others throughout the platform.
 
-### Post Creation Form
+### Post creation form
 
 ![Post Creation Form](https://i.ibb.co/gbym777V/newpost.png)
 
-The Post Creation Form allows users to create new posts by filling out all the required fields: title, game, content, and optionally uploading an image. Users cannot submit the form if any required field is left empty or if they attempt to create a post containing only an image without text content.
+The Post creation form allows users to create new posts by filling out all the required fields: title, game, content, and optionally uploading an image. Users cannot submit the form if any required field is left empty or if they attempt to create a post containing only an image without text content.
 
 Users can upload an image using the provided button; once an image has been selected, a Change image button appears to allow them to modify their selection before submission. The Create button triggers the post submission process. While the form is processing, the button changes to Creating... to provide feedback that the submission is in progress.
 
 Upon successful creation, the user is automatically redirected to the newly created post's dedicated page, where they can view and interact with their content. Clicking the Cancel button before clicking the Create button returns the user to the previous page they were visiting before accessing the post creation form.
 
-### Post Page
+### Post page
 
 ![Post Page](https://i.ibb.co/9ktCkChH/postpage.png)
 
@@ -426,13 +431,13 @@ On the Post page, users can:
 - Click on the author's username or profile picture to visit the author's profile page.
 - Like or unlike the post.
 - View and write comments in the comment section.
-- Navigate through the site using the Navigation Bar and interact with the Popular Users list, both of which remain accessible on this page.
+- Navigate through the site using the Navigation bar and interact with the Popular Users list, both of which remain accessible on this page.
 
-### Comment Section
+### Comment section
 
 ![Comment Section](https://i.ibb.co/bgK6MhhK/commentsection.png)
 
-The Comment Section allows users to interact with posts by writing and managing comments.
+The Comment section allows users to interact with posts by writing and managing comments.
 
 - Logged-in users can write their own comments using the comment form located at the top of the comment section.
 - The **Post** button is disabled until the user writes a comment.
@@ -444,28 +449,28 @@ For comments owned by the logged-in user:
 - A blue action button appears on the right side of the comment.
 - Clicking this button opens a dropdown menu with two options: **Edit Comment** and **Delete Comment**.
 
-![Comment with edit options](https://i.ibb.co/h1gKBXL2/commentwitheditoptions.png)
+![Comment With Edit Options](https://i.ibb.co/h1gKBXL2/commentwitheditoptions.png)
 
-**Edit Comment:**
+**Edit comment:**
 - Selecting **Edit Comment** closes the dropdown and turns the comment into an editable text field.
 - After making changes, users can click **Save** to apply the updates, which are reflected dynamically.
 - Clicking **Cancel** will discard any changes and return the comment to its original state.
 
-![Comment while editing](https://i.ibb.co/6RK8xy5k/commentwhileediting.png)
+![Comment While Editing](https://i.ibb.co/6RK8xy5k/commentwhileediting.png)
 
-**Delete Comment:**
+**Delete comment:**
 - Selecting **Delete Comment** immediately removes the comment from the comment section dynamically.
 
-### User Profile
+### User profile
 
 ![User Profile page](https://i.ibb.co/N2VY5q3Z/userprofilepage.png)
 
-The User Profile page provides a detailed view of each user's profile and posts.
+The User profile page provides a detailed view of each user's profile and posts.
 
 - The profile page can be accessed in multiple ways:  
   - By clicking the user's profile picture or username in any post.
-  - Through the Popular Users list.
-  - Through the profile picture in the Navigation Bar (to access your own profile).
+  - Through the Popular users list.
+  - Through the profile picture in the Navigation bar (to access your own profile).
 
 The page displays the following information:
 
@@ -476,9 +481,9 @@ The page displays the following information:
 - Total number of posts created by the user.
 - User bio (only if a bio has been set).
 - A section titled "*username*'s posts", displaying all posts created by the user. These posts can be fully interacted with as described in the Post section.
-- The Popular Users list remains available, as does the Navigation Bar.
+- The Popular users list remains available, as does the Navigation bar.
 
-**Interaction Options:**
+**Interaction options:**
 
 - If the logged-in user is viewing their own profile:
   - An **Edit** button is displayed.
@@ -487,14 +492,18 @@ The page displays the following information:
     - **Change Username**
     - **Change Password**
 
+![User Profile Edit Options](https://i.ibb.co/r2vfxzrM/usereditprofileoptions.png)
+
 - If the logged-in user is viewing another user's profile:
   - A **Follow / Unfollow** button is shown instead of the Edit button, allowing the user to follow or unfollow the profile owner.
 
-### Edit User Page
+![User Profile Not Owner](https://i.ibb.co/DPKq21mx/userprofilefollow.png)
+
+### Edit user page
 
 ![Edit User page](https://i.ibb.co/jkMWN53r/usereditpage.png)
 
-The Edit User page allows users to update their profile information.
+The Edit user page allows users to update their profile information.
 
 - This page is accessible through the **Edit** dropdown menu located in the user’s own profile page.
 - Only the owner of the profile can access this page.
@@ -508,11 +517,11 @@ The page displays:
   - **Cancel**: Redirects the user back to the previous page without applying any changes.
   - **Save**: Saves any changes made (or none, if no changes were made) and redirects the user back to the profile page, where the updated information will be immediately visible.
 
-### Change Username Page
+### Change username page
 
 ![Change Username Page](https://i.ibb.co/20LrbYh2/usereditusernamepage.png)
 
-The Change Username page allows users to update their current username.
+The Change username page allows users to update their current username.
 
 - This page is accessible through the **Edit** dropdown menu in the user’s own profile page.
 - Only the owner of the profile can access this page.
@@ -524,11 +533,11 @@ The page contains:
   - **Cancel**: Redirects the user back to the previous page without saving any changes.
   - **Save**: Applies the new username (or keeps the existing one if no changes were made) and redirects the user back to the profile page, where the updated username will be immediately visible.
 
-### Change Password Page
+### Change password page
 
 ![Change Password Page](https://i.ibb.co/Lhv2zSXT/usereditpasswordpage.png)
 
-The Change Password page allows users to update their current password.
+The Change password page allows users to update their current password.
 
 - This page is accessible through the **Edit** dropdown menu in the user’s own profile page.
 - Only the owner of the profile can access this page.
@@ -541,7 +550,7 @@ The page contains:
   - **Cancel**: Redirects the user back to the previous page without applying any changes.
   - **Save**: Applies the password change (only if both fields match and are valid) and redirects the user back to the profile page. 
 
-### Spinner Icon
+### Spinner icon
 
 ![Spinner Icon](https://i.ibb.co/qLM9vygH/spinner.png)
 
@@ -573,26 +582,257 @@ I strongly believe in the potential of Gamebits as a continuously expandable pro
 
 # Testing
 
+## Manual Testing
+
+Every feature included in this project has been manually tested according to the User Stories defined during development. Throughout testing, multiple issues were encountered and resolved to ensure full functionality of both the backend and frontend components. After iterative testing, debugging, and fixes, all features are now working as intended.
+
+The following manual tests were performed, directly based on the User Stories created for this project. Each User Story was tested individually to confirm that all acceptance criteria were met.
+
+The full manual testing results are documented in the following spreadsheet:
+
+[Manual Testing Spreadsheet Document](https://docs.google.com/spreadsheets/d/1p3gPO1n-VXaZmwSIVtsoFPNIGuuC_DYJr0Dne3J61Ts/edit?usp=sharing)
+
+## Messaging / Alerts
+
+Throughout the frontend, several custom alerts and error messages have been implemented to improve user experience and give clear feedback on actions and errors. Below are the various messages displayed to the user:
+
+**Sign Up Alerts**:
+
+- **Empty Fields Alert**: Triggered when a user attempts to sign up with any field left blank. The alert specifies which fields cannot be blank.
+
+![Sign Up Empty Fields Alerts](https://i.ibb.co/GSNrptZ/signupalerts.png)
+
+- **Password Mismatch Alert**: Displayed when the two entered passwords do not match. The alert informs the user that both passwords must match.
+
+![Sign Up Password Mismatch Alert](https://i.ibb.co/kVCPmfcd/signuppasswordalert.png)
+
+- **Invalid Email Alert**: Shown when the provided email field is incomplete or not properly formatted.
+
+![Sign Up Email Alert](https://i.ibb.co/0z9ddvD/emailsignupalert.png)
+
+- **Sign Up Password Too Short Alert**: Shown when the provided password is shorter than 8 characters for security.
+
+![Sign Up Password Too Short Alert](https://i.ibb.co/MyfKn8fP/signuppasswordtooshortalert.png)
+
+**Sign Up Success**:
+
+- **Welcome Alert**: After successful registration, the user receives a confirmation welcoming them to the platform.
+
+![Sign Up Welcome Alert](https://i.ibb.co/n8gCJ9m8/signupwelcomealert.png)
+
+**Sign In Alerts**:
+
+- **Empty Fields Alert**: Triggered when attempting to log in with any blank field, specifying which fields cannot be blank.
+
+![Sign In Empty Fields Alerts](https://i.ibb.co/RpLCwF2t/signinalerts.png)
+
+- **Invalid Credentials Alert**: Displayed when incorrect username or password are provided, or if the account does not exist.
+
+![Sign In Invalid Credentials Alert](https://i.ibb.co/CK8dt7P2/signinalertwrongusernameorpassword.png)
+
+**Sign In Success**:
+
+- **Successful Login Alert**: After successfully signing in, the user is shown a confirmation of successful login.
+
+![Sign In Login Alert](https://i.ibb.co/8gvXxWnC/signinalert.png)
+
+**Sign Out**:
+
+- **Successful Sign Out Alert**: Displayed when the user successfully logs out of their account.
+
+![Sign Out Alert](https://i.ibb.co/xtMXJvYV/signoutalert.png)
+
+**Post Creation Alerts**:
+
+- **Missing Fields Alert**: Triggered when attempting to create a post while leaving any of the required fields empty (Title, Game, or Content).
+
+![Post Creation Missing Fields Alert](https://i.ibb.co/GQ8TPk9c/postalert1.png)
+
+- **Successful Post Creation Alert**: Displayed after successfully creating a post.
+
+![Post Creation Success Alert](https://i.ibb.co/zhHd4nc4/postcreationalert.png)
+
+**Post Deletion**:
+
+- **Post Deletion Alert**: Shown when a user successfully deletes a post.
+
+![Post Deletion Alert](https://i.ibb.co/Lh1ss0Vv/postdeletionalert.png)
+
+**Comment Deletion**:
+
+- **Comment Deletion Alert**: Shown when a user successfully deletes a comment.
+
+![Comment Deletion Success Alert](https://i.ibb.co/Pzm5smk2/commentdeletionalert.png)
+
+## CLI Python Linter Testing
+
+All relevant Python files present in the backend were passed through the [CLI-based Python Linter](https://pep8ci.herokuapp.com) to ensure consistent code formatting and adherence to PEP 8 standards. Any formatting issues or warnings identified by the linter were resolved, resulting in clean, well-formatted code across the entire backend.
+
+Here is the list of all code that was passed through the Linter Testing, in alphabetical order.
+
+- **Comments Mixin**:
+
+![Comments Mixin](https://i.ibb.co/9mW2MYNb/commentsmixinfile.png)
+
+- **Comments Models**:
+
+![Comments Models](https://i.ibb.co/FL3msc8G/commentsmodelfile.png)
+
+- **Comments Serializers**:
+
+![Comment Serializers](https://i.ibb.co/S4VKXmkH/commentserializer.png)
+
+- **Comments Urls**:
+
+![Comments Urls](https://i.ibb.co/zVp8v820/commenturls.png)
+
+- **Comments Views**:
+
+![Comments Views](https://i.ibb.co/cj3n1CH/commentviews.png)
+
+- **Follows Mixin**:
+
+![Follows Mixin](https://i.ibb.co/wrb9ndhS/followmixin.png)
+
+- **Follows Models**:
+
+![Follows Models](https://i.ibb.co/LzhhyvW3/followmodel.png)
+
+- **Follows Serializers**:
+
+![Follows Serializers](https://i.ibb.co/5XJxDNyz/followserializer.png)
+
+- **Follows Urls**:
+
+![Follows Urls](https://i.ibb.co/svtJy46K/followurls.png)
+
+- **Follows Views**:
+
+![Follows Views](https://i.ibb.co/gZBt1drr/followviews.png)
+
+- **Likes Mixin**:
+
+![Likes Mixin](https://i.ibb.co/99HqmQM6/likesmixin.png)
+
+- **Likes Models**:
+
+![Likes Models](https://i.ibb.co/fYjvWPW1/likesmodel.png)
+
+- **Likes Serializers**:
+
+![Likes Serializers](https://i.ibb.co/7dhRxTbH/likesserializer.png)
+
+- **Likes Urls**:
+
+![Likes Urls](https://i.ibb.co/wNZqVWFD/likesurls.png)
+
+- **Likes Views**:
+
+![Likes Views](https://i.ibb.co/BVZ6bwpP/likesviews.png)
+
+- **GameBits Main Settings**:
+
+![GameBits Main Settings](https://i.ibb.co/ymsYHQSY/mainsettingspy.png)
+
+- **GameBits Main Urls**:
+
+![GameBits Main Urls](https://i.ibb.co/Z6VVxhYn/mainurls.png)
+
+- **Posts Mixin**:
+
+![Posts Mixin](https://i.ibb.co/CpPkMsvj/postsmixin.png)
+
+- **Posts Models**:
+
+![Posts Models](https://i.ibb.co/DHz0Fpm0/postsmodel.png)
+
+- **Posts Serializers**:
+
+![Posts Serializers](https://i.ibb.co/S1HJ9bs/postsserializer.png)
+
+- **Posts Urls**:
+
+![Posts Urls](https://i.ibb.co/ZR4BkbXf/postsurls.png)
+
+- **Posts Views**:
+
+![Posts Views](https://i.ibb.co/YBRWZcPW/postsviews.png)
+
+- **Users Models**:
+
+![Users Models](https://i.ibb.co/MDQXYPPq/usersmodel.png)
+
+- **Users Serializers**:
+
+![Users Serializers](https://i.ibb.co/svg1j7MM/usersserializer.png)
+
+- **Users Urls**:
+
+![Ursers Url](https://i.ibb.co/tM5W56Ks/userurls.png)
+
+- **Users Views**:
+
+![Users Views](https://i.ibb.co/Tx1JfRmb/usersviews.png)
+
+### Code Quality (JavaScript Linter)
+
+All relevant JavaScript files in the frontend were passed through both **JSHint** and **ESLint** directly within the local development environment. All important errors and warnings were reviewed and resolved, ensuring proper code quality and consistency across the frontend codebase.
+
+### HTML Validation (W3C Markup Validator)
+
+The deployed version of the project was tested using the **W3C Markup Validation Service**. The validator reported no relevant HTML errors, with only a small number of informational messages that do not affect rendering or functionality.
+
+![HTML Validation](https://i.ibb.co/GvwsTSwT/htmlchecker.png)
+
+### CSS Validation (W3C CSS Validator)
+
+The deployed version of the project was tested using the **W3C CSS Validation Service**. The validator reported no relevant CSS errors, confirming that the stylesheet is valid and properly structured.![CSS Validation](https://i.ibb.co/5XBLYm0t/csschecker.png)
+
+### Performance & Accessibility (Google Lighthouse)
+
+The deployed version of the project was tested using **Google Lighthouse**. The audit reported only some minor Cookie warnings related to the internal Cloudinary media service. These do not hinder user experience or functionality in any way and are considered non-critical.
+
+![Google Lighthouse Validation](https://i.ibb.co/14wYbzn/lighthouse.png)
+
 ## Bugs
 
-Many bugs were found during development. Each frontend feature was or is having troubles working correctly. 
-
 ### Solved Bugs
+- **Frontend full functionality issues:**
 
-Main bugs include the project not functioning on deployment because of the initial structure of the project in its repository, having a main folter called gamebits, inside two folders that divide the files in both backend and frontend. This caused Heroku to not being able to find and deploy the backend correctly, so I had to restructure the entire project to have all the backend folders and files directly in the root of the project.
-Another main bug was due to Frontend deployment where it would not load the React build correctly, missing the index.html in deployment and not correctly applying changes pushed to GitHub and deployed on Heroku due to having in the axiosDefaults.js file a / that should not have been there. So this bug was resolved by removin the / from the URL in this code section of the axiosDefaults.js file
+Originally, most frontend features (registration, login, post creation, likes, comments, and popular users) were not fully functional due to multiple implementation bugs. All these issues have since been resolved and the entire frontend is now fully operational.
 
-    const  apiUrl  =  process.env.NODE_ENV  ===  "development"
-	    ?  "http://127.0.0.1:8000"
-	    :  "https://gamebits-579c6fd85599.herokuapp.com";
+- **Project structure issue (Deployment - Backend):**
+
+Initially, the project structure included an unnecessary `gamebits/` folder inside which the backend resided. This prevented Heroku from correctly locating and deploying the backend. The project structure were reorganized by moving all backend files directly into the project root, which resolved the issue.
+
+- **Deployment bug (Frontend - Axios issue):**
+
+Another main bug was related to the frontend deployment where the React build would not correctly load the `index.html` and apply changes pushed to GitHub, resulting in broken API calls and missing updates. This was originally caused by an incorrect slash `/` present in the Axios base URL inside `axiosDefaults.js`, which was interfering with the routing on the deployed version. The bug was initially resolved by removing the slash from the URL logic.
+
+After further development and improvements to the project structure, I decided to fully refactor how the frontend handled the API URL configuration. Instead of hardcoding the API URL directly inside the code based on `NODE_ENV`, I implemented the use of environment variables for cleaner configuration management.
+
+I created a `.env` file inside the frontend folder with the following:
+
+```
+REACT_APP_API_URL=https://gamebits-579c6fd85599.herokuapp.com
+```
+And I modified the Axios configuration like this:
+```
+const apiUrl = process.env.REACT_APP_API_URL;
+
+axios.defaults.baseURL = `${apiUrl}/api/`;
+axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+axios.defaults.withCredentials = true;
+```
+This solution allows the frontend to dynamically receive the correct API URL at build time, simplifies deployment, and follows standard best practices for environment management in React applications.
 
 ### Known Bugs
 
-Many, if not all features applied to the Frontend are not functional. Users are not able to functionaly register their user, they are not able to functionaly sign in and cannot functionality create a new post. Like and comments functionality are present, but not functional and the Popular Users list does not correctly load. The backend is accessible, but some URL paths are not accessible due to authorization functionalities, but most backend URL paths are functional.
+- **Limited mobile visual support:**
 
-### PEP8 Validation
+On certain very small mobile devices (screen width smaller than ~320px), the CSS may break slightly on the right side of the screen. This is purely a visual issue and does not affect functionality.
 
-I've tested all the files through the CI PEP8 Linter and although I found a few errors, I have rectified these and now all files are passing with "All clear, no errors found".
+![Broken Mobile View](https://i.ibb.co/KjwyjVGj/mobileviewbugged.png)
 
 # Deployment
 This section will fully explain how to deploy both the backend and frontend of the GameBits project to production, as well as how to run both locally for development.
@@ -980,17 +1220,25 @@ heroku run python manage.py collectstatic --noinput
 
 ### Content
 
-This project was inspired by the Code Institute walkthrough Moments project but has been modified to fit the Gamebits idea. Many Frontend files were taken from the walkthrough Moments project and adapted to my own project set up and adapted for the functionalities present in my project, not present in the walkthrough project.
-As mentioned above, the Logo was created by myself using Krita.
+This project was originally inspired by the Code Institute walkthrough project **Moments**, but has been significantly adapted to fit the concept and features of **GameBits**. Many frontend files were initially taken from the Moments project as a base, but have since been customized, extended, and restructured to support the specific functionalities, user flows, and design choices implemented in this project.
+
+As mentioned earlier, the GameBits logo was created entirely by myself using Krita.
+
+All images used throughout the README file are stored within the Media folder of the project repository for consistency and documentation purposes. However, in order to ensure that the images would display reliably when rendering the README on GitHub and other platforms (which sometimes have issues accessing relative local images), the images were uploaded and referenced through ImgBB image hosting service. This approach ensures proper rendering of the README file across all devices and viewers.
+
+Many additional features are also planned for future updates, including a complete Notifications System, an Experience Leveling System, and a Leaderboard Functionality. These features are intended to further enhance user engagement and provide a more interactive experience, potentially leading to a full public deployment of GameBits as an entertainment platform for all users.
 
 # Acknowledgments
 
-I have thoroughly enjoyed developing not only this project, but all other project during the course as well, and although I found React to have a challenging learning curver, after much perseverance I feel like I have a good baseline knowledge when it comes to developing applications that use an advanced front-end framework like React that talk to a back-end API developed using the Django REST Framework. With this knowledge acquired with also the help of the course provided by Code Institute, I feel confident that in the future I can do a better job at showcasing my abilities to make a functional page using React for the front-end and DRF-API for the back-end. I do understand that the submitted project does not respect the initial concept descripted in the README file, so I look forward to continue working on this project even beyond the premised deadline to finally complete Gamebits, as it is a project that be actually utilized and expanded upon to create something actually useful for the Internet.
+I have thoroughly enjoyed developing not only this project, but all the projects completed throughout the course. While I initially found React to present a challenging learning curve, with time, dedication, and continuous practice, I feel that I have built a strong foundation in developing full-stack applications that utilize an advanced frontend framework like React alongside a Django REST Framework (DRF) backend API.
 
-I would like to thank my mentor Marcel for providing me with their time and patience to go over the project and code and help me figure out some of the biggest problems I was having. I also thank Code Institute Tutor Assistance for helping me find the cause of my biggest bug of the deployed backend version.
+Thanks to the knowledge and skills acquired during the Code Institute Full Stack Software Development program, I now feel fully confident in my ability to create complete, fully functional web applications that combine both frontend and backend technologies effectively. I am extremely proud to say that GameBits is now fully operational and performs exactly as originally envisioned, successfully delivering the core functionalities and user experience I had planned.
 
-I also need to thank my family and my friends for supporting throughout development, encouraging me to continue on working and giving me constructed feedback and critics that helped me with the concept of Gamebits and helped with certain decisions taken with the design of the site.
-It has been an incredible journey, I'm extremely excited to see where this adventure will take me and to continue on working on my personal project to hopefully provide some useful and fun experience for everyone.
+I would like to sincerely thank my mentor Marcel for generously offering their time, guidance, and valuable insights throughout the development process, helping me overcome some of the most challenging technical issues. My thanks also go to the Code Institute Tutor Support team, whose assistance was instrumental in helping me resolve one of the most critical deployment issues affecting the backend. Additionally, their guidance after my previous project submission allowed me to identify areas that required improvement, ultimately enabling me to refine the project and reach its fully functional state presented here.
+
+I am deeply grateful to my family and friends for their continuous support, encouragement, and constructive feedback throughout the entire development journey. Their input played a key role in shaping the design and concept of GameBits, as well as keeping me motivated to push through difficult stages of the project.
+
+This has been an incredible learning experience, and I am very excited to see where this journey will lead me next. I look forward to continuing to improve and expand GameBits even further, and hopefully, to one day release the platform publicly for others to enjoy.
 
 Thank you so much for a fantastic experience [Code Institute](https://codeinstitute.net/de/) !
 
