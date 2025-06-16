@@ -16,39 +16,30 @@ import btnStyles from '../../styles/Button.module.css';
 import axios from '../../api/axiosDefaults';
 
 function PostEditForm() {
-  // Error state for backend validation
   const [errors, setErrors] = useState({});
-
-  // Form data state
   const [postData, setPostData] = useState({
     title: '',
     game: '',
     content: '',
     image: '',
   });
-  const {
-    title, game, content, image,
-  } = postData;
+  const { title, game, content, image } = postData;
 
-  // Refs and router hooks
   const imageInput = useRef(null);
   const history = useHistory();
   const { id } = useParams();
 
-  // Fetch existing post data on mount
+  const [imagePreview, setImagePreview] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+
   useEffect(() => {
     const handleMount = async () => {
       try {
         const { data } = await axios.get(`/posts/${id}/`);
-        const {
-          title, game, content, image, is_author,
-        } = data;
-
-        // Only allow authors to edit their own posts
+        const { title, game, content, image, is_author } = data;
         if (is_author) {
-          setPostData({
-            title, game, content, image,
-          });
+          setPostData({ title, game, content, image });
+          setImagePreview(image);
         } else {
           history.push('/');
         }
@@ -60,7 +51,6 @@ function PostEditForm() {
     handleMount();
   }, [history, id]);
 
-  // Handle text input changes
   const handleChange = (event) => {
     setPostData({
       ...postData,
@@ -68,38 +58,46 @@ function PostEditForm() {
     });
   };
 
-  // Image preview state
-  const [imagePreview, setImagePreview] = useState(null);
-
-  // Handle image file selection
   const handleChangeImage = (event) => {
     if (event.target.files.length) {
       const file = event.target.files[0];
 
-      // Set image preview URL
-      setImagePreview(URL.createObjectURL(file));
+      // File type check
+      if (!file.type.startsWith('image/')) {
+        setErrors({ image: ['Please select a valid image file.'] });
+        setPostData({ ...postData, image: '' });
+        setImagePreview(null);
+        return;
+      }
 
-      setPostData({
-        ...postData,
-        image: file,
-      });
+      // File size check (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setErrors({ image: ['Image file size must be less than 5MB.'] });
+        setPostData({ ...postData, image: '' });
+        setImagePreview(null);
+        return;
+      }
+
+      setPostData({ ...postData, image: file });
+      setImagePreview(URL.createObjectURL(file));
+      setErrors((prevErrors) => ({ ...prevErrors, image: [] }));
     }
   };
 
-  // Submit form
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setSubmitting(true);
     const formData = new FormData();
     const authorId = parseInt(localStorage.getItem('user_id'), 10);
 
     formData.append('title', title);
     formData.append('game', game);
     formData.append('content', content);
+    formData.append('author', authorId);
+
     if (imageInput?.current?.files[0]) {
       formData.append('image', imageInput.current.files[0]);
     }
-    formData.append('author', authorId);
 
     try {
       await axios.put(`/posts/${id}/`, formData, {
@@ -114,10 +112,11 @@ function PostEditForm() {
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  // Form fields section reused on both mobile and desktop
   const textFields = (
     <div className="text-center">
       <Form.Group>
@@ -129,10 +128,9 @@ function PostEditForm() {
           value={title}
           onChange={handleChange}
           maxLength={50}
+          disabled={submitting}
         />
-        <div className="text-right small text-muted">
-          {title.length}/50
-        </div>
+        <div className="text-right small text-muted">{title.length}/50</div>
       </Form.Group>
       {errors?.title?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -149,16 +147,16 @@ function PostEditForm() {
           value={game}
           onChange={handleChange}
           maxLength={50}
+          disabled={submitting}
         />
-        <div className="text-right small text-muted">
-          {game.length}/50
-        </div>
+        <div className="text-right small text-muted">{game.length}/50</div>
       </Form.Group>
       {errors?.game?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
           {message}
         </Alert>
       ))}
+
       <Form.Group>
         <Form.Label>Content</Form.Label>
         <Form.Control
@@ -169,10 +167,9 @@ function PostEditForm() {
           value={content}
           onChange={handleChange}
           maxLength={255}
-          />
-          <div className="text-right small text-muted">
-            {content.length}/255
-          </div>
+          disabled={submitting}
+        />
+        <div className="text-right small text-muted">{content.length}/255</div>
       </Form.Group>
       {errors?.content?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -180,18 +177,19 @@ function PostEditForm() {
         </Alert>
       ))}
 
-      {/* Buttons */}
       <Button
-        className={`${btnStyles.Button} ${btnStyles.Blue}`}
+        className={`${btnStyles.Button} ${btnStyles.Blue} mr-2`}
         onClick={() => history.goBack()}
+        disabled={submitting}
       >
         cancel
       </Button>
       <Button
         className={`${btnStyles.Button} ${btnStyles.Blue}`}
         type="submit"
+        disabled={submitting}
       >
-        save
+        {submitting ? 'Saving...' : 'save'}
       </Button>
     </div>
   );
@@ -199,14 +197,12 @@ function PostEditForm() {
   return (
     <Form onSubmit={handleSubmit}>
       <Row>
-        {/* Left: Image upload and preview */}
         <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
           <Container
             className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
           >
             <Form.Group className="text-center">
               {imagePreview ? (
-                // If image exists, show the preview using Asset
                 <img
                   src={imagePreview}
                   alt=""
@@ -214,7 +210,6 @@ function PostEditForm() {
                   style={{ maxHeight: '200px', objectFit: 'cover' }}
                 />
               ) : (
-                // If no image, show upload icon + message via Asset
                 <Asset
                   message="Click or tap to upload an image"
                   spinner={false}
@@ -222,7 +217,6 @@ function PostEditForm() {
                 />
               )}
 
-              {/* Upload Button (appears even if image is shown) */}
               <Form.Label
                 className={`${btnStyles.uploadButton} ${btnStyles.Blue} btn mt-3`}
                 htmlFor="image-upload"
@@ -235,7 +229,6 @@ function PostEditForm() {
                 )}
               </Form.Label>
 
-              {/* Hidden file input */}
               <Form.Control
                 id="image-upload"
                 type="file"
@@ -243,19 +236,20 @@ function PostEditForm() {
                 onChange={handleChangeImage}
                 ref={imageInput}
                 className="d-none"
+                disabled={submitting}
               />
             </Form.Group>
+
             {errors?.image?.map((message, idx) => (
               <Alert variant="warning" key={idx}>
                 {message}
               </Alert>
             ))}
-            {/* Mobile view text fields */}
+
             <div className="d-md-none">{textFields}</div>
           </Container>
         </Col>
 
-        {/* Right: Desktop view text fields */}
         <Col md={5} lg={4} className="d-none d-md-block p-0 p-md-2">
           <Container className={appStyles.Content}>{textFields}</Container>
         </Col>
