@@ -850,6 +850,8 @@ This solution allows the frontend to dynamically receive the correct API URL at 
 
 On certain very small mobile devices (screen width smaller than ~320px), the CSS may break slightly on the right side of the screen. This is purely a visual issue and does not affect functionality.
 
+There is also a small bug where the Profile picture of a user in the Navigation bar doesn't update immediately upon editing the user Profile picture, but refreshing the page updates the Profile picture correctly.
+
 ![Broken Mobile View](https://i.ibb.co/KjwyjVGj/mobileviewbugged.png)
 
 # Deployment
