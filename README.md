@@ -413,7 +413,7 @@ This ensures users can always discover and connect with others throughout the pl
 
 The Post creation form allows users to create new posts by filling out all the required fields: title, game, content, and optionally uploading an image. Users cannot submit the form if any required field is left empty or if they attempt to create a post containing only an image without text content.
 
-Users can upload an image using the provided button; once an image has been selected, a Change image button appears to allow them to modify their selection before submission. The Create button triggers the post submission process. While the form is processing, the button changes to Creating... to provide feedback that the submission is in progress.
+Users can upload an image using the provided button; there is a limit image size that can be uploaded of 5MB. Once an image has been selected, a Change image button appears to allow them to modify their selection before submission. The Create button triggers the post submission process. While the form is processing, the button changes to Creating... to provide feedback that the submission is in progress.
 
 Upon successful creation, the user is automatically redirected to the newly created post's dedicated page, where they can view and interact with their content. Clicking the Cancel button before clicking the Create button returns the user to the previous page they were visiting before accessing the post creation form.
 
@@ -643,6 +643,10 @@ Throughout the frontend, several custom alerts and error messages have been impl
 ![Sign Out Alert](https://i.ibb.co/xtMXJvYV/signoutalert.png)
 
 **Post Creation Alerts**:
+
+- **Image Size Limit Alert**: Shown when user tries to upload a bigger image than the image size limit of 5MB.
+
+![Post Image Limit Size](https://i.ibb.co/KxPJhLLT/postcreationsizelimit.png)
 
 - **Missing Fields Alert**: Triggered when attempting to create a post while leaving any of the required fields empty (Title, Game, or Content).
 
