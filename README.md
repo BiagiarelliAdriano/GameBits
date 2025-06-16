@@ -644,9 +644,13 @@ Throughout the frontend, several custom alerts and error messages have been impl
 
 **Post Creation Alerts**:
 
-- **Image Size Limit Alert**: Shown when user tries to upload a bigger image than the image size limit of 5MB.
+- **Image Size Limit Alert**: Shown when user tries to upload a bigger image than the image size limit of 5MB while creating a post.
 
 ![Post Image Limit Size](https://i.ibb.co/KxPJhLLT/postcreationsizelimit.png)
+
+- **Only Upload Correct Image Files**: Shown when user tries to upload a file that is not an image, or of a type of file that is not supported while creating a post.
+
+![Post Creation Only Images Allowed](https://i.ibb.co/Y7XXJG54/postonlyimagesallowed.png)
 
 - **Missing Fields Alert**: Triggered when attempting to create a post while leaving any of the required fields empty (Title, Game, or Content).
 
@@ -655,6 +659,16 @@ Throughout the frontend, several custom alerts and error messages have been impl
 - **Successful Post Creation Alert**: Displayed after successfully creating a post.
 
 ![Post Creation Success Alert](https://i.ibb.co/zhHd4nc4/postcreationalert.png)
+
+**Post Edit Alerts**:
+
+- **Image Size Limit Alert**: Shown when user tries to upload a bigger image than the image size limit of 5MB while editiing a post.
+
+![Post Edit Image Size Limit](https://i.ibb.co/60zcSBFD/posteditimagetoobig.png)
+
+- **Only Upload Correct Image Files**: Shown when user tries to upload a file that is not an image, or of a type of file that is not supported while editing a post.
+
+![Post Edit Only Images Allowed](https://i.ibb.co/CpC9LBRL/posteditonlyimagesallowed.png)
 
 **Post Deletion**:
 
